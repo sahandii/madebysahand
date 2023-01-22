@@ -16,12 +16,12 @@ export const Nav: FC<Props> = ({}) => {
 				<div className="navbar-right">
 					<ul className="navbar-menu flex flex-row text-sm mt-1">
 						<li>
-							<Link scroll={false} href="./about" className="hover:underline flex px-5">
+							<Link scroll={false} href="/about" className="font-medium hover:underline flex px-5">
 								About
 							</Link>
 						</li>
 						<li>
-							<Link href="#" className="hover:underline flex px-5 -mr-5">
+							<Link href="mailto:hello@sporkar.com" target="_blank" className="font-medium hover:underline flex px-5 -mr-5">
 								Contact
 							</Link>
 						</li>

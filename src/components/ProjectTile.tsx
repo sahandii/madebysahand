@@ -70,8 +70,7 @@ export const ProjectTile: FC<Props> = (props) => {
 							project: JSON.stringify(project),
 						},
 					}}
-					as={`./case/${project.slug}`}
-				>
+					as={`./case/${project.slug}`}>
 					<div className="project-description flex justify-center flex-col p-10">
 						<h4 className="text-2xl font-bold">{project.title}</h4>
 						<h5 className="text-2xl font-bold">

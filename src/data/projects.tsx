@@ -12,7 +12,7 @@ export interface Project {
 	thumbnail?: StaticImageData | undefined;
 	media?: {
 		images?: Array<StaticImageData | undefined>;
-		videos?: Array<{ poster: StaticImageData | undefined; mp4: HTMLVideoElement; webm: HTMLVideoElement }>;
+		videos?: Array<{ poster: StaticImageData | undefined; mp4: HTMLVideoElement | undefined; webm: HTMLVideoElement | undefined } | unknown>;
 	};
 }
 
@@ -24,14 +24,84 @@ export const data: Projects = {
 	projects: [
 		{
 			title: "FIFAe 2022",
-			description: "For the big FIFAe 2021 tournaments in Bella Arena, I worked closely with Dreamhack as a Motion designer, to bring the social media content that was pushed out, to life, through motion. And together with FIFA, making sure that the produced content was aligned with their marketing strategy and goals. I had fun while making the content more engaging for the fans of FIFAe.",
+			description: "Working closely with Dreamhack and the FIFA team, my job was to to produce some content for the SoMe channels. While being a Motion Design supervisor, I was making sure that the produced content was in alignment with the brand, FIFA's strategy and goals.",
 			client: "Dreamhack Sports Games",
 			category: "Motion Graphics",
-			subcategories: ["VFX", "Compositing", "3D"],
+			subcategories: ["Art Direction", "VFX", "Compositing", "3D"],
 			year: 2021,
 			thumbnail: images.fifaeThumb,
 			media: {
-				images: [images.prisregn001, images.prisregn002, images.prisregn003, images.prisregn004],
+				images: [],
+				videos: [],
+			},
+		},
+		{
+			title: "Prisregn 2021",
+			description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, veniam. Est facilis quod unde esse commodi quasi eveniet perspiciatis aliquid!",
+			client: "Politiken",
+			category: "Storytelling",
+			subcategories: ["Motion Graphics"],
+			year: 2021,
+			thumbnail: images.prisregn002,
+			media: {
+				images: [
+					{ data: images.prisregn001, desc: "" },
+					{ data: images.prisregn002, desc: "" },
+					{ data: images.prisregn003, desc: "" },
+					{ data: images.prisregn004, desc: "" },
+				],
+				videos: [],
+			},
+		},
+		{
+			title: "Podimo trailers",
+			description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, veniam. Est facilis quod unde esse commodi quasi eveniet perspiciatis aliquid!",
+			client: "Podimo",
+			category: "Storytelling",
+			subcategories: ["Edit", "Motion Graphics", "VFX"],
+			year: 2021,
+			thumbnail: images.todoegnThumb,
+			media: {
+				images: [],
+				videos: [],
+			},
+		},
+		{
+			title: "2DØGN",
+			description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, veniam. Est facilis quod unde esse commodi quasi eveniet perspiciatis aliquid!",
+			client: "DRIVE Studios",
+			category: "TV Show Identity",
+			subcategories: ["Edit", "Motion Graphics", "VFX"],
+			year: 2021,
+			thumbnail: images.todoegnThumb,
+			media: {
+				images: [],
+				videos: [],
+			},
+		},
+		{
+			title: "Miss Osaka",
+			description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, veniam. Est facilis quod unde esse commodi quasi eveniet perspiciatis aliquid!",
+			client: "VIRTUE",
+			category: "VFX",
+			subcategories: ["VFX", "Compositing", "Motion Graphics"],
+			year: 2019,
+			thumbnail: images.todoegnThumb,
+			media: {
+				images: [],
+				videos: [],
+			},
+		},
+		{
+			title: "Pandora Black Friday",
+			description: "",
+			client: "Pandora",
+			category: "3D",
+			subcategories: ["VFX", "Compositing", "Motion Graphics"],
+			year: 2019,
+			thumbnail: images.pandoraThumb,
+			media: {
+				images: [],
 				videos: [
 					// videos[0]
 					{
@@ -45,51 +115,6 @@ export const data: Projects = {
 					// ...
 				],
 			},
-		},
-		{
-			title: "Prisregn 2021",
-			description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, veniam. Est facilis quod unde esse commodi quasi eveniet perspiciatis aliquid!",
-			client: "Politiken",
-			category: "Storytelling",
-			subcategories: ["Motion Graphics"],
-			year: 2021,
-			thumbnail: images.prisregn002,
-		},
-		{
-			title: "Podimo trailers",
-			description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, veniam. Est facilis quod unde esse commodi quasi eveniet perspiciatis aliquid!",
-			client: "Podimo",
-			category: "Storytelling",
-			subcategories: ["Edit", "Motion Graphics", "VFX"],
-			year: 2021,
-			thumbnail: images.todoegnThumb,
-		},
-		{
-			title: "2DØGN",
-			description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, veniam. Est facilis quod unde esse commodi quasi eveniet perspiciatis aliquid!",
-			client: "DRIVE Studios",
-			category: "TV Show Identity",
-			subcategories: ["Edit", "Motion Graphics", "VFX"],
-			year: 2021,
-			thumbnail: images.todoegnThumb,
-		},
-		{
-			title: "Miss Osaka",
-			description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, veniam. Est facilis quod unde esse commodi quasi eveniet perspiciatis aliquid!",
-			client: "VIRTUE",
-			category: "VFX",
-			subcategories: ["VFX", "Compositing", "Motion Graphics"],
-			year: 2019,
-			thumbnail: images.todoegnThumb,
-		},
-		{
-			title: "Pandora Black Friday",
-			description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, veniam. Est facilis quod unde esse commodi quasi eveniet perspiciatis aliquid!",
-			client: "Pandora",
-			category: "3D",
-			subcategories: ["VFX", "Compositing", "Motion Graphics"],
-			year: 2019,
-			thumbnail: images.pandoraThumb,
 		},
 	] as Array<Project>,
 };

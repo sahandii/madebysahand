@@ -73,7 +73,7 @@ export const Case: FC<caseProps> = ({ router: { query }, projects }) => {
 					<main className="mt-5">
 						<div className="px-6 container">
 							<div className="grid grid-cols-12">
-								<motion.div variants={item} className="sticky top-[2em] -z-[1] col-span-12 tracking-wide text-sm mb-5">
+								<motion.div variants={item} className="sticky top-[2em] -z-[1] col-span-12 tracking-wide text-sm my-5 md:my-8">
 									<h1 className="text-lg font-bold">{element.title}</h1>
 									<div className="grid grid-cols-12">
 										<div className="col-span-12">
@@ -93,41 +93,46 @@ export const Case: FC<caseProps> = ({ router: { query }, projects }) => {
 													})}
 											</h2>
 										</div>
-										<div className="mt-3 my-3 sm:col-span-10 col-span-12">
-											<p>{element.description}</p>
-										</div>
+										{element.description && (
+											<div className="mt-3 sm:col-span-10 col-span-12">
+												<p className="leading-6">{element.description}</p>
+											</div>
+										)}
 									</div>
 								</motion.div>
-								<motion.div variants={item} className="col-span-12">
+								<motion.div variants={item} className="col-span-12 bg-zinc-50">
 									<div className="grid grid-cols-12 gap-[10px]">
-										<div className="col-span-12">
-											{element.media?.videos &&
-												element.media?.videos.map((video: caseProps, index: number) => {
-													return (
+										{element.media?.videos &&
+											element.media?.videos.map((video: caseProps, index: number) => {
+												return (
+													<div className="col-span-12 mb-3">
 														<video //
 															key={index++}
 															controls
 															controlsList="nodownload"
 															playsInline={true}
 															poster={element.media?.videos[0].src}
-															src={isSafari ? video.mp4 : video.webm}
-														></video>
-													);
-												})}
-										</div>
+															src={isSafari ? video.mp4 : video.webm}></video>
+													</div>
+												);
+											})}
 										{element.media?.images &&
-											element.media?.images.map((image: StaticImageData, index: number) => {
+											element.media?.images.map((image: any, index: number) => {
 												return (
-													<Image //
-														key={index++}
-														className="col-span-12"
-														placeholder="blur"
-														blurDataURL={image.blurDataURL}
-														src={image?.src}
-														width={image?.width}
-														height={image?.height}
-														alt={element.title}
-													/>
+													<div className="col-span-12 mb-3">
+														<Image //
+															draggable={false}
+															key={index++}
+															className="w-100"
+															placeholder="blur"
+															blurDataURL={image?.data?.blurDataURL}
+															src={image?.data?.src}
+															width={image?.data?.width}
+															height={image?.data?.height}
+															alt={image?.desc}
+														/>
+														{image?.desc && <p className="mt-3 pl-2 col-span-12 font-medium text-sm">{image?.desc}</p>}
+													</div>
 												);
 											})}
 									</div>

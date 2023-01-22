@@ -46,13 +46,13 @@ export const Home: NextPage<homeProps> = ({ projects, isAnimating, setIsAnimatin
 			</Head>
 			<Layout isAnimating={isAnimating} setIsAnimating={setIsAnimating}>
 				<motion.div initial="hidden" animate="show" variants={container}>
-					<header className="px-6 container min-h-[65vh] flex flex-col justify-center">
+					<header className="px-6 container h-[65vh] max-h-[700px] flex flex-col justify-center">
 						<h1 className="text-[2.75rem] md:text-[4rem] lg:text-[5rem] leading-[1.1] font-medium mb-6">
 							<motion.span className="inline-block" variants={item}>
-								Skilled in Motion, <br />
+								Skilled in Motion,
 							</motion.span>
 							<motion.span className="inline-block" variants={item}>
-								VFX & Graphic Design. <br />
+								VFX & Graphic Design.
 							</motion.span>
 							<motion.span className="inline-block" variants={item}>
 								Co-founder of{" "}
