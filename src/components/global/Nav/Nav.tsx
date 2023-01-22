@@ -1,25 +1,29 @@
+import Link from "next/link";
 import { FC } from "react";
 
 interface Props {}
 
 export const Nav: FC<Props> = ({}) => {
 	return (
-		<nav className="z-[99] sticky top-0 navbar bg-zinc-50">
-			<div className="container flex flex-row justify-between min-h-[70px] items-center">
+		// z-[99] sticky top-0
+		<nav className="navbar bg-zinc-50">
+			<div className="px-6 container flex flex-row justify-between min-h-[70px] items-center">
 				<div className="navbar-left">
-					<h5 className="navbar-logo font-bold text-2xl">Made by Sahand</h5>
+					<Link scroll={false} href="/">
+						<h5 className="navbar-logo font-bold text-2xl">Sahand Porkar</h5>
+					</Link>
 				</div>
 				<div className="navbar-right">
-					<ul className="navbar-menu flex flex-row text-md mt-1">
+					<ul className="navbar-menu flex flex-row text-sm mt-1">
 						<li>
-							<a href="#" className="hover:underline flex px-5">
+							<Link scroll={false} href="./about" className="hover:underline flex px-5">
 								About
-							</a>
+							</Link>
 						</li>
 						<li>
-							<a href="#" className="hover:underline flex px-5 -mr-5">
+							<Link href="#" className="hover:underline flex px-5 -mr-5">
 								Contact
-							</a>
+							</Link>
 						</li>
 					</ul>
 				</div>

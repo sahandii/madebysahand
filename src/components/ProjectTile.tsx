@@ -1,6 +1,14 @@
+import { FC } from "react";
 import styled from "styled-components";
 import { Project } from "@/data/projects";
-import { useEffect } from "react";
+import slugify from "react-slugify";
+import Link from "next/link";
+
+interface ProjectTileProps {
+	slug: string;
+}
+
+type Props = ProjectTileProps & Project;
 
 const ProjectTileCSS = styled.div`
 	.project-tile {
@@ -19,8 +27,8 @@ const ProjectTileCSS = styled.div`
 		width: 100%;
 		height: 100%;
 		opacity: 0;
-		background-color: rgba(0, 0, 0, 0.5);
-		backdrop-filter: blur(20px);
+		background-color: rgba(0, 0, 0, 0.8);
+		backdrop-filter: blur(60px);
 		filter: grayscale(0.5);
 		color: white;
 	}
@@ -47,27 +55,34 @@ const ProjectTileCSS = styled.div`
 		}
 	}
 `;
-export function ProjectTile({ ...project }: Project) {
-	const { title, client, poster, category } = project;
+
+export const ProjectTile: FC<Props> = (props) => {
+	const { ...project } = props as Project;
 	return (
 		<ProjectTileCSS>
-			<li className={`project-tile cursor-pointer grid-item aspect-video bg-slate-200 flex flex-col justify-center`}>
-				<div className="project-description flex justify-center flex-col p-10">
-					<h4 className="text-2xl font-bold uppercase">{title}</h4>
-					<h5 className="text-2xl font-bold uppercase">
-						<small className="flex flex-col leading-tight">
-							<span className="opacity-60">{client}</span>
-							<span className="opacity-30">{category}</span>
-						</small>
-					</h5>
-				</div>
-				<img //
-					src={poster?.src}
-					className="flex-1"
-					draggable="false"
-					alt={title}
-				/>
+			<li style={{ backgroundImage: `url(${project.thumbnail?.src})` }} className={`project-tile bg-cover cursor-pointer grid-item aspect-video bg-slate-200 flex flex-col justify-center`}>
+				<Link //
+					href={{
+						//
+						pathname: `./case/[case]`,
+						query: {
+							//
+							project: JSON.stringify(project),
+						},
+					}}
+					as={`./case/${project.slug}`}
+				>
+					<div className="project-description flex justify-center flex-col p-10">
+						<h4 className="text-2xl font-bold">{project.title}</h4>
+						<h5 className="text-2xl font-bold">
+							<small className="flex flex-col leading-tight">
+								{/* <span className="opacity-60">{project.client}</span> */}
+								<span className="opacity-30">{project.category}</span>
+							</small>
+						</h5>
+					</div>
+				</Link>
 			</li>
 		</ProjectTileCSS>
 	);
-}
+};

@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+	scroll-behavior: smooth !important;
+}
+
 body {
 	font-family: var(--font-helveticanow);
+}
+
+::selection {
+	color: white;
+	background: black;
+}
+
+video::-internal-media-controls-download-button {
+	display: none;
 }
