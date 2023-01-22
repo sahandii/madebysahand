@@ -111,7 +111,7 @@ export const Case: FC<caseProps> = ({ router: { query }, projects }) => {
 															controls
 															controlsList="nodownload"
 															playsInline={true}
-															poster={element.media?.videos[0].src}
+															poster={element.thumbnail?.src}
 															src={isSafari ? video.mp4 : video.webm}></video>
 													</div>
 												);
