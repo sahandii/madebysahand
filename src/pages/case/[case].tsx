@@ -10,8 +10,7 @@ import { motion } from "framer-motion";
 import { Project } from "@/data/projects";
 // Components
 import Layout from "@/components/Layout";
-import { easeInOutQuart } from "@/assets/easings";
-import { IgReel } from "@/components/global/igReel";
+import { IgReel } from "@/components/global/IgReel";
 
 interface caseProps {
 	router: any;
