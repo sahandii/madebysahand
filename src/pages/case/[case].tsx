@@ -77,8 +77,7 @@ export const Case: FC<caseProps> = ({ router: { query }, projects }) => {
 									<h1 className="text-lg font-bold">{element.title}</h1>
 									<div className="grid grid-cols-12">
 										<div className="col-span-12">
-											<h2 className="font-medium">{element.client}</h2>
-											<h2 className="mt-1 font-medium text-[12px]">
+											<h2 className="font-medium text-[12px]">
 												<span className="mr-3">{element.category} </span>
 												{element &&
 													element.subcategories.map((item: string, i: number, array: Array<string>) => {
@@ -92,6 +91,7 @@ export const Case: FC<caseProps> = ({ router: { query }, projects }) => {
 														);
 													})}
 											</h2>
+											<h3 className="mt-1 font-medium">{element.client}</h3>
 										</div>
 										{element.description && (
 											<div className="mt-3 sm:col-span-10 col-span-12">

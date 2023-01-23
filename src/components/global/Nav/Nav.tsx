@@ -14,14 +14,14 @@ export const Nav: FC<Props> = ({}) => {
 					</Link>
 				</div>
 				<div className="navbar-right">
-					<ul className="navbar-menu flex flex-row text-sm mt-1">
+					<ul className="navbar-menu flex flex-row text-sm mt-[.4rem]">
 						<li>
-							<Link scroll={false} href="/about" className="font-medium hover:underline flex px-5">
+							<Link scroll={false} href="/about" className="font-medium hover:underline flex px-3 md:px-5">
 								About
 							</Link>
 						</li>
 						<li>
-							<Link href="mailto:hello@sporkar.com" target="_blank" className="font-medium hover:underline flex px-5 -mr-5">
+							<Link href="mailto:hello@sporkar.com" target="_blank" className="font-medium hover:underline flex px-3 md:px-5 -mr-3 md:-mr-5">
 								Contact
 							</Link>
 						</li>

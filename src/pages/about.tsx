@@ -15,10 +15,7 @@ const About: FC<Props> = ({}) => {
 			</Head>
 			<Layout>
 				<main>
-					<div className="px-6 container">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos rerum sed ducimus culpa cumque? Placeat voluptatem alias aliquid asperiores impedit quam obcaecati assumenda nemo quisquam ut, excepturi harum? Sit voluptate quibusdam incidunt nesciunt ex impedit magnam, quaerat sed, obcaecati a ullam neque quidem similique! Corrupti, dignissimos qui culpa magni nesciunt obcaecati itaque architecto pariatur corporis dolore? Consequatur quae iure maxime soluta nulla officia, eos similique provident? Nam aliquid consequatur, cumque quis explicabo eaque cum nisi repellat, id delectus modi facilis minus optio voluptatibus magni quaerat libero est, consequuntur animi ducimus aperiam deserunt ullam! Obcaecati iusto deserunt aperiam illo atque et tempora veniam corrupti, earum molestiae aliquid blanditiis officiis praesentium! Ad eos inventore veniam
-						totam explicabo nihil enim, voluptatibus, quidem, odio iste nesciunt. Nostrum iure, aspernatur nihil veniam deserunt sequi architecto quaerat quasi aut magni tempore rerum culpa quidem quas sint, esse vitae ducimus corporis, officiis dicta ut possimus voluptate ipsum! Architecto minima, dicta nisi ipsum cupiditate, numquam culpa atque quasi quod, minus rerum modi similique facilis! Magni non in qui optio est harum quis eum minima mollitia consequatur, ducimus, molestias ullam accusantium ad voluptatibus vel natus! Magni nobis mollitia, ipsa architecto quae commodi laudantium quia inventore repellat! Tempora, incidunt ea.
-					</div>
+					<div className="px-6 container">I'm a Copenhagen based Art Director specializing in Motion and VFX. My work spans in culture and brands. I've led projects across a variety of sectors including advertisement, tech, music and art.</div>
 				</main>
 			</Layout>
 		</>

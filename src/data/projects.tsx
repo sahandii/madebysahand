@@ -24,7 +24,7 @@ export const data: Projects = {
 	projects: [
 		{
 			title: "FIFAe 2022",
-			description: "Working closely with Dreamhack and the FIFA team, my job was to to produce some content for the SoMe channels. While being a Motion Design supervisor, I was making sure that the produced content was in alignment with the brand, FIFA's strategy and goals.",
+			description: "Working closely with Dreamhack and the FIFA team, my job was to to produce some of the content for the SoMe channels. While being a Motion Design supervisor, I was making sure that the produced content was in alignment with the brand, FIFA's strategy and goals.",
 			client: "Dreamhack Sports Games",
 			category: "Motion Graphics",
 			subcategories: ["Art Direction", "VFX", "Compositing", "3D"],
