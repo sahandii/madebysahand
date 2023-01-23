@@ -47,17 +47,17 @@ export const Home: NextPage<homeProps> = ({ projects, isAnimating, setIsAnimatin
 			<Layout isAnimating={isAnimating} setIsAnimating={setIsAnimating}>
 				<motion.div initial="hidden" animate="show" variants={container}>
 					<header className="px-6 container h-[65vh] max-h-[700px] flex flex-col justify-center">
-						<h1 className="text-[2.75rem] md:text-[4rem] lg:text-[5rem] leading-[1.1] font-medium mb-6 flex flex-col">
+						<h1 className="text-[2.75rem] md:text-[4rem] leading-[1.1] font-medium mb-6 flex flex-col">
+							<motion.span className="mt-3 inline-block" variants={item}>
+								Skilled in Motion, <br />
+								VFX & Graphic Design.
+							</motion.span>
 							<motion.span className="inline-block" variants={item}>
-								Co-founder of <br />
+								Co-founder of <br className="lg:hidden" />
 								<a className="underline" target="_blank" href="https://comfortoasis.studio/">
 									Comfort Oasis
 								</a>
 								.
-							</motion.span>
-							<motion.span className="mt-3 inline-block" variants={item}>
-								Skilled in Motion, <br />
-								VFX & Graphic Design.
 							</motion.span>
 						</h1>
 					</header>

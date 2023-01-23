@@ -11,6 +11,7 @@ import { Project } from "@/data/projects";
 // Components
 import Layout from "@/components/Layout";
 import { easeInOutQuart } from "@/assets/easings";
+import { IgReel } from "@/components/global/igReel";
 
 interface caseProps {
 	router: any;
@@ -112,7 +113,8 @@ export const Case: FC<caseProps> = ({ router: { query }, projects }) => {
 															controlsList="nodownload"
 															playsInline={true}
 															poster={element.thumbnail?.src}
-															src={isSafari ? video.mp4 : video.webm}></video>
+															src={isSafari ? video.mp4 : video.webm}
+														></video>
 													</div>
 												);
 											})}
@@ -135,6 +137,7 @@ export const Case: FC<caseProps> = ({ router: { query }, projects }) => {
 													</div>
 												);
 											})}
+										<IgReel url="https://www.instagram.com/reel/ChCtk1bDj2H/" />
 									</div>
 								</motion.div>
 							</div>
