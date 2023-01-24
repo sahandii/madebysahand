@@ -13,6 +13,7 @@
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.10",
+    "@types/smoothscroll-polyfill": "^0.3.1",
     "framer-motion": "^8.5.0",
     "next": "13.1.2",
     "next-videos": "1.4.1",
@@ -21,6 +22,7 @@
     "react-dom": "18.2.0",
     "react-slugify": "^3.0.1",
     "react-social-media-embed": "^2.3.3",
+    "smoothscroll-polyfill": "^0.4.4",
     "styled-components": "^5.3.6",
     "typescript": "4.9.4"
   },

@@ -40,7 +40,7 @@ export const data: Projects = {
 			description: "Working closely with Dreamhack and the FIFA team, my job was to to produce some of the content for the SoMe channels, aswell as the openers for each cup. While being a Motion Design supervisor, I was making sure that the produced content was in alignment with the brand, FIFA's strategy and goals. The three-day event was streamed globally on Twitch.",
 			client: "Dreamhack Sports Games & FIFA",
 			category: "Motion Graphics",
-			subcategories: ["Art Direction", "VFX", "Compositing", "3D"],
+			subcategories: ["Art Direction", "VFX", "3D"],
 			year: 2021,
 			thumbnail: images.fifaeThumb,
 			media: {
@@ -98,7 +98,7 @@ export const data: Projects = {
 		{
 			title: "2DØGN",
 			description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, veniam. Est facilis quod unde esse commodi quasi eveniet perspiciatis aliquid!",
-			client: "DRIVE Studios",
+			client: "DRIVE Studios & XEE",
 			category: "TV Show Identity",
 			subcategories: ["Edit", "Motion Graphics", "VFX"],
 			year: 2021,

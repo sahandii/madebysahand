@@ -74,27 +74,32 @@ export const Case: FC<caseProps> = ({ router: { query }, projects }) => {
 					<motion.div initial="hidden" animate="show" variants={container}>
 						<main className="mt-5">
 							<div className="px-6 container">
-								<div className="grid grid-cols-12">
-									<motion.div variants={item} className="sticky top-[1em] -z-[1] col-span-12 tracking-wide my-5 md:mb-8">
+								<div className="sticky top-0 py-3 col-span-12 z-[90] bg-zinc-50">
+									<div className="text-container">
 										<h1 className="text-lg font-bold">{element.title}</h1>
+										<h2 className="font-bold text-[10px] uppercase tracking-wide">
+											<span className="mr-3">{element.category} </span>
+											{element &&
+												element.subcategories.map((item: string, i: number, array: Array<string>) => {
+													if (array.length - 1 === i) {
+														return <span key={i++}>{item}</span>;
+													}
+													return (
+														<span key={i++} className="mr-3">
+															{item}
+														</span>
+													);
+												})}
+										</h2>
+									</div>
+								</div>
+								<div className="grid grid-cols-12">
+									<h3 className="col-span-12 z-100 font-bold text-[10px] uppercase">
+										{/* <span className="mr-1 inline-flex">&#9642;</span> */}
+										{element.client}
+									</h3>
+									<motion.div variants={item} className="col-span-12 tracking-wide mb-5 md:mb-8">
 										<div className="grid grid-cols-12">
-											<div className="col-span-12 mt-1">
-												<h2 className="font-bold text-[10px] uppercase">
-													<span className="mr-3">{element.category} </span>
-													{element &&
-														element.subcategories.map((item: string, i: number, array: Array<string>) => {
-															if (array.length - 1 === i) {
-																return <span key={i++}>{item}</span>;
-															}
-															return (
-																<span key={i++} className="mr-3">
-																	{item}
-																</span>
-															);
-														})}
-												</h2>
-												<h3 className="mt-2 font-bold text-[10px] uppercase">{element.client}</h3>
-											</div>
 											{element.description && (
 												<div className="my-5 sm:col-span-12 col-span-12">
 													<p>{element.description}</p>

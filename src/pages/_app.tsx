@@ -53,7 +53,7 @@ const App = ({ Component, pageProps, router }: AppProps): JSX.Element => {
 					mode="wait"
 					onExitComplete={() => {
 						const frontPage = router.pathname === "/";
-						window.scrollTo(0, 0);
+						document.body.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
 						setIsAnimating(false);
 					}}
 				>

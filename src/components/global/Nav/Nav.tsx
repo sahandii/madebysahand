@@ -7,7 +7,7 @@ export const Nav: FC<Props> = ({}) => {
 	return (
 		// z-[99] sticky top-0
 		<nav className="navbar bg-zinc-50">
-			<div className="px-6 container flex flex-row justify-between min-h-[70px] items-center border-b border-black">
+			<div className="px-6 container flex flex-row justify-between min-h-[70px] items-center border-b border-zinc-400">
 				<div className="navbar-left">
 					<Link scroll={false} href="/">
 						<h5 className="navbar-logo font-bold text-2xl">Sahand Porkar</h5>

@@ -27,7 +27,7 @@ export const Footer: FC<Props> = ({ isAnimating }) => {
 				</div>
 				<div className="footer-right">
 					<div className="social-media--container max-md:pt-5 md:text-right">
-						<p className="title text-[13px] font-medium opacity-50">Social media</p>
+						<p className="title text-[13px] font-medium text-zinc-400">Social media</p>
 						<ul className="flex flex-row pt-1">
 							<li>
 								<a className="hover:underline font-medium max-md:mr-5 md:px-5 text-sm flex" href="https://instagram.com/sahandporkar" target="_blank">

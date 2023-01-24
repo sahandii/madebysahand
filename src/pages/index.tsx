@@ -5,6 +5,8 @@ import { ProjectTile } from "./../components/ProjectTile";
 import Layout from "../components/Layout";
 import { motion } from "framer-motion";
 import slugify from "react-slugify";
+import smoothscroll from "smoothscroll-polyfill";
+import { useEffect } from "react";
 
 interface homeProps {
 	projects: Project[];
@@ -36,7 +38,9 @@ const item = {
 	},
 };
 export const Home: NextPage<homeProps> = ({ projects, isAnimating, setIsAnimating }: homeProps) => {
-	console.log(JSON.stringify(projects));
+	useEffect(() => {
+		smoothscroll.polyfill();
+	});
 
 	return (
 		<>
