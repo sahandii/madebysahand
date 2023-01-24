@@ -6,6 +6,8 @@ import prisregn005 from "../assets/images/prisregn/prisregn005.jpg";
 import todoegnThumb from "../assets/images/2d-thumb.png";
 import pandoraThumb from "../assets/images/pandora-thumb.jpg";
 import fifaeThumb from "../assets/images/fifae-thumb.jpg";
+import fifaeExplainer from "../assets/images/fifae-explainer.jpg";
+import fecwOpener from "../assets/images/fecw-opener.jpg";
 
 export default {
 	//
@@ -17,4 +19,6 @@ export default {
 	todoegnThumb,
 	pandoraThumb,
 	fifaeThumb,
+	fifaeExplainer,
+	fecwOpener,
 };

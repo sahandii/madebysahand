@@ -1,1 +1,30 @@
-@tailwind base;@tailwind components;@tailwind utilities;html{scroll-behavior:smooth !important;overflow-y:scroll}body{font-family:var(--font-helveticanow)}::-moz-selection{color:#fff;background:#000}::selection{color:#fff;background:#000}video::-internal-media-controls-download-button{display:none}/*# sourceMappingURL=globals.css.map */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+html {
+  scroll-behavior: smooth !important;
+  overflow-y: scroll;
+}
+
+body {
+  font-family: var(--font-helveticanow);
+}
+
+::-moz-selection {
+  color: white;
+  background: black;
+}
+
+::selection {
+  color: white;
+  background: black;
+}
+
+video::-internal-media-controls-download-button {
+  display: none;
+}
+
+p {
+  font-size: 0.75rem;
+  line-height: 2;
+}/*# sourceMappingURL=globals.css.map */

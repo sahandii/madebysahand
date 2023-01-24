@@ -36,6 +36,8 @@ const item = {
 	},
 };
 export const Home: NextPage<homeProps> = ({ projects, isAnimating, setIsAnimating }: homeProps) => {
+	console.log(JSON.stringify(projects));
+
 	return (
 		<>
 			<Head>
@@ -46,28 +48,30 @@ export const Home: NextPage<homeProps> = ({ projects, isAnimating, setIsAnimatin
 			</Head>
 			<Layout isAnimating={isAnimating} setIsAnimating={setIsAnimating}>
 				<motion.div initial="hidden" animate="show" variants={container}>
-					<header className="px-6 container h-[65vh] max-h-[700px] flex flex-col justify-center">
-						<h1 className="text-[2.75rem] md:text-[4rem] leading-[1.1] font-medium mb-6 flex flex-col">
-							<motion.span className="mt-3 inline-block" variants={item}>
-								Skilled in Motion, <br />
-								VFX & Graphic Design.
+					<header className="px-6 container h-[50vh] md:h-[65vh] max-h-[700px] flex flex-col justify-center">
+						<h1 className="font-medium mb-6 flex flex-col">
+							<motion.span className="text-2xl sm:text-4xl md:text-5xl inline-block" variants={item}>
+								Digital Designer.
 							</motion.span>
-							<motion.span className="inline-block" variants={item}>
-								Co-founder of <br className="lg:hidden" />
+							<motion.span className="text-2xl sm:text-4xl md:text-5xl inline-block my-1 md:my-3" variants={item}>
+								Co-founder of{" "}
 								<a className="underline" target="_blank" href="https://comfortoasis.studio/">
 									Comfort Oasis
 								</a>
 								.
 							</motion.span>
+							<motion.span className="text-2xl sm:text-4xl md:text-5xl inline-block" variants={item}>
+								Skilled in Motion, VFX & Graphic Design.
+							</motion.span>
 						</h1>
 					</header>
 					<main className="container">
-						<div className="px-6 mb-5">
+						<motion.div variants={item} className="px-6 mb-5">
 							<h3 className="text-2xl font-medium">
 								Some of my work <small>&#8600;</small>
 							</h3>
-						</div>
-						<motion.ul variants={item} className="sm:px-6 md:grid gap-[10px] grid-cols-2 grid-rows-2">
+						</motion.div>
+						<motion.ul variants={item} className="px-6 md:grid gap-[10px] grid-cols-2 grid-rows-2">
 							{projects.map((project: Project, index: number) => {
 								return <ProjectTile key={index++} {...project} slug={slugify(project.title)} />;
 							})}

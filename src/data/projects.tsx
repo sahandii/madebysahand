@@ -9,10 +9,23 @@ export interface Project {
 	category: string;
 	subcategories: Array<string>;
 	year: number;
-	thumbnail?: StaticImageData | undefined;
-	media?: {
-		images?: Array<StaticImageData | undefined>;
-		videos?: Array<{ poster: StaticImageData | undefined; mp4: HTMLVideoElement | undefined; webm: HTMLVideoElement | undefined } | unknown>;
+	thumbnail?: StaticImageData;
+	media?: Media;
+}
+
+export interface Media {
+	images?: {
+		data: StaticImageData;
+		desc: string;
+	}[];
+	videos?: {
+		poster: StaticImageData;
+		mp4: string | undefined;
+		webm: string | undefined;
+		desc?: "string" | undefined;
+	}[];
+	instagram?: {
+		reels: string[];
 	};
 }
 
@@ -24,15 +37,31 @@ export const data: Projects = {
 	projects: [
 		{
 			title: "FIFAe 2022",
-			description: "Working closely with Dreamhack and the FIFA team, my job was to to produce some of the content for the SoMe channels. While being a Motion Design supervisor, I was making sure that the produced content was in alignment with the brand, FIFA's strategy and goals.",
-			client: "Dreamhack Sports Games",
+			description: "Working closely with Dreamhack and the FIFA team, my job was to to produce some of the content for the SoMe channels, aswell as the openers for each cup. While being a Motion Design supervisor, I was making sure that the produced content was in alignment with the brand, FIFA's strategy and goals. The three-day event was streamed globally on Twitch.",
+			client: "Dreamhack Sports Games & FIFA",
 			category: "Motion Graphics",
 			subcategories: ["Art Direction", "VFX", "Compositing", "3D"],
 			year: 2021,
 			thumbnail: images.fifaeThumb,
 			media: {
 				images: [],
-				videos: [],
+				videos: [
+					{
+						poster: images.fecwOpener,
+						mp4: videos.fecwOpenerMP4,
+						webm: videos.fecwOpenerWebM,
+						desc: "One of the opener animations I made for the Nations Cup. The opener was used on stream as breakers between matches etc.",
+					},
+					{
+						poster: images.fifaeExplainer,
+						mp4: videos.fifaExplainerMP4,
+						webm: videos.fifaExplainerWebM,
+						desc: "One of the Explainer videos I did for the FIFAe Nations Cup 2022™",
+					},
+				],
+				instagram: {
+					reels: ["https://www.instagram.com/reel/ChCtk1bDj2H/"],
+				},
 			},
 		},
 		{
@@ -80,18 +109,31 @@ export const data: Projects = {
 			},
 		},
 		{
-			title: "Miss Osaka",
+			title: "IKEA COP26",
 			description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, veniam. Est facilis quod unde esse commodi quasi eveniet perspiciatis aliquid!",
-			client: "VIRTUE",
-			category: "VFX",
-			subcategories: ["VFX", "Compositing", "Motion Graphics"],
-			year: 2019,
+			client: "Barkas",
+			category: "Motion Graphics",
+			subcategories: [],
+			year: 2021,
 			thumbnail: images.todoegnThumb,
 			media: {
 				images: [],
 				videos: [],
 			},
 		},
+		// {
+		// 	title: "Miss Osaka",
+		// 	description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, veniam. Est facilis quod unde esse commodi quasi eveniet perspiciatis aliquid!",
+		// 	client: "VIRTUE",
+		// 	category: "VFX",
+		// 	subcategories: ["VFX", "Compositing", "Motion Graphics"],
+		// 	year: 2019,
+		// 	thumbnail: images.todoegnThumb,
+		// 	media: {
+		// 		images: [],
+		// 		videos: [],
+		// 	},
+		// },
 		{
 			title: "Pandora Black Friday",
 			description: "",
@@ -103,18 +145,13 @@ export const data: Projects = {
 			media: {
 				images: [],
 				videos: [
-					// videos[0]
 					{
-						poster: images.fifaeThumb,
-						// videos[0].mp4
+						poster: images.pandoraThumb,
 						mp4: videos.pandoraMP4,
-						// videos[0].webm
 						webm: videos.pandoraWebM,
 					},
-					// videos[1] etc
-					// ...
 				],
 			},
 		},
-	] as Array<Project>,
+	] as Project[],
 };
