@@ -74,18 +74,18 @@ export const Case: FC<caseProps> = ({ router: { query }, projects }) => {
 					<motion.div initial="hidden" animate="show" variants={container}>
 						<main className="mt-5">
 							<div className="px-6 container">
-								<div className="sticky top-0 py-3 col-span-12 z-[90] bg-zinc-50">
+								<div className="sticky top-0 py-4 col-span-12 z-[90] bg-zinc-50">
 									<div className="text-container">
 										<h1 className="text-lg font-bold">{element.title}</h1>
-										<h2 className="font-bold text-[10px] uppercase tracking-wide">
-											<span className="mr-3">{element.category} </span>
+										<h2 className="font-bold text-[.65rem] uppercase mt-1">
+											<span className="mr-3 tracking-wider">{element.category} </span>
 											{element &&
 												element.subcategories.map((item: string, i: number, array: Array<string>) => {
 													if (array.length - 1 === i) {
 														return <span key={i++}>{item}</span>;
 													}
 													return (
-														<span key={i++} className="mr-3">
+														<span key={i++} className="mr-3 tracking-wider">
 															{item}
 														</span>
 													);
@@ -94,14 +94,14 @@ export const Case: FC<caseProps> = ({ router: { query }, projects }) => {
 									</div>
 								</div>
 								<div className="grid grid-cols-12">
-									<h3 className="col-span-12 z-100 font-bold text-[10px] uppercase">
-										{/* <span className="mr-1 inline-flex">&#9642;</span> */}
+									{/* <h3 className="col-span-12 z-100 font-bold text-[11px] uppercase tracking-wider">
+										<span className="mr-1 inline-flex">&#9642;</span>
 										{element.client}
-									</h3>
+									</h3> */}
 									<motion.div variants={item} className="col-span-12 tracking-wide mb-5 md:mb-8">
 										<div className="grid grid-cols-12">
 											{element.description && (
-												<div className="my-5 sm:col-span-12 col-span-12">
+												<div className="mb-5 sm:col-span-12 col-span-12">
 													<p>{element.description}</p>
 												</div>
 											)}
@@ -137,7 +137,7 @@ export const Case: FC<caseProps> = ({ router: { query }, projects }) => {
 													return (
 														<div
 															className={`${
-																"col-span-12 mb-10"
+																"col-span-12 mb-3 md:mb-10"
 																// if last element = "mb-10"
 																// (arr.length - 1 === i && " mb-10 ")
 															}`}
