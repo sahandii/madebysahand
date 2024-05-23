@@ -6,22 +6,12 @@ interface Props {
 	setIsAnimating?: (value: boolean | ((prevVar: boolean) => boolean)) => void;
 }
 
-const FooterCSS = styled.div`
-	&.show {
-		opacity: 1;
-	}
-
-	& {
-		will-change: opacity;
-		transition: opacity 0.25s linear 0s;
-		opacity: 0;
-	}
-`;
+const FooterCSS = styled.div``;
 
 export const Footer: FC<Props> = ({ isAnimating }) => {
 	return (
-		<footer className="px-6 container pt-20 py-10">
-			<FooterCSS className={`${isAnimating ? "" : "show"} flex flex-col md:flex-row justify-between md:items-end`}>
+		<footer className={`${isAnimating ? "" : "show "}px-6 container pt-20 py-10`}>
+			<FooterCSS className="flex flex-col md:flex-row justify-between md:items-end">
 				<div className="footer-left">
 					<p className="text-sm font-medium">© 2023 Sahand Porkar</p>
 				</div>

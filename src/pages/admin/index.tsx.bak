@@ -1,0 +1,48 @@
+import React from "react";
+import { Project } from "@/data/projects"; // Adjust the import path as needed
+import AdminLayout from "@/components/layouts/AdminLayout";
+import { ProjectsTable } from "./../../components/admin/ProjectsTable";
+import Head from "next/head";
+import { AdminNavbar } from "@/components/admin/AdminNavbar";
+import { ProjectsColumns } from "@/data/projects-columns";
+
+interface AdminDashboardProps {
+	projects: Project[];
+}
+
+const AdminDashboard: React.FC<AdminDashboardProps> = ({ projects }) => {
+	return (
+		<>
+			<Head>
+				<title>Dashboard | Sahand Porkar</title>
+				<meta name="description" content="The dashboard of all dashboards <3" />
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
+			<nav className="flex flex-row justify-between items-center w-full p-4 border-b">
+				<div className="navbar-left flex">
+					<h1 className="font-bold text-2xl m-0 leading-none">Dashboard</h1>
+				</div>
+				<div className="navbar-center">
+					<AdminNavbar />
+				</div>
+				<div className="navbar-right"></div>
+			</nav>
+			<ProjectsTable columns={ProjectsColumns} data={projects} />
+		</>
+	);
+};
+(AdminDashboard as any).layout = AdminLayout;
+
+export const getServerSideProps = async () => {
+	const res = await fetch("http://localhost:3000/api/projects");
+	const projects: Project[] = await res.json();
+
+	return {
+		props: {
+			projects,
+		},
+	};
+};
+
+export default AdminDashboard;

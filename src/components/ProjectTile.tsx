@@ -4,9 +4,7 @@ import { Project } from "@/data/projects";
 import slugify from "react-slugify";
 import Link from "next/link";
 
-interface ProjectTileProps {
-	slug: string;
-}
+interface ProjectTileProps {}
 
 type Props = ProjectTileProps & Project;
 
@@ -70,13 +68,14 @@ export const ProjectTile: FC<Props> = (props) => {
 							project: JSON.stringify(project),
 						},
 					}}
-					as={`./case/${project.slug}`}>
+					as={`./case/${project.slug}`}
+				>
 					<div className="project-description flex justify-center flex-col p-10">
 						<h4 className="text-2xl font-bold">{project.title}</h4>
 						<h5 className="text-2xl font-bold">
 							<small className="flex flex-col leading-tight">
 								{/* <span className="opacity-60">{project.client}</span> */}
-								<span className="opacity-30">{project.category}</span>
+								<span className="text-[.9rem] tracking-wider font-normal opacity-50">{project.category}</span>
 							</small>
 						</h5>
 					</div>

@@ -1,0 +1,109 @@
+{
+	"projects": {
+		"1": {
+			"title": "FIFAe 2022",
+			"description": "In collaboration with Dreamhack and the FIFA team...",
+			"client": "Dreamhack Sports Games & FIFA",
+			"category": "Motion Graphics",
+			"subcategories": ["Art Direction", "VFX", "3D"],
+			"year": 2021,
+			"thumbnail": "path/to/images/fifaeThumb",
+			"media": {
+				"images": [],
+				"videos": [
+					{
+						"poster": "path/to/images/fecwOpener",
+						"mp4": "path/to/videos/fecwOpenerMP4",
+						"webm": "path/to/videos/fecwOpenerWebM",
+						"desc": "One of the opener animations I made..."
+					},
+					{
+						"poster": "path/to/images/fifaeExplainer",
+						"webm": "path/to/videos/fifaExplainerWebM",
+						"mp4": "path/to/videos/fifaExplainerMP4",
+						"desc": "One of the Explainer videos I did..."
+					}
+				],
+				"instagram": {
+					"reels": ["https://www.instagram.com/reel/ChCtk1bDj2H/"]
+				}
+			}
+		},
+		"2": {
+			"title": "Prisregn 2021",
+			"description": "Lorem ipsum dolor sit amet...",
+			"client": "Politiken",
+			"category": "Storytelling",
+			"subcategories": ["Motion Graphics"],
+			"year": 2021,
+			"thumbnail": "path/to/images/prisregn002",
+			"media": {
+				"images": [
+					{ "data": "path/to/images/prisregn001", "desc": "" },
+					{ "data": "path/to/images/prisregn002", "desc": "" },
+					{ "data": "path/to/images/prisregn003", "desc": "" },
+					{ "data": "path/to/images/prisregn004", "desc": "" }
+				],
+				"videos": []
+			}
+		},
+		"3": {
+			"title": "Podimo trailers",
+			"description": "Lorem ipsum dolor sit amet...",
+			"client": "Podimo",
+			"category": "Storytelling",
+			"subcategories": ["Edit", "Motion Graphics", "VFX"],
+			"year": 2021,
+			"thumbnail": "path/to/images/todoegnThumb",
+			"media": {
+				"images": [],
+				"videos": []
+			}
+		},
+		"4": {
+			"title": "2DØGN",
+			"description": "Lorem ipsum dolor sit amet...",
+			"client": "DRIVE Studios & XEE",
+			"category": "TV Show Identity",
+			"subcategories": ["Edit", "Motion Graphics", "VFX"],
+			"year": 2021,
+			"thumbnail": "path/to/images/todoegnThumb",
+			"media": {
+				"images": [],
+				"videos": []
+			}
+		},
+		"5": {
+			"title": "IKEA COP26",
+			"description": "Lorem ipsum dolor sit amet...",
+			"client": "Barkas",
+			"category": "Motion Graphics",
+			"subcategories": [],
+			"year": 2021,
+			"thumbnail": "path/to/images/todoegnThumb",
+			"media": {
+				"images": [],
+				"videos": []
+			}
+		},
+		"6": {
+			"title": "Pandora Black Friday",
+			"description": "",
+			"client": "Pandora",
+			"category": "3D",
+			"subcategories": ["VFX", "Compositing", "Motion Graphics"],
+			"year": 2019,
+			"thumbnail": "path/to/images/pandoraThumb",
+			"media": {
+				"images": [],
+				"videos": [
+					{
+						"poster": "path/to/images/pandoraThumb",
+						"webm": "path/to/videos/pandoraWebM",
+						"mp4": "path/to/videos/pandoraMP4"
+					}
+				]
+			}
+		}
+	}
+}

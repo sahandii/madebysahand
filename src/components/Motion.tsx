@@ -11,10 +11,10 @@ interface Props {
 const variants = {
 	hidden: { opacity: 0, x: 0, y: "5vh" },
 	enter: { opacity: 1, x: 0, y: 0 },
-	exit: { opacity: 0, x: "-10vw", y: 0 },
+	exit: { opacity: 0, x: "-3vw", y: 0 },
 };
 
-const Layout: FC<Props> = ({ children, isAnimating, setIsAnimating }) => {
+const Motion: FC<Props> = ({ children, isAnimating, setIsAnimating }) => {
 	return (
 		<>
 			<motion.div
@@ -45,4 +45,4 @@ const Layout: FC<Props> = ({ children, isAnimating, setIsAnimating }) => {
 	);
 };
 
-export default Layout;
+export default Motion;
