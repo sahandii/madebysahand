@@ -71,10 +71,7 @@ const AdminPage: React.FC<AdminPageProps> = ({ initialProjects }) => {
 			<AdminPageCSS>
 				<div className="wrapper">
 					<AdminSidePanel logout={logout} />
-					<main className="main-content p-5">
-						<h2 className="text-2xl mb-5">Hello Sahand</h2>
-						<ProjectsTable columns={ProjectsColumns} data={projects} />
-					</main>
+					<main className="main-content p-5 bg-slate-100"></main>
 				</div>
 			</AdminPageCSS>
 			{/* <nav className="flex flex-row justify-between items-center w-full p-4 border-b">

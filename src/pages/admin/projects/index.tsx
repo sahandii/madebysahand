@@ -1,4 +1,4 @@
-// pages/admin/index.tsx
+// pages/admin/projects/index.tsx
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/firebase/useAuth";
@@ -8,11 +8,10 @@ import AdminLayout from "@/components/layouts/AdminLayout";
 import { AdminSidePanel } from "@/components/admin/AdminSidePanel";
 import { ProjectsTable } from "@/components/admin/ProjectsTable";
 import Head from "next/head";
-import { AdminNavbar } from "@/components/admin/AdminNavbar";
 import { ProjectsColumns } from "@/data/projects-columns";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import styled from "styled-components";
-import Link from "next/link";
 
 interface AdminPageProps {
 	initialProjects: Project[];
@@ -53,7 +52,9 @@ const AdminPage: React.FC<AdminPageProps> = ({ initialProjects }) => {
 
 	const handleDeleteProject = async (id: string) => {
 		await deleteProject(id);
-		// Refetch or update the state to remove the deleted project
+		console.log("test");
+
+		// Refetch or update the state to reflect the changes
 	};
 
 	if (!user) {
@@ -63,7 +64,7 @@ const AdminPage: React.FC<AdminPageProps> = ({ initialProjects }) => {
 	return (
 		<>
 			<Head>
-				<title>Dashboard | Sahand Porkar</title>
+				<title>Projects | Sahand Porkar</title>
 				<meta name="description" content="The dashboard of all dashboards <3" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
@@ -71,13 +72,23 @@ const AdminPage: React.FC<AdminPageProps> = ({ initialProjects }) => {
 			<AdminPageCSS>
 				<div className="wrapper">
 					<AdminSidePanel logout={logout} />
-					<main className="main-content">
-						<div className="menu-bar mb-3 border-b p-5">
+					<main className="main-content bg-slate-100">
+						<div className="menu-bar bg-white border-b p-5 flex justify-between">
+							<h2 className="text-2xl text-primary flex items-center">
+								Projects
+								<div className="ml-2 text-primary font-medium badge rounded-full bg-slate-200 aspect-square w-[25px] text-sm items-center text-center leading-[25px]">{projects.length}</div>
+							</h2>
+							{/* <Separator decorative orientation="vertical" className="h-[40px] mx-8" /> */}
 							<Button>+ New project</Button>
 						</div>
-						<div className="p-5">
-							<ProjectsTable columns={ProjectsColumns} data={projects} />
-						</div>
+						<ProjectsTable //
+							className="bg-white"
+							columns={ProjectsColumns}
+							data={projects}
+							handleAddProject={handleAddProject}
+							handleUpdateProject={handleUpdateProject}
+							handleDeleteProject={handleDeleteProject}
+						/>
 					</main>
 				</div>
 			</AdminPageCSS>
