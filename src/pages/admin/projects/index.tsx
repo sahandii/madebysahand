@@ -1,4 +1,4 @@
-// pages/admin/projects/index.tsx
+// src/pages/admin/projects/index.tsx
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/firebase/useAuth";
@@ -43,18 +43,25 @@ const AdminPage: React.FC<AdminPageProps> = ({ initialProjects }) => {
 	const handleAddProject = async (project: Project) => {
 		await addProject(project);
 		// Refetch or update the state to include the new project
+		setProjects(await fetchProjects());
 	};
 
 	const handleUpdateProject = async (id: string, updatedProject: Project) => {
 		await updateProject(id, updatedProject);
 		// Refetch or update the state to reflect the changes
+		setProjects(await fetchProjects());
 	};
 
 	const handleDeleteProject = async (id: string) => {
-		await deleteProject(id);
-		console.log("test");
-
-		// Refetch or update the state to reflect the changes
+		try {
+			await deleteProject(id);
+			console.log(`${id} deleted`);
+			// Refetch or update the state to reflect the changes
+			setProjects(await fetchProjects());
+			console.log(projects);
+		} catch (error) {
+			console.error(`Failed to delete project with id ${id}:`, error);
+		}
 	};
 
 	if (!user) {
@@ -78,12 +85,15 @@ const AdminPage: React.FC<AdminPageProps> = ({ initialProjects }) => {
 								Projects
 								<div className="ml-2 text-primary font-medium badge rounded-full bg-slate-200 aspect-square w-[25px] text-sm items-center text-center leading-[25px]">{projects.length}</div>
 							</h2>
-							{/* <Separator decorative orientation="vertical" className="h-[40px] mx-8" /> */}
 							<Button>+ New project</Button>
 						</div>
-						<ProjectsTable //
+						<ProjectsTable
 							className="bg-white"
-							columns={ProjectsColumns}
+							columns={ProjectsColumns({
+								handleAddProject,
+								handleUpdateProject,
+								handleDeleteProject,
+							})}
 							data={projects}
 							handleAddProject={handleAddProject}
 							handleUpdateProject={handleUpdateProject}
@@ -92,19 +102,6 @@ const AdminPage: React.FC<AdminPageProps> = ({ initialProjects }) => {
 					</main>
 				</div>
 			</AdminPageCSS>
-			{/* <nav className="flex flex-row justify-between items-center w-full p-4 border-b">
-					<div className="navbar-left flex">
-						<h1 className="font-bold text-2xl m-0 leading-none">Dashboard</h1>
-					</div>
-					<div className="navbar-center">
-						<AdminNavbar />
-					</div>
-					<div className="navbar-right">
-						<Button variant={"outline"} onClick={logout}>
-							<span className="text-red-500">Logout</span>
-						</Button>
-					</div>
-				</nav> */}
 		</>
 	);
 };

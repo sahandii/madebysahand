@@ -12,6 +12,8 @@ export interface Project {
 	year: number;
 	thumbnail?: StaticImageData;
 	media?: Media;
+	updated: number;
+	created: number;
 }
 
 export interface Media {

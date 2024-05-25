@@ -14,10 +14,13 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 interface ProjectColumnsProps {
 	// status: "published" | "draft" | "hidden";
+	handleAddProject: (project: Project) => void;
+	handleUpdateProject: (id: string, updatedProject: Project) => void;
+	handleDeleteProject: (id: string) => void;
 }
 const { isMinWidth, isMaxWidth } = useResponsive();
 
-export const ProjectsColumns: ColumnDef<Project | any, ProjectColumnsProps>[] = [
+export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>[] = ({ handleAddProject, handleUpdateProject, handleDeleteProject }) => [
 	{
 		accessorKey: "title",
 		header: ({ column }) => {
@@ -144,8 +147,7 @@ export const ProjectsColumns: ColumnDef<Project | any, ProjectColumnsProps>[] = 
 			return (
 				<Button
 					onClick={() => {
-						// handleDeleteProject(row.original.id);
-						console.log(`${row.original.title} deleted`);
+						handleDeleteProject(row.original.id);
 					}}
 					className="shadow-2xl hover:bg-white"
 					variant={"ghost"}

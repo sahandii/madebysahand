@@ -33,7 +33,7 @@ const saveRowOrder = (rowOrder: string[]) => {
 	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(rowOrder));
 };
 
-export function ProjectsTable<TData, TValue>({ columns, data, className, ...props }: ProjectsTableProps<TData, TValue>) {
+export function ProjectsTable<TData, TValue>({ columns, data, className, handleAddProject, handleUpdateProject, handleDeleteProject, ...props }: ProjectsTableProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [sortedData, setSortedData] = useState<TData[]>(data);
 

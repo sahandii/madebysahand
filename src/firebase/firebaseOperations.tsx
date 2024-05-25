@@ -45,6 +45,13 @@ export const updateProject = async (id: string, updatedProject: Project) => {
 };
 
 export const deleteProject = async (id: string) => {
-	const projectRef = ref(db, `projects/${id}`);
-	await remove(projectRef);
+	console.log(`Deleting project with id: ${id} from Firebase`);
+	try {
+		const projectRef = ref(db, `projects/${id}`);
+		await remove(projectRef);
+		console.log(`${id} successfully deleted from Firebase`);
+	} catch (error) {
+		console.error(`Failed to delete project with id ${id}:`, error);
+		throw error; // Optionally, rethrow the error if you want to handle it elsewhere
+	}
 };
