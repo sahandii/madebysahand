@@ -1,22 +1,12 @@
-// Deps
-import { useState, useEffect, ReactElement, ReactNode } from "react";
+import { useState, ReactElement, ReactNode, ComponentType } from "react";
 import type { AppProps } from "next/app";
-import slugify from "react-slugify";
 import { AuthProvider } from "@/firebase/useAuth";
-
-// CSS & fonts
-import styled from "styled-components";
 import "@/styles/globals.css";
-import { HelveticaNow } from "../fonts/helveticaNow";
-
-// Hooks
-// import { usePreserveScroll } from "@/hooks/usePreserveScroll";
-
-// Data
-// import { data, Project } from "@/data/projects";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
+import AdminLayout from "@/components/layouts/AdminLayout";
+import { useRouter } from "next/router";
 
-type NextPageWithLayout = AppProps["Component"] & {
+type NextPageWithLayout<P = {}> = ComponentType<P> & {
 	layout?: (page: ReactElement) => ReactNode;
 };
 
@@ -25,37 +15,18 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const App = ({ Component, pageProps, router }: AppPropsWithLayout): JSX.Element => {
-	// const [projects, setProjects] = useState<Project[] | null>(null);
 	const [isAnimating, setIsAnimating] = useState<boolean>(false);
-	// usePreserveScroll();
-	// useEffect(() => {
-	// 	// Copy data to State + add slugs
-	// 	if (data.projects) {
-	// 		let projectsCopy = data.projects;
-	// 		for (let i = 0; i < projectsCopy.length; i++) {
-	// 			const element = projectsCopy[i];
-	// 			element.slug = slugify(element.title);
-	// 		}
-	// 		setProjects(projectsCopy);
-	// 	}
-	// }, [projects]);
 
-	// Determine the layout based on the page component
-	const Layout = (Component as any).layout || DefaultLayout;
+	const getLayout = (Component: NextPageWithLayout): ((page: ReactElement) => ReactNode) => {
+		if (router.pathname.startsWith("/admin")) {
+			return (page: ReactElement) => <AdminLayout>{page}</AdminLayout>;
+		}
+		return Component.layout || ((page: ReactElement) => <DefaultLayout>{page}</DefaultLayout>);
+	};
 
-	return (
-		<AuthProvider>
-			<Layout>
-				<Component //
-					{...pageProps}
-					isAnimating={isAnimating}
-					setIsAnimating={setIsAnimating}
-					key={router.asPath}
-					// projects={data.projects}
-				/>
-			</Layout>
-		</AuthProvider>
-	);
+	const Layout = getLayout(Component);
+
+	return <AuthProvider>{Layout(<Component {...pageProps} isAnimating={isAnimating} setIsAnimating={setIsAnimating} key={router.asPath} />)}</AuthProvider>;
 };
 
 export default App;

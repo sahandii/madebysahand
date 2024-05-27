@@ -25,7 +25,7 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 		accessorKey: "title",
 		header: ({ column }) => {
 			return (
-				<Button className="p-0" variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+				<Button className="px-0 hover:bg-transparent" variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
 					Title
 					<ArrowUpDown className="ml-2 h-4 w-4" />
 				</Button>
@@ -43,7 +43,7 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 		accessorKey: "year",
 		header: ({ column }) => {
 			return (
-				<Button className="p-0" variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+				<Button className="px-0 hover:bg-transparent" variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
 					Year
 					<ArrowUpDown className="ml-2 h-4 w-4" />
 				</Button>
@@ -54,7 +54,7 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 		accessorKey: "category",
 		header: ({ column }) => {
 			return (
-				<Button className="p-0" variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+				<Button className="px-0 hover:bg-transparent" variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
 					Category
 					<ArrowUpDown className="ml-2 h-4 w-4" />
 				</Button>
@@ -65,7 +65,7 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 		accessorKey: "updated",
 		header: ({ column }) => {
 			return (
-				<Button className="p-0" variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+				<Button className="px-0 hover:bg-transparent" variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
 					Modified
 					<ArrowUpDown className="ml-2 h-4 w-4" />
 				</Button>
@@ -93,7 +93,7 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 		accessorKey: "created",
 		header: ({ column }) => {
 			return (
-				<Button className="p-0" variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+				<Button className="px-0 hover:bg-transparent" variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
 					Created
 					<ArrowUpDown className="ml-2 h-4 w-4" />
 				</Button>
@@ -146,11 +146,11 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 			// const payment = row.original;
 			return (
 				<Button
+					className="px-3"
 					onClick={() => {
 						handleDeleteProject(row.original.id);
 					}}
-					className="shadow-2xl hover:bg-white"
-					variant={"ghost"}
+					variant={"outline"}
 				>
 					<Trash className="text-red-600 hover:color-red h-5 w-5" />
 				</Button>

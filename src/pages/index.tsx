@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import slugify from "react-slugify";
 import smoothscroll from "smoothscroll-polyfill";
 import { useEffect } from "react";
-import { fetchProjects } from "@/firebase/firebaseOperations";
+import { fetchProjectsOnce } from "@/firebase/firebaseOperations";
 
 interface homeProps {
 	projects: Project[];
@@ -94,7 +94,7 @@ export const Home: NextPage<homeProps> = ({ projects, isAnimating, setIsAnimatin
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-	const projects = await fetchProjects();
+	const projects: Project[] = await fetchProjectsOnce();
 
 	return {
 		props: {

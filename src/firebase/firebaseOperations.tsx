@@ -1,9 +1,13 @@
-// firebase/firebaseOperations.ts
-import { ref, get, set, update, remove } from "firebase/database";
+// src/firebase/firebaseOperations.ts
+import { ref, set, get, update, remove, onValue, off } from "firebase/database";
 import { db } from "./firebaseConfig";
 import { Project } from "@/data/projects";
 
-export const fetchProjects = async (): Promise<Project[]> => {
+/**
+ * Fetch projects once for static generation.
+ * @returns {Promise<Project[]>} - Promise resolving to an array of projects.
+ */
+export const fetchProjectsOnce = async (): Promise<Project[]> => {
 	const projectsRef = ref(db, "projects");
 	const snapshot = await get(projectsRef);
 	const projects: Project[] = [];
@@ -16,6 +20,36 @@ export const fetchProjects = async (): Promise<Project[]> => {
 		projects.push(project);
 	});
 	return projects;
+};
+
+/**
+ * Fetch projects with a real-time listener.
+ * @param {Function} callback - Callback function to handle projects data.
+ * @returns {Function} - Unsubscribe function to stop the listener.
+ */
+export const fetchProjects = (callback: (projects: Project[]) => void) => {
+	const projectsRef = ref(db, "projects");
+	const listener = onValue(
+		projectsRef,
+		(snapshot) => {
+			const projects: Project[] = [];
+			snapshot.forEach((childSnapshot) => {
+				const projectData = childSnapshot.val();
+				const project: Project = {
+					id: childSnapshot.key as string,
+					...projectData,
+				};
+				projects.push(project);
+			});
+			callback(projects);
+		},
+		(error) => {
+			console.error("Error fetching projects: ", error);
+		},
+	);
+
+	// Return a function to unsubscribe from the listener
+	return () => off(projectsRef, "value", listener);
 };
 
 export const fetchProjectBySlug = async (slug: string): Promise<Project | null> => {
@@ -52,6 +86,6 @@ export const deleteProject = async (id: string) => {
 		console.log(`${id} successfully deleted from Firebase`);
 	} catch (error) {
 		console.error(`Failed to delete project with id ${id}:`, error);
-		throw error; // Optionally, rethrow the error if you want to handle it elsewhere
+		throw error;
 	}
 };

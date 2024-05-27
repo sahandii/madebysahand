@@ -1,0 +1,129 @@
+{
+	"projects": {
+		"fifae-2022-1716467530523": {
+			"category": "Motion Graphics",
+			"client": "Dreamhack Sports Games & FIFA",
+			"created": 1716467530523,
+			"description": "In collaboration with Dreamhack and the FIFA team, I was responsible for creating content for the FIFAe social media channels, making animating visuals for the actual tournaments and streams. Additionally, my role involved ensuring that all content adhered to the brand guidelines, aligned with FIFA's strategy, and met its objectives. The event, spanning three days, was streamed worldwide on Twitch.",
+			"media": {
+				"instagram": {
+					"reels": ["https://www.instagram.com/reel/ChCtk1bDj2H/"]
+				},
+				"videos": [
+					{
+						"desc": "One of the opener animations I made...",
+						"mp4": "path/to/videos/fecwOpenerMP4",
+						"poster": "path/to/images/fecwOpener",
+						"webm": "path/to/videos/fecwOpenerWebM"
+					},
+					{
+						"desc": "One of the Explainer videos I did...",
+						"mp4": "path/to/videos/fifaExplainerMP4",
+						"poster": "path/to/images/fifaeExplainer",
+						"webm": "path/to/videos/fifaExplainerWebM"
+					}
+				]
+			},
+			"slug": "fifae-2022",
+			"subcategories": ["Art Direction", "VFX", "3D"],
+			"thumbnail": "path/to/images/fifaeThumb",
+			"title": "FIFAe 2022",
+			"updated": 1716467530523,
+			"year": 2022,
+			"id": "fifae-2022-1716467530523"
+		},
+		"prisregn-2021-1716381130523": {
+			"category": "Storytelling",
+			"client": "Politiken",
+			"created": 1716381130523,
+			"description": "Lorem ipsum dolor sit amet...",
+			"media": {
+				"images": [
+					{
+						"data": "path/to/images/prisregn001",
+						"desc": ""
+					},
+					{
+						"data": "path/to/images/prisregn002",
+						"desc": ""
+					},
+					{
+						"data": "path/to/images/prisregn003",
+						"desc": ""
+					},
+					{
+						"data": "path/to/images/prisregn004",
+						"desc": ""
+					}
+				]
+			},
+			"slug": "prisregn-2021",
+			"subcategories": ["Motion Graphics"],
+			"thumbnail": "path/to/images/prisregn002",
+			"title": "Prisregn 2021",
+			"updated": 1716381130523,
+			"year": 2021,
+			"id": "prisregn-2021-1716381130523"
+		},
+		"podimo-trailers-1715862730523": {
+			"category": "Storytelling",
+			"client": "Podimo",
+			"created": 1715862730523,
+			"description": "Lorem ipsum dolor sit amet...",
+			"slug": "podimo-trailers",
+			"subcategories": ["Edit", "Motion Graphics", "VFX"],
+			"thumbnail": "path/to/images/todoegnThumb",
+			"title": "Podimo trailers",
+			"updated": 1715862730523,
+			"year": 2021,
+			"id": "podimo-trailers-1715862730523"
+		},
+		"2doegn-1701519600000": {
+			"category": "TV Show Identity",
+			"client": "DRIVE Studios & XEE",
+			"created": 1701519600000,
+			"description": "Lorem ipsum dolor sit amet...",
+			"slug": "2doegn",
+			"subcategories": ["Edit", "Motion Graphics", "VFX"],
+			"thumbnail": "path/to/images/todoegnThumb",
+			"title": "2D\u00d8GN",
+			"updated": 1701519600000,
+			"year": 2021,
+			"id": "2doegn-1701519600000"
+		},
+		"ikea-cop26-1598606520000": {
+			"category": "Motion Graphics",
+			"client": "Barkas",
+			"created": 1598606520000,
+			"description": "Lorem ipsum dolor sit amet...",
+			"slug": "ikea-cop26",
+			"thumbnail": "path/to/images/todoegnThumb",
+			"title": "IKEA COP26",
+			"updated": 1598606520000,
+			"year": 2021,
+			"id": "ikea-cop26-1598606520000"
+		},
+		"pandora-black-friday-1574935320000": {
+			"category": "3D",
+			"client": "Pandora",
+			"created": 1574935320000,
+			"description": "",
+			"media": {
+				"videos": [
+					{
+						"mp4": "path/to/videos/pandoraMP4",
+						"poster": "path/to/images/pandoraThumb",
+						"webm": "path/to/videos/pandoraWebM"
+					}
+				]
+			},
+			"slug": "pandora-black-friday",
+			"subcategories": ["VFX", "Compositing", "Motion Graphics"],
+			"thumbnail": "path/to/images/pandoraThumb",
+			"title": "Pandora Black Friday",
+			"updated": 1574935320000,
+			"year": 2019,
+			"id": "pandora-black-friday-1574935320000"
+		}
+	}
+}

@@ -24,6 +24,10 @@ const ProjectsTableCSS = styled.div`
 	.th-delete {
 		opacity: 0;
 	}
+	.td-year,
+	.td-category {
+		cursor: default;
+	}
 `;
 
 const LOCAL_STORAGE_KEY = "rowOrder";
@@ -85,7 +89,7 @@ export function ProjectsTable<TData, TValue>({ columns, data, className, handleA
 					{table.getHeaderGroups().map((headerGroup) => (
 						<TableRow key={headerGroup.id}>
 							{headerGroup.headers.map((header) => (
-								<TableHead key={header.id} className={`th-${header.column.id}`}>
+								<TableHead key={header.id} className={`th-${header.column.id} hover:bg-slate-100 transition-colors`}>
 									{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
 								</TableHead>
 							))}

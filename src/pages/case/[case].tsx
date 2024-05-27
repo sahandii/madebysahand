@@ -1,4 +1,3 @@
-// Deps
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import Head from "next/head";
@@ -6,31 +5,20 @@ import Image, { StaticImageData } from "next/image";
 import { isSafari } from "react-device-detect";
 import { motion } from "framer-motion";
 import { GetStaticProps, GetStaticPaths } from "next";
-import { fetchProjects, fetchProjectBySlug } from "@/firebase/firebaseOperations";
-// // Data
+import { fetchProjectsOnce, fetchProjectBySlug } from "@/firebase/firebaseOperations";
 import { Project } from "@/data/projects";
-// Components
 import Motion from "@/components/Motion";
-
-interface caseProps {
-	router: any;
-	projects: Project[];
-	poster: StaticImageData | undefined;
-	mp4: string;
-	webm: string;
-	desc: string;
-}
 
 const container = {
 	hidden: { opacity: 1 },
 	show: {
 		opacity: 1,
 		transition: {
-			// delayChildren: 0.25,
 			staggerChildren: 0.15,
 		},
 	},
 };
+
 const item = {
 	hidden: { x: 0, y: "5vh", opacity: 0 },
 	show: {
@@ -38,7 +26,6 @@ const item = {
 		y: 0,
 		opacity: 1,
 		transition: {
-			//
 			type: "tween",
 			ease: "anticipate",
 			duration: 1,
@@ -54,9 +41,15 @@ interface ProjectPageProps {
 
 const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
 	const router = useRouter();
+
 	if (router.isFallback) {
 		return <div>Loading...</div>;
 	}
+
+	if (!project) {
+		return <div>Project not found</div>;
+	}
+
 	return (
 		<CaseCSS>
 			<Head>
@@ -74,25 +67,15 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
 									<h1 className="text-lg font-bold">{project.title}</h1>
 									<h2 className="font-bold text-[.65rem] uppercase mt-1">
 										<span className="mr-3 tracking-wider">{project.category} </span>
-										{project &&
-											project.subcategories.map((item: string, i: number, array: Array<string>) => {
-												if (array.length - 1 === i) {
-													return <span key={i++}>{item}</span>;
-												}
-												return (
-													<span key={i++} className="mr-3 tracking-wider">
-														{item}
-													</span>
-												);
-											})}
+										{project.subcategories?.map((item: string, i: number, array: Array<string>) => (
+											<span key={i} className={i !== array.length - 1 ? "mr-3 tracking-wider" : ""}>
+												{item}
+											</span>
+										))}
 									</h2>
 								</div>
 							</div>
 							<div className="grid grid-cols-12">
-								{/* <h3 className="col-span-12 z-100 font-bold text-[11px] uppercase tracking-wider">
-										<span className="mr-1 inline-flex">&#9642;</span>
-										{project.client}
-									</h3> */}
 								<motion.div variants={item} className="col-span-12 mb-5 md:mb-8">
 									<div className="grid grid-cols-12">
 										{project.description && (
@@ -104,57 +87,18 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
 								</motion.div>
 								<motion.div variants={item} className="col-span-12 bg-zinc-50">
 									<div className="grid grid-cols-12 gap-[10px]">
-										{project.media?.videos &&
-											project.media.videos.map((video, i, arr) => {
-												return (
-													<div
-														className={`${
-															"col-span-12 mb-10"
-															// if last element = "mb-10"
-															// (arr.length - 1 === i && " mb-10 ")
-														}`}
-													>
-														<video //
-															preload="none"
-															key={i++}
-															controls
-															controlsList="nodownload"
-															playsInline={true}
-															poster={video.poster?.src}
-															src={isSafari ? video.mp4 : video.webm}
-														></video>
-														{video.desc && <p className="text-center mt-5 pl-2 col-span-12 font-medium">{video.desc}</p>}
-													</div>
-												);
-											})}
-										{project.media?.images &&
-											project.media.images.map((image, i, arr) => {
-												return (
-													<div
-														className={`${
-															"col-span-12 mb-3 md:mb-10"
-															// if last element = "mb-10"
-															// (arr.length - 1 === i && " mb-10 ")
-														}`}
-													>
-														<Image //
-															draggable={false}
-															key={i++}
-															className="w-100"
-															// placeholder="blur"
-															// blurDataURL={image.data.blurDataURL}
-															src={image.data.src}
-															width={image.data.width}
-															height={image.data.height}
-															alt={image?.desc}
-														/>
-														{image?.desc && <p className="text-center mt-5 pl-2 col-span-12 font-medium">{image?.desc}</p>}
-													</div>
-												);
-											})}
-										{/* <div className="col-span-12 md:col-span-6 lg:col-span-4">
-												<InstagramEmbed url="https://www.instagram.com/reel/ChCtk1bDj2H/" width={"100%"} />
-											</div> */}
+										{project.media?.videos?.map((video, i) => (
+											<div key={i} className="col-span-12 mb-10">
+												<video preload="none" controls controlsList="nodownload" playsInline poster={video.poster?.src} src={isSafari ? video.mp4 : video.webm}></video>
+												{video.desc && <p className="text-center mt-5 pl-2 col-span-12 font-medium">{video.desc}</p>}
+											</div>
+										))}
+										{project.media?.images?.map((image, i) => (
+											<div key={i} className="col-span-12 mb-3 md:mb-10">
+												<Image draggable={false} className="w-100" src={image.data.src} width={image.data.width} height={image.data.height} alt={image?.desc} />
+												{image?.desc && <p className="text-center mt-5 pl-2 col-span-12 font-medium">{image?.desc}</p>}
+											</div>
+										))}
 									</div>
 								</motion.div>
 							</div>
@@ -167,11 +111,11 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const projects = await fetchProjects();
+	const projects = await fetchProjectsOnce();
 	const paths = projects.map((project) => ({
 		params: { case: project.slug },
 	}));
-	return { paths, fallback: true }; // Enable fallback for dynamic paths
+	return { paths, fallback: true };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
@@ -185,7 +129,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 	if (!project) {
 		return {
-			notFound: true, // Return 404 if project is not found
+			notFound: true,
 		};
 	}
 
@@ -193,7 +137,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 		props: {
 			project,
 		},
-		revalidate: 10, // Revalidate every 10 seconds for incremental updates
+		revalidate: 10,
 	};
 };
 
