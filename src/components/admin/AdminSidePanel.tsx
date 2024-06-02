@@ -36,12 +36,12 @@ export const AdminSidePanel: React.FC<AdminSidePanelProps> = () => {
 								Projects
 							</Link>
 						</li>
-						<li>
+						{/* <li>
 							<Link href="#" className={`flex items-center gap-2 rounded-lg p-3 pr-10 text-muted-foreground transition-all hover:text-primary ${pathname === "/admin/settings" ? "text-primary bg-zinc-200 pointer-events-none" : ""}`}>
 								<Settings2 className="mt-[-2px] w-5 h-5" />
 								Settings
 							</Link>
-						</li>
+						</li> */}
 					</ul>
 				</nav>
 				<Button variant={"outline"} onClick={logout}>

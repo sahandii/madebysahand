@@ -123,37 +123,30 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 		cell: ({ row }) => {
 			// const payment = row.original;
 			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant={"outline"} className="p-3">
-							Published
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						{/* <DropdownMenuLabel>Change status</DropdownMenuLabel> */}
-						<DropdownMenuItem disabled>Published</DropdownMenuItem>
-						<DropdownMenuItem>Draft</DropdownMenuItem>
-						<DropdownMenuItem>Hide</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-			);
-		},
-	},
-	{
-		accessorKey: "delete",
-		header: "Delete",
-		cell: ({ row }) => {
-			// const payment = row.original;
-			return (
-				<Button
-					className="px-3"
-					onClick={() => {
-						handleDeleteProject(row.original.id);
-					}}
-					variant={"outline"}
-				>
-					<Trash className="text-red-600 hover:color-red h-5 w-5" />
-				</Button>
+				<div className="flex items-center">
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant={"outline"} className="p-3">
+								Published
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							{/* <DropdownMenuLabel>Change status</DropdownMenuLabel> */}
+							<DropdownMenuItem disabled>Published</DropdownMenuItem>
+							<DropdownMenuItem>Draft</DropdownMenuItem>
+							<DropdownMenuItem>Hide</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+					<Button
+						className="table-delete px-3 ml-3"
+						onClick={() => {
+							handleDeleteProject(row.original.id);
+						}}
+						variant={"outline"}
+					>
+						<Trash className="text-red-600 hover:color-red h-5 w-5" />
+					</Button>
+				</div>
 			);
 		},
 	},

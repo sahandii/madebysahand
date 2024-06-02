@@ -61,7 +61,7 @@ const AdminProjectsPage: React.FC<AdminProjectsPageProps> = ({ initialProjects }
 						<div className="ml-2 text-primary font-medium badge rounded-full bg-slate-200 aspect-square w-[25px] text-sm items-center text-center leading-[25px]">{projects.length}</div>
 					</h2>
 					<div className="menu-bar--left">
-						<Button className="mr-3">+ New project</Button>
+						<Button>+ New project</Button>
 					</div>
 				</div>
 				<ProjectsTable

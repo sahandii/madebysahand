@@ -13,7 +13,7 @@ export const Footer: FC<Props> = ({ isAnimating }) => {
 		<footer className={`${isAnimating ? "" : "show "}px-6 container pt-20 py-10`}>
 			<FooterCSS className="flex flex-col md:flex-row justify-between md:items-end">
 				<div className="footer-left">
-					<p className="text-sm font-medium">© 2023 Sahand Porkar</p>
+					<p className="text-sm font-medium">© 2023 madebysahand</p>
 				</div>
 				<div className="footer-right">
 					<div className="social-media--container max-md:pt-5 md:text-right">

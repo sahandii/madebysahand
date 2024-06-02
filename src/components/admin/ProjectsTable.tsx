@@ -15,10 +15,10 @@ interface ProjectsTableProps<TData, TValue> {
 }
 
 const ProjectsTableCSS = styled.div`
-	tr:hover .td-delete {
+	tr:hover .table-delete {
 		opacity: 1;
 	}
-	.td-delete {
+	.table-delete {
 		opacity: 0;
 	}
 	.th-delete {

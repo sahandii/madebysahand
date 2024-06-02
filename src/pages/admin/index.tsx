@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/firebase/useAuth";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import Head from "next/head";
@@ -8,10 +8,21 @@ import GoogleIcon from "@/assets/icons/google.svg";
 interface AdminPageProps {}
 
 const AdminPage: React.FC<AdminPageProps> = ({}) => {
-	const { user, login, logout } = useAuth();
+	const { user, login, register, logout } = useAuth();
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [isRegistering, setIsRegistering] = useState(false);
 	useEffect(() => {
 		// Optionally, set up real-time updates if necessary
 	}, []);
+
+	const handleLogin = async () => {
+		await login(email, password);
+	};
+
+	// const handleRegister = async () => {
+	// 	await register(email, password);
+	// };
 
 	if (!user) {
 		return (
@@ -28,9 +39,10 @@ const AdminPage: React.FC<AdminPageProps> = ({}) => {
 							<a href="./admin" className="text-center block w-100 mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
 								madebysahand
 							</a>
-							<Button onClick={login} className="p-8">
-								<GoogleIcon className="mr-2" width={20} height={20} />
-								Sign in with Google
+							<input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full mb-4 p-3 border border-gray-300 rounded" />
+							<input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full mb-4 p-3 border border-gray-300 rounded" />
+							<Button className="py-7 w-full" onClick={handleLogin}>
+								Login
 							</Button>
 						</div>
 					</div>
