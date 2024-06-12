@@ -2,6 +2,12 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useMediaQuery } from "react-responsive";
 
+declare global {
+	interface String {
+		capitalizeFirstLetter(): string;
+	}
+}
+
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
@@ -130,4 +136,9 @@ export const useResponsive = () => {
 	};
 
 	return { isMinWidth, isMaxWidth };
+};
+
+export const capitalizeFirstLetter = (str: string | null) => {
+	if (!str) return "";
+	return str.charAt(0).toUpperCase() + str.slice(1);
 };

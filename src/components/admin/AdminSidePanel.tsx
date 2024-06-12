@@ -20,7 +20,7 @@ export const AdminSidePanel: React.FC<AdminSidePanelProps> = () => {
 	const pathname = usePathname();
 	const { logout } = useAuth();
 	return (
-		<AdminSidePanelCSS className="side-panel bg-white w-full border-r">
+		<AdminSidePanelCSS className="side-panel bg-white w-[250px] border-r">
 			<div className="flex flex-col justify-between h-full p-3">
 				<nav className="p-3 grid items-start text-sm font-medium">
 					<ul>

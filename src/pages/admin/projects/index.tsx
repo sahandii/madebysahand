@@ -1,3 +1,4 @@
+import { AdminNavbar } from "./../../../components/admin/AdminNavbar";
 import { ref, get } from "firebase/database";
 import { db } from "@/firebase/firebaseConfig";
 import { GetServerSideProps } from "next";
@@ -10,6 +11,7 @@ import { ProjectsColumns } from "@/data/projects-columns";
 import { Button } from "@/components/ui/button";
 import styled from "styled-components";
 import withAuth from "@/components/withAuth";
+import Link from "next/link";
 
 interface AdminProjectsPageProps {
 	initialProjects: Project[];
@@ -55,15 +57,19 @@ const AdminProjectsPage: React.FC<AdminProjectsPageProps> = ({ initialProjects }
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<AdminProjectsPageCSS>
-				<div className="menu-bar bg-white border-b p-5 flex justify-between">
-					<h2 className="text-2xl text-primary flex items-center">
-						Projects
-						<div className="ml-2 text-primary font-medium badge rounded-full bg-slate-200 aspect-square w-[25px] text-sm items-center text-center leading-[25px]">{projects.length}</div>
-					</h2>
-					<div className="menu-bar--left">
-						<Button>+ New project</Button>
-					</div>
-				</div>
+				<AdminNavbar
+					titleSection={
+						<h2 className="py-5 text-2xl text-primary flex items-center">
+							Projects
+							<div className="ml-2 text-primary font-medium badge rounded-full bg-slate-200 aspect-square w-[25px] text-sm items-center text-center leading-[25px]">{projects.length}</div>
+						</h2>
+					}
+					actionsSection={
+						<Button>
+							<Link href="./projects/new">+ New project</Link>
+						</Button>
+					}
+				/>
 				<ProjectsTable
 					className="bg-white"
 					columns={ProjectsColumns({

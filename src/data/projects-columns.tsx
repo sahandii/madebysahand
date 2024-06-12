@@ -13,7 +13,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface ProjectColumnsProps {
-	// status: "published" | "draft" | "hidden";
 	handleAddProject: (project: Project) => void;
 	handleUpdateProject: (id: string, updatedProject: Project) => void;
 	handleDeleteProject: (id: string) => void;
@@ -33,8 +32,8 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 		},
 		cell: ({ row }) => {
 			return (
-				<Link className="hover:underline" title={`Edit "${row.original.title}"`} href="">
-					{row.original.title}
+				<Link className="hover:underline" title={`Edit "${row.original.title}"`} href={`./projects/edit/${row.original.id}`}>
+					<span className="font-medium">{row.original.title}</span>
 				</Link>
 			);
 		},
@@ -127,12 +126,12 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button variant={"outline"} className="p-3">
-								Published
+								Publish
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
 							{/* <DropdownMenuLabel>Change status</DropdownMenuLabel> */}
-							<DropdownMenuItem disabled>Published</DropdownMenuItem>
+							<DropdownMenuItem disabled>Publish</DropdownMenuItem>
 							<DropdownMenuItem>Draft</DropdownMenuItem>
 							<DropdownMenuItem>Hide</DropdownMenuItem>
 						</DropdownMenuContent>

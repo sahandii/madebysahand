@@ -9,11 +9,12 @@ export interface Project {
 	client: string;
 	category: string;
 	subcategories: Array<string>;
-	year: number;
+	year: string;
 	thumbnail?: StaticImageData;
 	media?: Media;
 	updated: number;
 	created: number;
+	status: "publish" | "draft" | "private" | null;
 }
 
 export interface Media {
