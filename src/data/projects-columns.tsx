@@ -50,7 +50,7 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 		},
 	},
 	{
-		accessorKey: "category",
+		accessorKey: "categories",
 		header: ({ column }) => {
 			return (
 				<Button className="px-0 hover:bg-transparent" variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
@@ -58,6 +58,9 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 					<ArrowUpDown className="ml-2 h-4 w-4" />
 				</Button>
 			);
+		},
+		cell: ({ row }) => {
+			return row.original.categories[0];
 		},
 	},
 	{

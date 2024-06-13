@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
+import MediaUploader from "../MediaUploader";
 
 const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 	const [title, setTitle] = useState("");
@@ -41,7 +42,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 					setTitle(project.title);
 					setSlug(project.slug);
 					setYear(project.year);
-					setSelectedCategories([project.category, ...project.subcategories]);
+					setSelectedCategories(project.categories || []);
 					setClient(project.client);
 					setDescription(project.description);
 					setStatus(project.status);
@@ -50,18 +51,6 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 			fetchProjectData();
 		}
 	}, [projectId]);
-
-	// Fetch categories from Firebase
-	useEffect(() => {
-		const fetchCategories = async () => {
-			const categoriesRef = ref(db, "categories");
-			const snapshot = await get(categoriesRef);
-			if (snapshot.exists()) {
-				setCategories(snapshot.val());
-			}
-		};
-		fetchCategories();
-	}, []);
 
 	const handleCategorySelect = (category: string) => {
 		setSelectedCategories((prev) => {
@@ -85,8 +74,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 			title,
 			slug,
 			year,
-			category: selectedCategories[0] || "",
-			subcategories: selectedCategories.slice(1),
+			categories: selectedCategories,
 			client,
 			description,
 			status,
@@ -113,7 +101,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 		<div>
 			<form className="w-full" onSubmit={handleSubmit}>
 				<AdminNavbar
-					titleSection={<input className="py-5 text-2xl w-full outline-none" type="text" placeholder="Project title" value={title} onChange={(e) => setTitle(e.target.value)} required />}
+					titleSection={<input className="w-full py-5 text-2xl outline-none" type="text" placeholder="Project title" value={title} onChange={(e) => setTitle(e.target.value)} required />}
 					actionsSection={
 						<div className="flex">
 							<div className="mr-2">
@@ -205,16 +193,27 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 							</div>
 						</div>
 						<div className="grid grid-cols-2 gap-4">
-							<div className="grid gap-3 content-start">
+							<div className="grid grid-rows-[auto_1fr] content-start gap-3">
 								<Label htmlFor="description">Description</Label>
 								<Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Write a short description of the project/work" className="min-h-32" />
 							</div>
-							<div className="grid gap-3 content-start">
-								<Label htmlFor="categories">Categories</Label>
-								<CategoryPanel search={search} setSearch={setSearch} selectedCategories={selectedCategories} handleCategorySelect={handleCategorySelect} categories={categories} />
+							<div className="grid content-start gap-3">
+								<div className="flex justify-between">
+									<Label htmlFor="categories">Categories</Label>
+									<span
+										onClick={() => {
+											handleClear();
+										}}
+										className="cursor-pointer text-[10px] font-medium uppercase tracking-wide text-red-500"
+									>
+										Clear
+									</span>
+								</div>
+								<CategoryPanel search={search} setSearch={setSearch} setCategories={setCategories} selectedCategories={selectedCategories} handleCategorySelect={handleCategorySelect} categories={categories} />
 							</div>
 						</div>
 					</div>
+					<MediaUploader />
 				</div>
 			</form>
 		</div>

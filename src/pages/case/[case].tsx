@@ -61,13 +61,13 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
 			<Motion>
 				<motion.div initial="hidden" animate="show" variants={container}>
 					<main className="mt-5">
-						<div className="px-6 container">
-							<div className="sticky top-0 py-4 col-span-12 z-[90] bg-zinc-50">
+						<div className="container px-6">
+							<div className="sticky top-0 z-[90] col-span-12 bg-zinc-50 py-4">
 								<div className="text-container">
 									<h1 className="text-lg font-bold">{project.title}</h1>
-									<h2 className="font-bold text-[.65rem] uppercase mt-1">
-										<span className="mr-3 tracking-wider">{project.category} </span>
-										{project.subcategories?.map((item: string, i: number, array: Array<string>) => (
+									<h2 className="mt-1 text-[.65rem] font-bold uppercase">
+										<span className="mr-3 tracking-wider">{project.categories?.[0]} </span>
+										{project.categories?.slice(1).map((item: string, i: number, array: Array<string>) => (
 											<span key={i} className={i !== array.length - 1 ? "mr-3 tracking-wider" : ""}>
 												{item}
 											</span>
@@ -79,7 +79,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
 								<motion.div variants={item} className="col-span-12 mb-5 md:mb-8">
 									<div className="grid grid-cols-12">
 										{project.description && (
-											<div className="mb-5 sm:col-span-12 col-span-12">
+											<div className="col-span-12 mb-5 sm:col-span-12">
 												<p>{project.description}</p>
 											</div>
 										)}
@@ -90,13 +90,13 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
 										{project.media?.videos?.map((video, i) => (
 											<div key={i} className="col-span-12 mb-10">
 												<video preload="none" controls controlsList="nodownload" playsInline poster={video.poster?.src} src={isSafari ? video.mp4 : video.webm}></video>
-												{video.desc && <p className="text-center mt-5 pl-2 col-span-12 font-medium">{video.desc}</p>}
+												{video.desc && <p className="col-span-12 mt-5 pl-2 text-center font-medium">{video.desc}</p>}
 											</div>
 										))}
 										{project.media?.images?.map((image, i) => (
 											<div key={i} className="col-span-12 mb-3 md:mb-10">
 												<Image draggable={false} className="w-100" src={image.data.src} width={image.data.width} height={image.data.height} alt={image?.desc} />
-												{image?.desc && <p className="text-center mt-5 pl-2 col-span-12 font-medium">{image?.desc}</p>}
+												{image?.desc && <p className="col-span-12 mt-5 pl-2 text-center font-medium">{image?.desc}</p>}
 											</div>
 										))}
 									</div>

@@ -7,8 +7,7 @@ export interface Project {
 	title: string;
 	description?: string;
 	client: string;
-	category: string;
-	subcategories: Array<string>;
+	categories: string[]; // Updated from category and subcategories
 	year: string;
 	thumbnail?: StaticImageData;
 	media?: Media;

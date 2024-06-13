@@ -1,5 +1,5 @@
 // src/firebase/firebaseOperations.ts
-import { ref, set, get, update, remove, onValue, off } from "firebase/database";
+import { ref, set, push, get, update, remove, onValue, off } from "firebase/database";
 import { db } from "./firebaseConfig";
 import { Project } from "@/data/projects";
 
@@ -66,6 +66,28 @@ export const fetchProjectBySlug = async (slug: string): Promise<Project | null> 
 		}
 	});
 	return project;
+};
+
+export const addCategory = async (category: string) => {
+	try {
+		const categoriesRef = ref(db, "categories");
+		const snapshot = await get(categoriesRef);
+		let categories = [];
+
+		if (snapshot.exists()) {
+			categories = snapshot.val();
+		}
+
+		if (Array.isArray(categories)) {
+			categories.push(category);
+			await set(categoriesRef, categories);
+		} else {
+			console.error("Categories is not an array");
+		}
+	} catch (error) {
+		console.error("Error adding category: ", error);
+		throw error;
+	}
 };
 
 export const addProject = async (project: Project) => {
