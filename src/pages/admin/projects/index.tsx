@@ -1,4 +1,3 @@
-import { AdminNavbar } from "./../../../components/admin/AdminNavbar";
 import { ref, get } from "firebase/database";
 import { db } from "@/firebase/firebaseConfig";
 import { GetServerSideProps } from "next";
@@ -8,6 +7,7 @@ import { Project } from "@/data/projects";
 import { ProjectsTable } from "@/components/admin/ProjectsTable";
 import Head from "next/head";
 import { ProjectsColumns } from "@/data/projects-columns";
+import { AdminNavbar } from "@/components/admin/AdminNavbar";
 import { Button } from "@/components/ui/button";
 import styled from "styled-components";
 import withAuth from "@/components/withAuth";
@@ -59,9 +59,9 @@ const AdminProjectsPage: React.FC<AdminProjectsPageProps> = ({ initialProjects }
 			<AdminProjectsPageCSS>
 				<AdminNavbar
 					titleSection={
-						<h2 className="py-5 text-2xl text-primary flex items-center">
+						<h2 className="flex items-center py-5 text-2xl text-primary">
 							Projects
-							<div className="ml-2 text-primary font-medium badge rounded-full bg-slate-200 aspect-square w-[25px] text-sm items-center text-center leading-[25px]">{projects.length}</div>
+							<div className="badge ml-2 aspect-square w-[25px] items-center rounded-full bg-slate-200 text-center text-sm font-medium leading-[25px] text-primary">{projects.length}</div>
 						</h2>
 					}
 					actionsSection={

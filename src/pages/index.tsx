@@ -53,12 +53,12 @@ export const Home: NextPage<homeProps> = ({ projects, isAnimating, setIsAnimatin
 			</Head>
 			<Motion isAnimating={isAnimating} setIsAnimating={setIsAnimating}>
 				<motion.div initial="hidden" animate="show" variants={container}>
-					<header className="mt-20 px-6 container h-[200px] flex flex-col">
-						<h1 className="font-medium mb-6 flex flex-col">
+					<header className="container mt-20 flex h-[200px] flex-col px-6">
+						<h1 className="mb-6 flex flex-col font-medium">
 							{/* <motion.span className="text-2xl sm:text-4xl md:text-5xl inline-block" variants={item}>
                                 Digital Designer.
                             </motion.span> */}
-							<motion.span className="text-2xl sm:text-4xl md:text-5xl inline-block my-1 md:my-3" variants={item}>
+							<motion.span className="my-1 inline-block text-2xl sm:text-4xl md:my-3 md:text-5xl" variants={item}>
 								Digital Designer at{" "}
 								<a
 									className="underline"
@@ -70,20 +70,22 @@ export const Home: NextPage<homeProps> = ({ projects, isAnimating, setIsAnimatin
 								</a>
 								.
 							</motion.span>
-							<motion.span className="text-2xl sm:text-4xl md:text-5xl inline-block" variants={item}>
+							<motion.span className="inline-block text-2xl sm:text-4xl md:text-5xl" variants={item}>
 								Skilled in Motion, VFX & Graphic Design.
 							</motion.span>
 						</h1>
 					</header>
 					<main className="container">
-						<motion.div variants={item} className="px-6 mb-5">
+						<motion.div variants={item} className="mb-5 px-6">
 							<h3 className="text-2xl font-medium">
 								Some of my work <small>&#8600;</small>
 							</h3>
 						</motion.div>
-						<motion.ul variants={item} className="px-6 md:grid gap-[10px] grid-cols-2 grid-rows-2">
+						<motion.ul variants={item} className="grid-cols-2 grid-rows-2 gap-[10px] px-6 md:grid">
 							{projects.map((project: Project) => {
-								return <ProjectTile key={project.id} {...project} slug={project.slug} />;
+								if (project.status === "publish") {
+									return <ProjectTile key={project.id} {...project} slug={project.slug} />;
+								}
 							})}
 						</motion.ul>
 					</main>
@@ -100,7 +102,7 @@ export const getStaticProps: GetStaticProps = async () => {
 		props: {
 			projects,
 		},
-		revalidate: 10, // Revalidate every 10 seconds for incremental updates
+		revalidate: 5, // Revalidate every 10 seconds for incremental updates
 	};
 };
 

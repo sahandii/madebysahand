@@ -2,11 +2,11 @@
 
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { Project } from "@/data/projects"; // Adjust the import path as needed
-import { useResponsive, formatDate } from "@/lib/utils";
-import { addProject, updateProject, deleteProject, fetchProjects } from "@/firebase/firebaseOperations";
+import { useResponsive, formatDate, capitalizeFirstLetter } from "@/lib/utils";
+import { updateProject } from "@/firebase/firebaseOperations";
 import Link from "next/link";
 // UI
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { StatusDropDownMenu } from "@/components/admin/StatusDropDownMenu";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, Delete, Trash } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -123,30 +123,17 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 		accessorKey: "status",
 		header: "Status",
 		cell: ({ row }) => {
-			// const payment = row.original;
 			return (
 				<div className="flex items-center">
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button variant={"outline"} className="p-3">
-								Publish
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end">
-							{/* <DropdownMenuLabel>Change status</DropdownMenuLabel> */}
-							<DropdownMenuItem disabled>Publish</DropdownMenuItem>
-							<DropdownMenuItem>Draft</DropdownMenuItem>
-							<DropdownMenuItem>Hide</DropdownMenuItem>
-						</DropdownMenuContent>
-					</DropdownMenu>
+					<StatusDropDownMenu projectId={row.original.id} currentStatus={row.original.status} handleUpdateProject={handleUpdateProject} setStatus={(status) => handleUpdateProject(row.original.id, { ...row.original, status })} project={row.original} />
 					<Button
-						className="table-delete px-3 ml-3"
+						className="table-delete ml-3 px-3"
 						onClick={() => {
 							handleDeleteProject(row.original.id);
 						}}
 						variant={"outline"}
 					>
-						<Trash className="text-red-600 hover:color-red h-5 w-5" />
+						<Trash className="hover:color-red h-5 w-5 text-red-600" />
 					</Button>
 				</div>
 			);

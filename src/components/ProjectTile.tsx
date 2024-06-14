@@ -58,24 +58,17 @@ export const ProjectTile: FC<Props> = (props) => {
 	const { ...project } = props as Project;
 	return (
 		<ProjectTileCSS>
-			<li style={{ backgroundImage: `url(${project.thumbnail?.src})` }} className={`project-tile bg-cover cursor-pointer grid-item aspect-video bg-slate-200 flex flex-col justify-center`}>
+			<li style={{ backgroundImage: `url(${project.thumbnail?.src})` }} className={`project-tile grid-item flex aspect-video cursor-pointer flex-col justify-center bg-slate-200 bg-cover`}>
 				<Link //
-					href={{
-						//
-						pathname: `./case/[case]`,
-						query: {
-							//
-							project: JSON.stringify(project),
-						},
-					}}
+					href="./case/[slug]"
 					as={`./case/${project.slug}`}
 				>
-					<div className="project-description flex justify-center flex-col p-10">
+					<div className="project-description flex flex-col justify-center p-10">
 						<h4 className="text-2xl font-bold">{project.title}</h4>
 						<h5 className="text-2xl font-bold">
 							<small className="flex flex-col leading-tight">
 								{/* <span className="opacity-60">{project.client}</span> */}
-								<span className="text-[.9rem] tracking-wider font-normal opacity-50">{project.category}</span>
+								<span className="text-[.9rem] font-normal tracking-wider opacity-50">{project.categories[0]}</span>
 							</small>
 						</h5>
 					</div>

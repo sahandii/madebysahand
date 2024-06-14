@@ -1,4 +1,3 @@
-// src/components/ProjectForm.tsx
 import { useState, useEffect } from "react";
 import { ref, get } from "firebase/database";
 import { db } from "@/firebase/firebaseConfig";
@@ -6,16 +5,12 @@ import { useRouter } from "next/router";
 import { Project } from "@/data/projects";
 import { addProject, updateProject } from "@/firebase/firebaseOperations";
 import { AdminNavbar } from "@/components/admin/AdminNavbar";
+import { StatusDropDownMenu } from "@/components/admin/StatusDropDownMenu"; // Import the shared component
 import { Button } from "@/components/ui/button";
 import { CategoryPanel } from "@/components/admin/CategoryPanel";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { capitalizeFirstLetter } from "@/lib/utils";
-import clsx from "clsx";
-import { twMerge } from "tailwind-merge";
 import MediaUploader from "../MediaUploader";
 
 const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
@@ -28,6 +23,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 	const [description, setDescription] = useState<string | undefined>("");
 	const [status, setStatus] = useState<Project["status"] | null>(null);
 	const [search, setSearch] = useState("");
+	const [project, setProject] = useState<Project | null>(null);
 
 	const router = useRouter();
 
@@ -38,14 +34,15 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 				const projectRef = ref(db, `projects/${projectId}`);
 				const snapshot = await get(projectRef);
 				if (snapshot.exists()) {
-					const project: Project = snapshot.val();
-					setTitle(project.title);
-					setSlug(project.slug);
-					setYear(project.year);
-					setSelectedCategories(project.categories || []);
-					setClient(project.client);
-					setDescription(project.description);
-					setStatus(project.status);
+					const projectData: Project = snapshot.val();
+					setProject(projectData);
+					setTitle(projectData.title);
+					setSlug(projectData.slug);
+					setYear(projectData.year);
+					setSelectedCategories(projectData.categories || []);
+					setClient(projectData.client);
+					setDescription(projectData.description);
+					setStatus(projectData.status);
 				}
 			};
 			fetchProjectData();
@@ -65,6 +62,12 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 		setSelectedCategories([]);
 	};
 
+	const handleUpdateProject = (id: string, updatedProject: Project) => {
+		// Update the local state or make additional API calls if necessary
+		setProject(updatedProject);
+		setStatus(updatedProject.status);
+	};
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const timestamp = Date.now();
@@ -78,7 +81,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 			client,
 			description,
 			status,
-			created: projectId ? Date.parse(new Date().toISOString()) : timestamp,
+			created: project ? project.created : timestamp,
 			updated: timestamp,
 		};
 
@@ -105,72 +108,17 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 					actionsSection={
 						<div className="flex">
 							<div className="mr-2">
-								<DropdownMenu>
-									<DropdownMenuTrigger asChild>
-										<Button
-											variant={"outline"}
-											className={twMerge(
-												clsx({
-													"border-green-600": status === "publish",
-													"border-black": status !== "publish",
-												}),
-											)}
-										>
-											<div className="flex flex-row items-center">
-												{!status ? (
-													<>
-														Set status <ChevronDown className="ml-2 w-4" />
-													</>
-												) : (
-													<div
-														className={twMerge(
-															"flex flex-row items-center",
-															clsx({
-																"text-green-600": status === "publish",
-															}),
-														)}
-													>
-														<p className="mr-2">●</p>
-														<p className="flex items-center">
-															{capitalizeFirstLetter(status)} <ChevronDown className="ml-2 w-4" />
-														</p>
-													</div>
-												)}
-											</div>
-										</Button>
-									</DropdownMenuTrigger>
-									<DropdownMenuContent align="end">
-										{status && (
-											<>
-												<DropdownMenuLabel>Status</DropdownMenuLabel>
-												<DropdownMenuSeparator />
-											</>
-										)}
-										<DropdownMenuItem
-											onClick={() => {
-												setStatus("publish");
-											}}
-										>
-											Publish
-										</DropdownMenuItem>
-										<DropdownMenuItem
-											onClick={() => {
-												setStatus("draft");
-											}}
-										>
-											Draft
-										</DropdownMenuItem>
-										<DropdownMenuItem
-											onClick={() => {
-												setStatus("private");
-											}}
-										>
-											Private
-										</DropdownMenuItem>
-									</DropdownMenuContent>
-								</DropdownMenu>
+								{project && (
+									<StatusDropDownMenu
+										projectId={projectId || ""}
+										currentStatus={status || "draft"}
+										handleUpdateProject={handleUpdateProject}
+										setStatus={setStatus} // Pass the setStatus function to update local state
+										project={project} // Pass the full project object
+									/>
+								)}
 							</div>
-							<Button className="min-w-[6rem]" disabled={!status && true} type="submit">
+							<Button className="min-w-[6rem]" disabled={!status} type="submit">
 								Save
 							</Button>
 						</div>
@@ -200,12 +148,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 							<div className="grid content-start gap-3">
 								<div className="flex justify-between">
 									<Label htmlFor="categories">Categories</Label>
-									<span
-										onClick={() => {
-											handleClear();
-										}}
-										className="cursor-pointer text-[10px] font-medium uppercase tracking-wide text-red-500"
-									>
+									<span onClick={handleClear} className="cursor-pointer text-[10px] font-medium uppercase tracking-wide text-red-500">
 										Clear
 									</span>
 								</div>
