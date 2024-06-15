@@ -4,7 +4,6 @@ import { Project } from "@/data/projects";
 import { ProjectTile } from "./../components/ProjectTile";
 import Motion from "../components/Motion";
 import { motion } from "framer-motion";
-import slugify from "react-slugify";
 import smoothscroll from "smoothscroll-polyfill";
 import { useEffect } from "react";
 import { fetchProjectsOnce } from "@/firebase/firebaseOperations";

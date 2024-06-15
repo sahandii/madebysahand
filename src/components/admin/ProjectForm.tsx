@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ref, get } from "firebase/database";
 import { db } from "@/firebase/firebaseConfig";
 import { useRouter } from "next/router";
@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import MediaUploader from "../MediaUploader";
+import { debounce, slugify } from "@/lib/utils";
+import { LoaderCircle } from "lucide-react";
 
 const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 	const [title, setTitle] = useState("");
@@ -24,6 +26,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 	const [status, setStatus] = useState<Project["status"] | null>(null);
 	const [search, setSearch] = useState("");
 	const [project, setProject] = useState<Project | null>(null);
+	const [slugLoading, setSlugLoading] = useState(false);
 
 	const router = useRouter();
 
@@ -68,6 +71,21 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 		setStatus(updatedProject.status);
 	};
 
+	const debouncedSetSlug = useCallback(
+		debounce((value: string) => {
+			setSlug(slugify(value));
+			setSlugLoading(false); // Stop loading after slug is set
+		}, 500),
+		[],
+	);
+
+	const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		setTitle(value);
+		setSlugLoading(true); // Start loading when title changes
+		debouncedSetSlug(value);
+	};
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const timestamp = Date.now();
@@ -104,7 +122,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 		<div>
 			<form className="w-full" onSubmit={handleSubmit}>
 				<AdminNavbar
-					titleSection={<input className="w-full py-5 text-2xl outline-none" type="text" placeholder="Project title" value={title} onChange={(e) => setTitle(e.target.value)} required />}
+					titleSection={<input className="w-full py-5 text-2xl outline-none" type="text" placeholder="Project title" value={title} onChange={handleTitleChange} required />}
 					actionsSection={
 						<div className="flex">
 							<div className="mr-2">
@@ -128,8 +146,11 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 					<div className="grid gap-6 pt-10">
 						<div className="grid grid-cols-3 gap-4">
 							<div className="grid gap-3">
-								<Label htmlFor="slug">Slug</Label>
-								<Input value={slug} onChange={(e) => setSlug(e.target.value)} required id="slug" type="text" />
+								<Label htmlFor="slug">URL ID</Label>
+								<div className="relative flex items-center">
+									<Input value={slug} onChange={(e) => setSlug(slugify(e.target.value))} required id="slug" type="text" />
+									{slugLoading && <LoaderCircle className="absolute right-0 mr-2 w-5 animate-spin stroke-slate-500" />}
+								</div>
 							</div>
 							<div className="grid gap-3">
 								<Label htmlFor="client">Client</Label>

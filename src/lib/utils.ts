@@ -142,3 +142,23 @@ export const capitalizeFirstLetter = (str: string | null) => {
 	if (!str) return "";
 	return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const slugify = (str: string) => {
+	const slug = str
+		.toLowerCase()
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "")
+		.replace(/[^a-z0-9æøå]/g, "-")
+		.replace(/-+/g, "-")
+		.replace(/^-+|-+$/g, "");
+	return slug.replace(/æ/g, "ae").replace(/ø/g, "oe").replace(/å/g, "aa");
+};
+
+export function debounce(func: Function, wait: number) {
+	let timeout: NodeJS.Timeout;
+
+	return (...args: any) => {
+		clearTimeout(timeout);
+		timeout = setTimeout(() => func.apply(null, args), wait);
+	};
+}

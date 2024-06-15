@@ -6,6 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Button } from "@/components/ui/button";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { Project } from "@/data/projects"; // Adjust the import path as needed
+import { CheckIcon } from "lucide-react";
 
 interface StatusDropDownMenuProps {
 	projectId: string;
@@ -41,19 +42,22 @@ export const StatusDropDownMenu: React.FC<StatusDropDownMenuProps> = ({ projectI
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant={"outline"} className="min-w-[75px] p-3">
-					{capitalizeFirstLetter(currentStatus)}
+				<Button variant={"outline"} className="p-3">
+					{currentStatus === "publish" ? `${capitalizeFirstLetter(currentStatus)}ed` : capitalizeFirstLetter(currentStatus)}
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuItem onClick={() => handleStatusChange("publish")} disabled={currentStatus === "publish"}>
-					Publish
+				<DropdownMenuItem className="justify-between" onClick={() => handleStatusChange("publish")} disabled={currentStatus === "publish"}>
+					<span>Publish</span>
+					{currentStatus === "publish" ? <CheckIcon className="w-3" /> : null}
 				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => handleStatusChange("draft")} disabled={currentStatus === "draft"}>
-					Draft
+				<DropdownMenuItem className="justify-between" onClick={() => handleStatusChange("draft")} disabled={currentStatus === "draft"}>
+					<span>Draft</span>
+					{currentStatus === "draft" ? <CheckIcon className="w-3" /> : null}
 				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => handleStatusChange("private")} disabled={currentStatus === "private"}>
-					Private
+				<DropdownMenuItem className="justify-between" onClick={() => handleStatusChange("private")} disabled={currentStatus === "private"}>
+					<span>Private</span>
+					{currentStatus === "private" ? <CheckIcon className="w-3" /> : null}
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import styled from "styled-components";
 import { sortingFns } from "@/data/projects-columns";
 import { Project } from "@/data/projects";
+import { useResponsive } from "@/lib/utils";
 
 interface ProjectsTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -13,6 +14,8 @@ interface ProjectsTableProps<TData, TValue> {
 	handleUpdateProject: (id: string, updatedProject: Project) => Promise<void>;
 	handleDeleteProject: (id: string) => Promise<void>;
 }
+
+const { isMinWidth, isMaxWidth } = useResponsive();
 
 const ProjectsTableCSS = styled.div`
 	tr:hover .table-delete {
@@ -28,8 +31,20 @@ const ProjectsTableCSS = styled.div`
 	.td-category {
 		cursor: default;
 	}
+	@media screen and (max-width: 767px) {
+		table * {
+			font-size: 12px !important;
+		}
+		.th-year,
+		.td-year,
+		.th-created,
+		.td-created {
+			display: none;
+		}
+	}
 `;
 
+// Save row order to localStorage
 const LOCAL_STORAGE_KEY = "rowOrder";
 
 const saveRowOrder = (rowOrder: string[]) => {
@@ -84,12 +99,12 @@ export function ProjectsTable<TData, TValue>({ columns, data, className, handleA
 
 	return (
 		<ProjectsTableCSS className={`projects-table ${className}`} {...props}>
-			<Table className="projects-table">
+			<Table className={`projects-table`}>
 				<TableHeader>
 					{table.getHeaderGroups().map((headerGroup) => (
 						<TableRow key={headerGroup.id}>
 							{headerGroup.headers.map((header) => (
-								<TableHead key={header.id} className={`th-${header.column.id} hover:bg-slate-100 transition-colors`}>
+								<TableHead key={header.id} className={`th-${header.column.id} transition-colors hover:bg-slate-100`}>
 									{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
 								</TableHead>
 							))}

@@ -1,7 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
 import { Project } from "@/data/projects";
-import slugify from "react-slugify";
 import Link from "next/link";
 
 interface ProjectTileProps {}

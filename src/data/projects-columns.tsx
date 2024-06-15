@@ -75,7 +75,7 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 		},
 		cell: ({ row }) => {
 			const timestamp = row.original.updated;
-			return isMinWidth("lg") ? (
+			return isMinWidth("xl") ? (
 				<TooltipProvider>
 					<Tooltip delayDuration={0}>
 						<TooltipTrigger>{formatDate(timestamp, "date", "live")}</TooltipTrigger>
@@ -84,7 +84,7 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 				</TooltipProvider>
 			) : (
 				<Popover>
-					<PopoverTrigger>{formatDate(timestamp, "date")}</PopoverTrigger>
+					<PopoverTrigger>{formatDate(timestamp, "date", "live")}</PopoverTrigger>
 					<PopoverContent>{formatDate(timestamp, "full")}</PopoverContent>
 				</Popover>
 			);
