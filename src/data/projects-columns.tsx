@@ -2,15 +2,15 @@
 
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { Project } from "@/data/projects"; // Adjust the import path as needed
-import { useResponsive, formatDate, capitalizeFirstLetter } from "@/lib/utils";
-import { updateProject } from "@/firebase/firebaseOperations";
+import { useResponsive, formatDate } from "@/lib/utils";
 import Link from "next/link";
 // UI
 import { StatusDropDownMenu } from "@/components/admin/StatusDropDownMenu";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, Delete, Trash } from "lucide-react";
+import { ArrowUpDown, Trash } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 interface ProjectColumnsProps {
 	handleAddProject: (project: Project) => void;
@@ -48,6 +48,9 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 				</Button>
 			);
 		},
+		cell: ({ row }) => {
+			return !row.original.year ? "N/A" : row.original.year;
+		},
 	},
 	{
 		accessorKey: "categories",
@@ -60,7 +63,7 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 			);
 		},
 		cell: ({ row }) => {
-			return row.original.categories[0];
+			return !row.original.categories ? "N/A" : row.original.categories[0];
 		},
 	},
 	{
@@ -126,15 +129,37 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 			return (
 				<div className="flex items-center">
 					<StatusDropDownMenu projectId={row.original.id} currentStatus={row.original.status} handleUpdateProject={handleUpdateProject} setStatus={(status) => handleUpdateProject(row.original.id, { ...row.original, status })} project={row.original} />
-					<Button
-						className="table-delete ml-3 px-3"
-						onClick={() => {
-							handleDeleteProject(row.original.id);
-						}}
-						variant={"outline"}
-					>
-						<Trash className="hover:color-red h-5 w-5 text-red-600" />
-					</Button>
+					<Dialog>
+						<DialogTrigger asChild>
+							<Button className="table-delete ml-3 px-3" variant={"outline"}>
+								<Trash className="hover:color-red h-5 w-5 text-red-600" />
+							</Button>
+						</DialogTrigger>
+						<DialogContent className="sm:max-w-md">
+							<DialogHeader>
+								<DialogTitle>Delete project</DialogTitle>
+								<DialogDescription>
+									Are you sure you want to delete <strong>'{row.original.title}'</strong>?
+								</DialogDescription>
+							</DialogHeader>
+							<DialogFooter className="sm:justify-start">
+								<Button
+									onClick={() => {
+										handleDeleteProject(row.original.id);
+									}}
+									type="button"
+									variant="destructive"
+								>
+									Delete
+								</Button>
+								<DialogClose asChild>
+									<Button type="button" variant="secondary">
+										Cancel
+									</Button>
+								</DialogClose>
+							</DialogFooter>
+						</DialogContent>
+					</Dialog>
 				</div>
 			);
 		},

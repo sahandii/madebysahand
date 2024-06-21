@@ -13,19 +13,35 @@ interface StatusDropDownMenuProps {
 	currentStatus: Project["status"];
 	handleUpdateProject: (id: string, updatedProject: Project) => void;
 	setStatus: (status: Project["status"]) => void; // Pass the setStatus function to update local state
-	project: Project; // Include the full project object
+	project: Project | null; // Include the full project object
 }
 
 export const StatusDropDownMenu: React.FC<StatusDropDownMenuProps> = ({ projectId, currentStatus, handleUpdateProject, setStatus, project }) => {
 	const handleStatusChange = async (newStatus: Project["status"]) => {
 		// Create an updated project object with the new status
-		const updatedProject: Project = { ...project, status: newStatus };
+		const updatedProject: Project = {
+			...project, //
+			status: newStatus,
+			id: project?.id || "",
+			slug: project?.slug || "",
+			title: project?.title || "",
+			client: project?.client || "",
+			categories: project?.categories || [],
+			year: project?.year || "",
+			description: project?.description || "",
+			thumbnail: project?.thumbnail || undefined,
+			media: project?.media || undefined,
+			updated: project?.updated || 0,
+			created: project?.created || 0,
+		};
 
-		// Update the project status in Firebase
-		await updateProject(projectId, updatedProject);
+		if (projectId) {
+			// Update the project status in Firebase
+			await updateProject(projectId, updatedProject);
 
-		// Call the provided update function to handle state update
-		handleUpdateProject(projectId, updatedProject);
+			// Call the provided update function to handle state update
+			handleUpdateProject(projectId, updatedProject);
+		}
 
 		// Update the local status state
 		setStatus(newStatus);
@@ -43,7 +59,7 @@ export const StatusDropDownMenu: React.FC<StatusDropDownMenuProps> = ({ projectI
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button variant={"outline"} className="p-3">
-					{currentStatus === "publish" ? `${capitalizeFirstLetter(currentStatus)}ed` : capitalizeFirstLetter(currentStatus)}
+					{capitalizeFirstLetter(currentStatus)}
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">

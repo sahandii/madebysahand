@@ -48,12 +48,16 @@ const ProjectsTableCSS = styled.div`
 const LOCAL_STORAGE_KEY = "rowOrder";
 
 const saveRowOrder = (rowOrder: string[]) => {
-	console.log("Saving row order:", rowOrder);
 	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(rowOrder));
 };
 
 export function ProjectsTable<TData, TValue>({ columns, data, className, handleAddProject, handleUpdateProject, handleDeleteProject, ...props }: ProjectsTableProps<TData, TValue>) {
-	const [sorting, setSorting] = useState<SortingState>([]);
+	const [sorting, setSorting] = useState<SortingState>([
+		{
+			id: "updated", // Must be equal to the accessorKey of the coulmn you want sorted by default
+			desc: true,
+		},
+	]);
 	const [sortedData, setSortedData] = useState<TData[]>(data);
 
 	// Restore row order from storage or use default

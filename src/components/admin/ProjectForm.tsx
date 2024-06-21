@@ -1,18 +1,24 @@
+// Higher Order Components and Hooks
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/router";
+// Firebase imports
 import { ref, get } from "firebase/database";
 import { db } from "@/firebase/firebaseConfig";
-import { useRouter } from "next/router";
-import { Project } from "@/data/projects";
 import { addProject, updateProject } from "@/firebase/firebaseOperations";
+// Data models
+import { Project } from "@/data/projects";
+// Utility functions
+import { debounce, slugify } from "@/lib/utils";
+// UI components
 import { AdminNavbar } from "@/components/admin/AdminNavbar";
 import { StatusDropDownMenu } from "@/components/admin/StatusDropDownMenu"; // Import the shared component
-import { Button } from "@/components/ui/button";
 import { CategoryPanel } from "@/components/admin/CategoryPanel";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import MediaUploader from "../MediaUploader";
-import { debounce, slugify } from "@/lib/utils";
+// Icons
 import { LoaderCircle } from "lucide-react";
 
 const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
@@ -23,10 +29,11 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 	const [client, setClient] = useState("");
 	const [description, setDescription] = useState<string | undefined>("");
-	const [status, setStatus] = useState<Project["status"] | null>(null);
+	const [status, setStatus] = useState<Project["status"] | null>("draft");
 	const [search, setSearch] = useState("");
 	const [project, setProject] = useState<Project | null>(null);
 	const [slugLoading, setSlugLoading] = useState(false);
+	const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
 	const router = useRouter();
 
@@ -89,7 +96,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const timestamp = Date.now();
-		const id = projectId || `${slug}-${timestamp}`;
+		const id = projectId || `${slug}`;
 		const newProject: Project = {
 			id,
 			title,
@@ -111,6 +118,9 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 				await addProject(newProject);
 				alert("Project created successfully!");
 			}
+			const rowOrder = JSON.parse(localStorage.getItem("rowOrder") || "[]");
+			rowOrder.unshift(id);
+			localStorage.setItem("rowOrder", JSON.stringify(rowOrder));
 			router.push("/admin/projects");
 		} catch (error) {
 			console.error("Error saving project: ", error);
@@ -126,17 +136,15 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 					actionsSection={
 						<div className="flex">
 							<div className="mr-2">
-								{project && (
-									<StatusDropDownMenu
-										projectId={projectId || ""}
-										currentStatus={status || "draft"}
-										handleUpdateProject={handleUpdateProject}
-										setStatus={setStatus} // Pass the setStatus function to update local state
-										project={project} // Pass the full project object
-									/>
-								)}
+								<StatusDropDownMenu
+									projectId={projectId || ""}
+									currentStatus={status || "draft"}
+									handleUpdateProject={handleUpdateProject}
+									setStatus={setStatus} // Pass the setStatus function to update local state
+									project={project} // Pass the full project object
+								/>
 							</div>
-							<Button className="min-w-[6rem]" disabled={!status} type="submit">
+							<Button className="min-w-[6rem]" disabled={title === ""} type="submit">
 								Save
 							</Button>
 						</div>
@@ -154,14 +162,18 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 							</div>
 							<div className="grid gap-3">
 								<Label htmlFor="client">Client</Label>
-								<Input value={client} onChange={(e) => setClient(e.target.value)} required id="client" type="text" />
+								<Input value={client} onChange={(e) => setClient(e.target.value)} id="client" type="text" />
 							</div>
 							<div className="grid gap-3">
 								<Label htmlFor="year">Year</Label>
-								<Input value={year} onChange={(e) => setYear(e.target.value)} required id="year" type="text" />
+								<Input value={year} onChange={(e) => setYear(e.target.value)} id="year" type="text" />
 							</div>
 						</div>
-						<div className="grid grid-cols-2 gap-4">
+						<div className="grid grid-cols-3 gap-4">
+							<div className="grid grid-rows-[auto_1fr] content-start gap-3">
+								<Label htmlFor="description">Thumbnail</Label>
+								<Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Write a short description of the project/work" className="min-h-32" />
+							</div>
 							<div className="grid grid-rows-[auto_1fr] content-start gap-3">
 								<Label htmlFor="description">Description</Label>
 								<Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Write a short description of the project/work" className="min-h-32" />
@@ -177,7 +189,10 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 							</div>
 						</div>
 					</div>
-					<MediaUploader />
+					<div className="my-10 grid gap-3">
+						<Label htmlFor="images">Images</Label>
+						<MediaUploader uploadedImages={uploadedImages} setUploadedImages={setUploadedImages} projectSlug={project?.slug} />
+					</div>
 				</div>
 			</form>
 		</div>

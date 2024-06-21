@@ -1,72 +1,72 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import nextConnect from "next-connect";
+import { createRouter } from "next-connect";
 import multer from "multer";
 import path from "path";
-import { verifyIdToken } from "@/firebase/firebaseAdmin";
+import fs from "fs";
 
-// Extend NextApiRequest to include files and user properties
-interface ExtendedNextApiRequest extends NextApiRequest {
-	files: Express.Multer.File[];
-	user?: any;
+// Ensure the `public/images` folder exists
+const baseUploadDir = path.join(process.cwd(), "public/images");
+if (!fs.existsSync(baseUploadDir)) {
+	fs.mkdirSync(baseUploadDir, { recursive: true });
 }
 
-// Multer setup for file uploads
+// Configure multer for disk storage
+const tmpUploadDir = path.join(process.cwd(), "public/.tmp");
+if (!fs.existsSync(tmpUploadDir)) {
+	fs.mkdirSync(tmpUploadDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, tmpUploadDir);
+	},
+	filename: function (req, file, cb) {
+		cb(null, `${file.originalname}`);
+	},
+});
+
 const upload = multer({
-	storage: multer.diskStorage({
-		destination: (req, file, cb) => {
-			const ext = path.extname(file.originalname).toLowerCase();
-			if ([".jpg", ".jpeg", ".png", ".gif"].includes(ext)) {
-				cb(null, "public/images");
-			} else if ([".mp4", ".mov", ".avi"].includes(ext)) {
-				cb(null, "public/videos");
-			} else {
-				cb(new Error("Invalid file type"), "");
-			}
-		},
-		filename: (req, file, cb) => {
-			cb(null, `${Date.now()}-${file.originalname}`);
-		},
-	}),
+	storage: storage,
+	limits: { fileSize: 10 * 1024 * 1024 },
 });
 
-// Middleware to verify Firebase token
-const verifyToken = async (req: ExtendedNextApiRequest, res: NextApiResponse, next: (error?: any) => void) => {
-	const token = req.headers.authorization?.split("Bearer ")[1];
+const router = createRouter<NextApiRequest, NextApiResponse>();
 
-	if (!token) {
-		return res.status(401).json({ error: "Unauthorized" });
+router.use(upload.array("files") as any);
+
+router.post((req: any & { files: Express.Multer.File[] }, res: NextApiResponse) => {
+	const files = req.files;
+	console.log("router.post() – req.body:", req.body);
+
+	// Ensure req.body.projectSlug is available
+	const projectSlug = req.body.projectSlug || "untitled";
+	const projectDir = path.join(baseUploadDir, projectSlug);
+
+	if (!fs.existsSync(projectDir)) {
+		fs.mkdirSync(projectDir, { recursive: true });
 	}
 
-	try {
-		const decodedToken = await verifyIdToken(token);
-		req.user = decodedToken; // Attach the decoded token to the request object
-		next();
-	} catch (error) {
-		return res.status(401).json({ error: "Unauthorized" });
-	}
-};
-
-// @ts-ignore: Unreachable code error
-const apiRoute = nextConnect<ExtendedNextApiRequest, NextApiResponse>({
-	onError(error: any, req: ExtendedNextApiRequest, res: NextApiResponse) {
-		res.status(501).json({ error: `Sorry something happened! ${error.message}` });
-	},
-	onNoMatch(req: ExtendedNextApiRequest, res: NextApiResponse) {
-		res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
-	},
+	// Move files to the correct directory
+	files.forEach((file: Express.Multer.File) => {
+		const tmpPath = path.join(tmpUploadDir, file.filename);
+		const targetPath = path.join(projectDir, file.filename);
+		fs.renameSync(tmpPath, targetPath);
+	});
+	res.status(200).json({ message: "Files uploaded successfully", files });
 });
-
-apiRoute.use(verifyToken);
-apiRoute.use(upload.array("files"));
-
-apiRoute.post((req: ExtendedNextApiRequest, res: NextApiResponse) => {
-	res.status(200).json({ files: req.files });
-});
-
-export default apiRoute;
 
 export const config = {
 	api: {
-		bodyParser: false,
+		bodyParser: false, // Disallow body parsing, since we're using multer
 	},
 };
+
+export default router.handler({
+	onError: (err: any, req: NextApiRequest, res: NextApiResponse) => {
+		console.error(err.stack);
+		res.status(500).end(err.message);
+	},
+	onNoMatch: (req: NextApiRequest, res: NextApiResponse) => {
+		res.status(404).end("Page is not found");
+	},
+});

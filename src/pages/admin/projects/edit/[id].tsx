@@ -18,7 +18,7 @@ interface Params extends ParsedUrlQuery {
 const EditProject: React.FC<Props> = ({ project }) => {
 	const router = useRouter();
 	const { id } = router.query; // Fetch the project ID from the URL
-
+	const title = project?.title;
 	if (!project) {
 		return <p>Loading...</p>; // Or handle it as you like
 	}
@@ -26,8 +26,8 @@ const EditProject: React.FC<Props> = ({ project }) => {
 	return (
 		<>
 			<Head>
-				<title>✏️ {project.title} | Sahand Porkar</title>
-				<meta name="description" content={`Editing project ${project.title}`} />
+				<title>{`✏️ ${title} | Sahand Porkar`}</title>
+				<meta name="description" content={`Editing project`} />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
