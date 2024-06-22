@@ -1,11 +1,10 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { motion } from "framer-motion";
 import { easeInOutQuart } from "@/assets/easings";
+import { isAnimatingContext } from "@/context/isAnimatingContext";
 
 interface Props {
 	children: React.ReactNode;
-	isAnimating?: boolean | undefined;
-	setIsAnimating?: (value: boolean | ((prevVar: boolean) => boolean)) => void;
 }
 
 const variants = {
@@ -14,7 +13,15 @@ const variants = {
 	exit: { opacity: 0, x: "-3vw", y: 0 },
 };
 
-const Motion: FC<Props> = ({ children, isAnimating, setIsAnimating }) => {
+const Motion: FC<Props> = ({ children }) => {
+	const context = useContext(isAnimatingContext);
+
+	if (!context) {
+		throw new Error("isAnimatingContext must be used within its provider");
+	}
+
+	const { setIsAnimating } = context;
+
 	return (
 		<>
 			<motion.div
@@ -26,18 +33,8 @@ const Motion: FC<Props> = ({ children, isAnimating, setIsAnimating }) => {
 					ease: easeInOutQuart,
 					duration: 0.75,
 				}}
-				onAnimationStart={() => {
-					if (setIsAnimating) {
-						setIsAnimating(true);
-					}
-				}}
-				onAnimationComplete={(definition) => {
-					if (definition === "enter") {
-						if (setIsAnimating) {
-							setIsAnimating(false);
-						}
-					}
-				}}
+				onAnimationStart={() => setIsAnimating(true)}
+				onAnimationComplete={() => setIsAnimating(false)}
 			>
 				{children}
 			</motion.div>

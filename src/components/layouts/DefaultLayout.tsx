@@ -8,6 +8,8 @@ import { Footer } from "../../components/global/Footer/Footer";
 
 interface LayoutProps {
 	children: React.ReactNode;
+	isAnimating: boolean;
+	setIsAnimating: (isAnimating: boolean) => void;
 }
 
 const DefaultLayoutCSS = styled.div`
@@ -28,9 +30,8 @@ const DefaultLayoutCSS = styled.div`
 	}
 `;
 
-const DefaultLayout: React.FC<LayoutProps> = ({ children }) => {
+const DefaultLayout: React.FC<LayoutProps> = ({ children, isAnimating, setIsAnimating }) => {
 	const router = useRouter();
-	const [isAnimating, setIsAnimating] = useState<boolean>(false);
 	return (
 		<DefaultLayoutCSS>
 			<div className="wrapper relative pt-10">
@@ -38,8 +39,9 @@ const DefaultLayout: React.FC<LayoutProps> = ({ children }) => {
 				<AnimatePresence
 					mode="wait"
 					onExitComplete={() => {
-						document.body.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
-						setIsAnimating(false);
+						if (typeof window !== "undefined") {
+							window.scrollTo({ top: 0 });
+						}
 					}}
 				>
 					{children}

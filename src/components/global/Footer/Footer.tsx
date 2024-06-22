@@ -2,13 +2,13 @@ import { FC } from "react";
 import styled from "styled-components";
 
 interface Props {
-	isAnimating?: boolean;
-	setIsAnimating?: (value: boolean | ((prevVar: boolean) => boolean)) => void;
+	isAnimating: boolean;
+	setIsAnimating: (isAnimating: boolean) => void;
 }
 
 const FooterCSS = styled.div``;
 
-export const Footer: FC<Props> = ({ isAnimating }) => {
+export const Footer: FC<Props> = ({ isAnimating, setIsAnimating }) => {
 	return (
 		<footer className={`${isAnimating ? "" : "show"} container px-6 py-10 pt-20`}>
 			<FooterCSS className="flex flex-col justify-between md:flex-row md:items-end">

@@ -2,6 +2,7 @@ import { FC } from "react";
 import styled from "styled-components";
 import { Project } from "@/data/projects";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface ProjectTileProps {}
 
@@ -55,19 +56,36 @@ const ProjectTileCSS = styled.div`
 
 export const ProjectTile: FC<Props> = (props) => {
 	const { ...project } = props as Project;
+	const router = useRouter();
 	return (
 		<ProjectTileCSS>
 			<li style={{ backgroundImage: `url(${project.thumbnail?.src})` }} className={`project-tile grid-item flex aspect-video cursor-pointer flex-col justify-center bg-slate-200 bg-cover`}>
 				<Link //
+					scroll={false}
 					href="./case/[slug]"
 					as={`./case/${project.slug}`}
+					onClick={(e) => {
+						e.preventDefault();
+						if (window.scrollY !== 0) {
+							const handleScroll = () => {
+								if (window.scrollY === 0) {
+									router.push(`./case/${project.slug}`);
+									window.removeEventListener("scroll", handleScroll);
+								}
+							};
+							window.addEventListener("scroll", handleScroll);
+							window.scrollTo({ top: 0, behavior: "smooth" });
+						} else {
+							router.push(`./case/${project.slug}`);
+						}
+					}}
 				>
 					<div className="project-description flex flex-col justify-center p-10">
 						<h4 className="text-2xl font-bold">{project.title}</h4>
 						<h5 className="text-2xl font-bold">
 							<small className="flex flex-col leading-tight">
 								{/* <span className="opacity-60">{project.client}</span> */}
-								<span className="text-[.9rem] font-normal tracking-wider opacity-50">{project.categories[0]}</span>
+								<span className="text-[.9rem] font-normal tracking-wider opacity-50">{project.categories ? project.categories[0] : " "}</span>
 							</small>
 						</h5>
 					</div>

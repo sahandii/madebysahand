@@ -1,6 +1,7 @@
 // Higher Order Components and Hooks
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
+import { StaticImageData } from "next/image";
 // Firebase imports
 import { ref, get } from "firebase/database";
 import { db } from "@/firebase/firebaseConfig";
@@ -33,6 +34,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 	const [search, setSearch] = useState("");
 	const [project, setProject] = useState<Project | null>(null);
 	const [slugLoading, setSlugLoading] = useState(false);
+	const [thumbnailImg, setThumbnailImg] = useState<string[]>([]);
 	const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
 	const router = useRouter();
@@ -53,6 +55,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 					setClient(projectData.client);
 					setDescription(projectData.description);
 					setStatus(projectData.status);
+					setThumbnailImg(projectData.thumbnail || []);
 				}
 			};
 			fetchProjectData();
@@ -108,6 +111,8 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 			status,
 			created: project ? project.created : timestamp,
 			updated: timestamp,
+			thumbnail: thumbnailImg,
+			// images: uploadedImages,
 		};
 
 		try {
@@ -170,9 +175,9 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 							</div>
 						</div>
 						<div className="grid grid-cols-3 gap-4">
-							<div className="grid grid-rows-[auto_1fr] content-start gap-3">
-								<Label htmlFor="description">Thumbnail</Label>
-								<Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Write a short description of the project/work" className="min-h-32" />
+							<div className="grid grid-rows-[auto_1fr] content-start items-stretch gap-3">
+								<Label>Thumbnail</Label>
+								<MediaUploader thumbnail thumbnailImg={thumbnailImg} setThumbnailImg={setThumbnailImg} uploadedImages={uploadedImages} setUploadedImages={setUploadedImages} projectSlug={project?.slug} />
 							</div>
 							<div className="grid grid-rows-[auto_1fr] content-start gap-3">
 								<Label htmlFor="description">Description</Label>
@@ -191,7 +196,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 					</div>
 					<div className="my-10 grid gap-3">
 						<Label htmlFor="images">Images</Label>
-						<MediaUploader uploadedImages={uploadedImages} setUploadedImages={setUploadedImages} projectSlug={project?.slug} />
+						<MediaUploader thumbnail={false} uploadedImages={uploadedImages} setUploadedImages={setUploadedImages} projectSlug={project?.slug} />
 					</div>
 				</div>
 			</form>

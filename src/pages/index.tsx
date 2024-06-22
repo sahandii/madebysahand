@@ -4,14 +4,11 @@ import { Project } from "@/data/projects";
 import { ProjectTile } from "./../components/ProjectTile";
 import Motion from "../components/Motion";
 import { motion } from "framer-motion";
-import smoothscroll from "smoothscroll-polyfill";
 import { useEffect } from "react";
 import { fetchProjectsOnce } from "@/firebase/firebaseOperations";
 
 interface homeProps {
 	projects: Project[];
-	isAnimating?: boolean;
-	setIsAnimating?: (value: boolean | ((prevVar: boolean) => boolean)) => void;
 	slug: string;
 }
 const container = {
@@ -37,11 +34,8 @@ const item = {
 		},
 	},
 };
-export const Home: NextPage<homeProps> = ({ projects, isAnimating, setIsAnimating }: homeProps) => {
-	useEffect(() => {
-		smoothscroll.polyfill();
-	});
 
+export const Home: NextPage<homeProps> = ({ projects }) => {
 	return (
 		<>
 			<Head>
@@ -50,21 +44,13 @@ export const Home: NextPage<homeProps> = ({ projects, isAnimating, setIsAnimatin
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Motion isAnimating={isAnimating} setIsAnimating={setIsAnimating}>
+			<Motion>
 				<motion.div initial="hidden" animate="show" variants={container}>
 					<header className="container mt-20 flex h-[200px] flex-col px-6">
 						<h1 className="mb-6 flex flex-col font-medium">
-							{/* <motion.span className="text-2xl sm:text-4xl md:text-5xl inline-block" variants={item}>
-                                Digital Designer.
-                            </motion.span> */}
 							<motion.span className="my-1 inline-block text-2xl sm:text-4xl md:my-3 md:text-5xl" variants={item}>
 								Digital Designer at{" "}
-								<a
-									className="underline"
-									target="_blank"
-									href="http://linkedin.com/in/sporkar
-"
-								>
+								<a className="underline" target="_blank" href="http://linkedin.com/in/sporkar">
 									Netcompany
 								</a>
 								.
@@ -80,7 +66,7 @@ export const Home: NextPage<homeProps> = ({ projects, isAnimating, setIsAnimatin
 								Some of my work <small>&#8600;</small>
 							</h3>
 						</motion.div>
-						<motion.ul variants={item} className="grid-cols-2 grid-rows-2 gap-[10px] px-6 md:grid">
+						<motion.ul variants={item} className={`grid-cols-2 ${projects.length > 2 ? "grid-rows-2" : "grid-rows-1"} gap-[10px] px-6 md:grid`}>
 							{projects.map((project: Project) => {
 								if (project.status === "publish") {
 									return <ProjectTile key={project.id} {...project} slug={project.slug} />;
@@ -101,7 +87,7 @@ export const getStaticProps: GetStaticProps = async () => {
 		props: {
 			projects,
 		},
-		revalidate: 5, // Revalidate every 10 seconds for incremental updates
+		revalidate: 5,
 	};
 };
 

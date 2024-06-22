@@ -5,6 +5,7 @@ import "@/styles/globals.css";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { useRouter } from "next/router";
+import { isAnimatingContext } from "@/context/isAnimatingContext";
 
 type NextPageWithLayout<P = {}> = ComponentType<P> & {
 	layout?: (page: ReactElement) => ReactNode;
@@ -21,12 +22,21 @@ const App = ({ Component, pageProps, router }: AppPropsWithLayout): JSX.Element 
 		if (router.pathname.startsWith("/admin")) {
 			return (page: ReactElement) => <AdminLayout>{page}</AdminLayout>;
 		}
-		return Component.layout || ((page: ReactElement) => <DefaultLayout>{page}</DefaultLayout>);
+		return (
+			Component.layout ||
+			((page: ReactElement) => (
+				<isAnimatingContext.Provider value={{ isAnimating, setIsAnimating }}>
+					<DefaultLayout isAnimating={isAnimating} setIsAnimating={setIsAnimating}>
+						{page}
+					</DefaultLayout>
+				</isAnimatingContext.Provider>
+			))
+		);
 	};
 
 	const Layout = getLayout(Component);
 
-	return <AuthProvider>{Layout(<Component {...pageProps} isAnimating={isAnimating} setIsAnimating={setIsAnimating} key={router.asPath} />)}</AuthProvider>;
+	return <AuthProvider>{Layout(<Component {...pageProps} key={router.asPath} />)}</AuthProvider>;
 };
 
 export default App;

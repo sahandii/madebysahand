@@ -4,20 +4,25 @@ import axios from "axios";
 import { Project } from "@/data/projects";
 import { CloudUpload } from "lucide-react";
 import Image from "next/image";
+import { StaticImageData } from "next/image";
 
 interface Props {
 	projectSlug: Project["title"] | undefined;
 	uploadedImages: string[];
 	setUploadedImages: React.Dispatch<React.SetStateAction<string[]>>;
+	thumbnail?: boolean;
+	thumbnailImg?: string[];
+	setThumbnailImg?: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const UploaderContainer = styled.div`
+	transition: background-image 150ms ease-in-out 0s;
 	background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='%23d4d8d4' stroke-width='2' stroke-dasharray='10%2c 5' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
 	border-radius: 10px;
 	padding: 5em;
 	text-align: center;
 	&.drag-over {
-		background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='%2314b8a5' stroke-width='2' stroke-dasharray='10%2c 5' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+		background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='%2314b8a5' stroke-width='4' stroke-dasharray='10%2c 5' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
 	}
 `;
 
@@ -33,7 +38,7 @@ const ImagePreview = styled.div`
 	}
 `;
 
-const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUploadedImages }) => {
+const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUploadedImages, thumbnail, thumbnailImg, setThumbnailImg }) => {
 	const [dragOver, setDragOver] = useState(false);
 	const [message, setMessage] = useState("Drag & Drop or ");
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -72,7 +77,7 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 			formData.append("files", file);
 		});
 		formData.append("projectSlug", projectSlug as string); // Append projectSlug from prop
-
+		formData.append("thumbnail", String(thumbnail)); // Append thumbnail from prop
 		try {
 			const response = await axios.post("/api/admin/upload", formData, {
 				headers: {
@@ -83,7 +88,9 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 			const uploadedFiles = response.data.files;
 			const imageUrls = uploadedFiles.map((file: Express.Multer.File) => `/images/${projectSlug}/${file.filename}`);
 
-			setUploadedImages((prevImages) => [...prevImages, ...imageUrls]);
+			thumbnail //
+				? setThumbnailImg?.((prevImages) => [...prevImages, ...imageUrls])
+				: setUploadedImages((prevImages) => [...prevImages, ...imageUrls]);
 		} catch (error: unknown) {
 			if (axios.isAxiosError(error)) {
 				console.error("Error response data:", error.response?.data);
@@ -117,11 +124,15 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 				</span>
 				<input type="file" multiple ref={fileInputRef} style={{ display: "none" }} onChange={handleFileChange} />
 			</UploaderContainer>
-			<ImagePreview>
-				{uploadedImages.map((image, index) => (
-					<Image className="rounded-lg object-cover" width={150} height={150} key={index} src={image} alt={`Uploaded preview ${index + 1}`} />
-				))}
-			</ImagePreview>
+			{((thumbnailImg && thumbnailImg.length > 0) || uploadedImages.length > 0) && ( //
+				<ImagePreview>
+					{thumbnailImg && thumbnailImg.length > 0 ? (
+						<Image className="rounded-lg object-cover" width={150} height={150} src={thumbnailImg[0]} alt={`Thumbnail`} /> //
+					) : (
+						uploadedImages.map((image, index) => <Image className="rounded-lg object-cover" width={150} height={150} key={index} src={image} alt={`Uploaded preview ${index + 1}`} />)
+					)}
+				</ImagePreview>
+			)}
 		</>
 	);
 };
