@@ -9,7 +9,7 @@ export interface Project {
 	client: string;
 	categories: string[]; // Updated from category and subcategories
 	year: string;
-	thumbnail?: string[] | undefined;
+	thumbnail?: StaticImageData | undefined;
 	media?: Media;
 	updated: number;
 	created: number;

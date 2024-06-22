@@ -11,8 +11,8 @@ interface Props {
 	uploadedImages: string[];
 	setUploadedImages: React.Dispatch<React.SetStateAction<string[]>>;
 	thumbnail?: boolean;
-	thumbnailImg?: string[];
-	setThumbnailImg?: React.Dispatch<React.SetStateAction<string[]>>;
+	thumbnailImg?: StaticImageData | undefined;
+	setThumbnailImg?: React.Dispatch<React.SetStateAction<StaticImageData | undefined>>;
 }
 
 const UploaderContainer = styled.div`
@@ -88,9 +88,11 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 			const uploadedFiles = response.data.files;
 			const imageUrls = uploadedFiles.map((file: Express.Multer.File) => `/images/${projectSlug}/${file.filename}`);
 
-			thumbnail //
-				? setThumbnailImg?.((prevImages) => [...prevImages, ...imageUrls])
-				: setUploadedImages((prevImages) => [...prevImages, ...imageUrls]);
+			if (thumbnail) {
+				setThumbnailImg?.(imageUrls[0] as StaticImageData);
+			} else {
+				setUploadedImages((prevImages) => [...prevImages, ...imageUrls]);
+			}
 		} catch (error: unknown) {
 			if (axios.isAxiosError(error)) {
 				console.error("Error response data:", error.response?.data);
@@ -124,10 +126,10 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 				</span>
 				<input type="file" multiple ref={fileInputRef} style={{ display: "none" }} onChange={handleFileChange} />
 			</UploaderContainer>
-			{((thumbnailImg && thumbnailImg.length > 0) || uploadedImages.length > 0) && ( //
+			{(thumbnailImg !== undefined || uploadedImages.length > 0) && (
 				<ImagePreview>
-					{thumbnailImg && thumbnailImg.length > 0 ? (
-						<Image className="rounded-lg object-cover" width={150} height={150} src={thumbnailImg[0]} alt={`Thumbnail`} /> //
+					{thumbnailImg ? ( //
+						<Image className="rounded-lg object-cover" width={150} height={150} src={thumbnailImg || ""} alt={`Thumbnail`} />
 					) : (
 						uploadedImages.map((image, index) => <Image className="rounded-lg object-cover" width={150} height={150} key={index} src={image} alt={`Uploaded preview ${index + 1}`} />)
 					)}

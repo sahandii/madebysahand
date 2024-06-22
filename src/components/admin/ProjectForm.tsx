@@ -34,7 +34,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 	const [search, setSearch] = useState("");
 	const [project, setProject] = useState<Project | null>(null);
 	const [slugLoading, setSlugLoading] = useState(false);
-	const [thumbnailImg, setThumbnailImg] = useState<string[]>([]);
+	const [thumbnailImg, setThumbnailImg] = useState<StaticImageData | undefined>(undefined);
 	const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
 	const router = useRouter();
@@ -55,7 +55,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 					setClient(projectData.client);
 					setDescription(projectData.description);
 					setStatus(projectData.status);
-					setThumbnailImg(projectData.thumbnail || []);
+					setThumbnailImg(projectData.thumbnail);
 				}
 			};
 			fetchProjectData();
