@@ -31,14 +31,14 @@ export const Nav: FC<Props> = ({}) => {
 			<div className="container flex min-h-[70px] flex-row items-center justify-between border-b border-zinc-400 px-6">
 				<div className="navbar-left flex flex-row">
 					<Link className="flex" scroll={false} href="/">
-						<h5 className="navbar-logo text-2xl font-bold leading-[38px]">Sahand Porkar</h5>
+						<h5 className="navbar-logo text-2xl font-bold">Sahand Porkar</h5>
 					</Link>
 					{user && (
 						<motion.div variants={dashboardVariants} initial="hidden" animate="visible">
 							<Button className="ms-4">
 								<Link href="./admin" target="_blank">
 									<span className="flex items-center">
-										Dashboard <ExternalLink className="ml-2 w-4" />
+										<ExternalLink className="w-4" />
 									</span>
 								</Link>
 							</Button>

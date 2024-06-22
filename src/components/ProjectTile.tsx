@@ -64,21 +64,21 @@ export const ProjectTile: FC<Props> = (props) => {
 					scroll={false}
 					href="./case/[slug]"
 					as={`./case/${project.slug}`}
-					onClick={(e) => {
-						e.preventDefault();
-						if (window.scrollY !== 0) {
-							const handleScroll = () => {
-								if (window.scrollY === 0) {
-									router.push(`./case/${project.slug}`);
-									window.removeEventListener("scroll", handleScroll);
-								}
-							};
-							window.addEventListener("scroll", handleScroll);
-							window.scrollTo({ top: 0, behavior: "smooth" });
-						} else {
-							router.push(`./case/${project.slug}`);
-						}
-					}}
+					// onClick={(e) => {
+					// 	e.preventDefault();
+					// 	if (window.scrollY !== 0) {
+					// 		const handleScroll = () => {
+					// 			if (window.scrollY === 0) {
+					// 				router.push(`./case/${project.slug}`);
+					// 				window.removeEventListener("scroll", handleScroll);
+					// 			}
+					// 		};
+					// 		window.addEventListener("scroll", handleScroll);
+					// 		window.scrollTo({ top: 0, behavior: "smooth" });
+					// 	} else {
+					// 		router.push(`./case/${project.slug}`);
+					// 	}
+					// }}
 				>
 					<div className="project-description flex flex-col justify-center p-10">
 						<h4 className="text-2xl font-bold">{project.title}</h4>

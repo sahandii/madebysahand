@@ -6,6 +6,7 @@ import DefaultLayout from "@/components/layouts/DefaultLayout";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import { useRouter } from "next/router";
 import { isAnimatingContext } from "@/context/isAnimatingContext";
+import { useEffect } from "react";
 
 type NextPageWithLayout<P = {}> = ComponentType<P> & {
 	layout?: (page: ReactElement) => ReactNode;

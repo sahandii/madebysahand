@@ -20,7 +20,19 @@ const Motion: FC<Props> = ({ children }) => {
 		throw new Error("isAnimatingContext must be used within its provider");
 	}
 
-	const { setIsAnimating } = context;
+	const { isAnimating, setIsAnimating } = context;
+
+	const scrollToTop = () => {
+		if (window.scrollY !== 0) {
+			const handleScroll = () => {
+				if (window.scrollY === 0) {
+					window.removeEventListener("scroll", handleScroll);
+				}
+			};
+			window.addEventListener("scroll", handleScroll);
+			window.scrollTo({ top: 0, behavior: "smooth" });
+		} else return;
+	};
 
 	return (
 		<>
@@ -33,8 +45,18 @@ const Motion: FC<Props> = ({ children }) => {
 					ease: easeInOutQuart,
 					duration: 0.75,
 				}}
-				onAnimationStart={() => setIsAnimating(true)}
-				onAnimationComplete={() => setIsAnimating(false)}
+				onAnimationStart={() => {
+					new Promise<void>((resolve) => {
+						setIsAnimating(true);
+						resolve();
+					}).then(() => {
+						scrollToTop();
+					});
+				}}
+				onAnimationComplete={() => {
+					setIsAnimating(false);
+					console.log("onAnimationComplete");
+				}}
 			>
 				{children}
 			</motion.div>

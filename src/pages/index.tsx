@@ -48,14 +48,14 @@ export const Home: NextPage<homeProps> = ({ projects }) => {
 				<motion.div initial="hidden" animate="show" variants={container}>
 					<header className="container mt-20 flex h-[200px] flex-col px-6">
 						<h1 className="mb-6 flex flex-col font-medium">
-							<motion.span className="my-1 inline-block text-2xl sm:text-4xl md:my-3 md:text-5xl" variants={item}>
+							<motion.span className="my-1 inline-block text-3xl sm:text-4xl lg:text-5xl" variants={item}>
 								Digital Designer at{" "}
 								<a className="underline" target="_blank" href="http://linkedin.com/in/sporkar">
 									Netcompany
 								</a>
 								.
 							</motion.span>
-							<motion.span className="inline-block text-2xl sm:text-4xl md:text-5xl" variants={item}>
+							<motion.span className="inline-block text-3xl sm:text-4xl lg:text-5xl" variants={item}>
 								Skilled in Motion, VFX & Graphic Design.
 							</motion.span>
 						</h1>
