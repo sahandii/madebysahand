@@ -59,7 +59,7 @@ export const ProjectTile: FC<Props> = (props) => {
 	const router = useRouter();
 	return (
 		<ProjectTileCSS>
-			<li style={{ backgroundImage: `url(${project.thumbnail?.src})` }} className={`project-tile grid-item flex aspect-video cursor-pointer flex-col justify-center bg-slate-200 bg-cover`}>
+			<li style={{ backgroundImage: `url(${project.thumbnail})` }} className={`project-tile grid-item flex aspect-video cursor-pointer flex-col justify-center bg-slate-200 bg-cover`}>
 				<Link //
 					scroll={false}
 					href="./case/[slug]"

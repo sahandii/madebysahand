@@ -3,8 +3,8 @@ import styled from "styled-components";
 import axios from "axios";
 import { Project } from "@/data/projects";
 import { CloudUpload } from "lucide-react";
-import Image from "next/image";
-import { StaticImageData } from "next/image";
+import Image, { StaticImageData } from "next/image";
+import clsx from "clsx";
 
 interface Props {
 	projectSlug: Project["title"] | undefined;
@@ -13,32 +13,27 @@ interface Props {
 	thumbnail?: boolean;
 	thumbnailImg?: StaticImageData | undefined;
 	setThumbnailImg?: React.Dispatch<React.SetStateAction<StaticImageData | undefined>>;
+	className?: string;
 }
 
 const UploaderContainer = styled.div`
+	position: relative;
+	overflow: hidden;
+	height: 100%;
 	transition: background-image 150ms ease-in-out 0s;
-	background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='%23d4d8d4' stroke-width='2' stroke-dasharray='10%2c 5' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+	background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='5' ry='5' stroke='%23d4d8d4' stroke-width='2' stroke-dasharray='10%2c 5' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+	background-size: calc(100% - 1px);
+	background-repeat: no-repeat;
 	border-radius: 10px;
-	padding: 5em;
-	text-align: center;
+
 	&.drag-over {
-		background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='%2314b8a5' stroke-width='4' stroke-dasharray='10%2c 5' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+		background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='5' ry='5' stroke='%2314b8a5' stroke-width='4' stroke-dasharray='10%2c 5' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
 	}
 `;
 
-const ImagePreview = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	margin-top: 20px;
+const ImagePreview = styled.div``;
 
-	img {
-		max-width: 150px;
-		max-height: 150px;
-		margin: 10px;
-	}
-`;
-
-const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUploadedImages, thumbnail, thumbnailImg, setThumbnailImg }) => {
+const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUploadedImages, thumbnail, thumbnailImg, setThumbnailImg, className }) => {
 	const [dragOver, setDragOver] = useState(false);
 	const [message, setMessage] = useState("Drag & Drop or ");
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -59,7 +54,6 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 		e.preventDefault();
 		setDragOver(false);
 		setMessage("Drag & Drop or ");
-
 		const files = Array.from(e.dataTransfer.files);
 		uploadFiles(files);
 	};
@@ -73,16 +67,13 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 
 	const uploadFiles = async (files: File[]) => {
 		const formData = new FormData();
-		files.forEach((file) => {
-			formData.append("files", file);
-		});
-		formData.append("projectSlug", projectSlug as string); // Append projectSlug from prop
-		formData.append("thumbnail", String(thumbnail)); // Append thumbnail from prop
+		files.forEach((file) => formData.append("files", file));
+		formData.append("projectSlug", projectSlug as string);
+		formData.append("thumbnail", String(thumbnail));
+
 		try {
 			const response = await axios.post("/api/admin/upload", formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
+				headers: { "Content-Type": "multipart/form-data" },
 			});
 
 			const uploadedFiles = response.data.files;
@@ -105,15 +96,24 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 	};
 
 	const handleBrowseClick = () => {
-		if (fileInputRef.current) {
-			fileInputRef.current.click();
-		}
+		fileInputRef.current?.click();
 	};
 
 	return (
-		<>
-			<UploaderContainer onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop} className={dragOver ? "drag-over" : ""}>
-				<span className="flex flex-col items-center text-zinc-400">
+		<div className="relative">
+			<UploaderContainer onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop} className={clsx(className, { "drag-over": dragOver })}>
+				{(thumbnailImg || uploadedImages.length > 0) && (
+					<div className="pointer-events-none absolute left-0 top-0 z-[0] grid h-full place-content-center">
+						<ImagePreview>
+							{thumbnailImg ? ( //
+								<Image width={1920} height={1080} src={thumbnailImg} className="aspect-[16/10] object-cover" alt="Thumbnail" />
+							) : (
+								uploadedImages.map((image, index) => <Image className="rounded-lg object-cover" width={150} height={150} key={index} src={image} alt={`Uploaded preview ${index + 1}`} />)
+							)}
+						</ImagePreview>
+					</div>
+				)}
+				<div className="relative z-[2] inline-grid place-items-center rounded-xl bg-[rgba(255,255,255,0.9)] p-3 text-zinc-400">
 					<CloudUpload className="h-[3em] w-[3em]" />
 					<p>
 						{message}
@@ -123,19 +123,10 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 							</a>
 						)}
 					</p>
-				</span>
-				<input type="file" multiple ref={fileInputRef} style={{ display: "none" }} onChange={handleFileChange} />
+				</div>
+				<input type="file" multiple ref={fileInputRef} className="hidden" onChange={handleFileChange} />
 			</UploaderContainer>
-			{(thumbnailImg !== undefined || uploadedImages.length > 0) && (
-				<ImagePreview>
-					{thumbnailImg ? ( //
-						<Image className="rounded-lg object-cover" width={150} height={150} src={thumbnailImg || ""} alt={`Thumbnail`} />
-					) : (
-						uploadedImages.map((image, index) => <Image className="rounded-lg object-cover" width={150} height={150} key={index} src={image} alt={`Uploaded preview ${index + 1}`} />)
-					)}
-				</ImagePreview>
-			)}
-		</>
+		</div>
 	);
 };
 

@@ -18,7 +18,7 @@ const AdminSidePanelCSS = styled.div`
 		transition: grid-template-columns 0.3s ease-in-out 0s;
 		display: grid;
 		grid-template-columns: 0fr;
-		grid-template-rows: 40px 1fr 40px;
+		grid-template-rows: auto 1fr 40px;
 	}
 	nav.toggled {
 		grid-template-columns: 1fr;
@@ -26,6 +26,7 @@ const AdminSidePanelCSS = styled.div`
 	nav span {
 		opacity: 0;
 		font-size: 0.8rem;
+		padding-right: 5em;
 	}
 	nav.toggled span {
 		opacity: 1;
@@ -33,6 +34,16 @@ const AdminSidePanelCSS = styled.div`
 	nav > .navbar-bottom,
 	nav > .navbar-middle {
 		overflow: hidden;
+	}
+	nav svg {
+		@media screen and (min-width: 768px) {
+			height: 18px;
+			min-width: 18px;
+			max-width: 18px;
+		}
+		height: 14px;
+		min-width: 14px;
+		max-width: 14px;
 	}
 `;
 
@@ -43,11 +54,12 @@ export const AdminSidePanel: React.FC<AdminSidePanelProps> = () => {
 	const { logout } = useAuth();
 	const [opened, setOpened] = useState(false);
 
-	const renderLink = (label?: string, func?: () => Promise<void>, href?: string, icon?: React.ReactNode) =>
+	const renderLink = (label?: string, func?: () => void, href?: string, icon?: React.ReactNode, additionalClasses?: string) =>
 		href ? (
 			<Link //
 				href={href}
 				className={clsx(
+					additionalClasses,
 					`flex items-center gap-3 rounded-lg p-[.7em] leading-[18px] text-muted-foreground hover:text-primary`, //
 					{ [activeLink]: currentPath === href },
 				)}
@@ -57,11 +69,10 @@ export const AdminSidePanel: React.FC<AdminSidePanelProps> = () => {
 			</Link>
 		) : (
 			<div //
-				onClick={() => {
-					func;
-				}}
+				onClick={func}
 				className={clsx(
-					`flex items-center gap-3 rounded-lg p-[.7em] leading-[18px] text-muted-foreground hover:text-primary`, //
+					additionalClasses,
+					`flex cursor-pointer items-center gap-3 rounded-lg p-[.7em] leading-[18px] text-muted-foreground hover:text-primary`, //
 					{ [activeLink]: currentPath === href },
 				)}
 			>
@@ -72,8 +83,8 @@ export const AdminSidePanel: React.FC<AdminSidePanelProps> = () => {
 
 	return (
 		<AdminSidePanelCSS className="side-panel border-r bg-white">
-			<nav className={`${opened ? "toggled" : " "} sidepanel h-full p-3`}>
-				<div className="navbar-top">
+			<nav className={`${opened ? "toggled" : " "} sidepanel h-full gap-3 p-3`}>
+				<div className="navbar-top mt-1">
 					<Button
 						onClick={() => {
 							setOpened((prev) => !prev);
@@ -81,19 +92,18 @@ export const AdminSidePanel: React.FC<AdminSidePanelProps> = () => {
 						variant="ghost"
 						className="aspect-square rounded-lg p-0"
 					>
-						<MenuIcon className="mt-[-2px] h-5 w-5" />
+						<MenuIcon />
 					</Button>
-					<div className="h-[1px] w-full border-b"></div>
 				</div>
 				<div className="navbar-middle">
-					<ul className="mt-4 flex flex-col gap-3">
-						<li>{renderLink("Dashboard", undefined, "/admin/dashboard", <Home className="h-5 min-w-5 max-w-5" />)}</li>
-						<li>{renderLink("Projects", undefined, "/admin/projects", <LayoutPanelTop className="h-5 min-w-5 max-w-5" />)}</li>
+					<ul className="flex flex-col gap-3">
+						<li>{renderLink("Dashboard", undefined, "/admin/dashboard", <Home />)}</li>
+						<li>{renderLink("Projects", undefined, "/admin/projects", <LayoutPanelTop />)}</li>
 					</ul>
 				</div>
 				<div className="navbar-bottom">
 					<ul className="flex flex-col gap-3">
-						<li>{renderLink("Logout", logout, undefined, <LogOut className="h-5 min-w-5 max-w-5" />)}</li>
+						<li>{renderLink("Sign out", logout, undefined, <LogOut />, "whitespace-nowrap text-red-500")}</li>
 					</ul>
 				</div>
 			</nav>
