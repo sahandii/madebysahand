@@ -4,7 +4,9 @@ import { easeInOutQuart } from "@/assets/easings";
 import { isAnimatingContext } from "@/context/isAnimatingContext";
 // Smooth 'scroll to top' for Safari
 import smoothscroll from "smoothscroll-polyfill";
-smoothscroll.polyfill();
+if (typeof window !== "undefined") {
+	smoothscroll.polyfill();
+}
 
 interface Props {
 	children: React.ReactNode;
