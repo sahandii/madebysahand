@@ -11,11 +11,9 @@ export const Nav: FC<Props> = ({}) => {
 	const { user } = useAuth();
 	const dashboardVariants = {
 		hidden: {
-			x: "10px",
 			opacity: 0,
 		},
 		visible: {
-			x: 0,
 			opacity: 1,
 			transition: {
 				duration: 0.5,
@@ -33,20 +31,18 @@ export const Nav: FC<Props> = ({}) => {
 					<Link className="flex" scroll={false} href="/">
 						<h5 className="navbar-logo text-2xl font-bold">Sahand Porkar</h5>
 					</Link>
-					{user && (
-						<motion.div variants={dashboardVariants} initial="hidden" animate="visible">
-							<Button className="ms-4">
-								<Link href="./admin" target="_blank">
-									<span className="flex items-center">
-										<ExternalLink className="w-4" />
-									</span>
-								</Link>
-							</Button>
-						</motion.div>
-					)}
 				</div>
 				<div className="navbar-right">
 					<ul className="navbar-menu mt-[.4rem] flex flex-row text-sm">
+						{user && (
+							<motion.div variants={dashboardVariants} initial="hidden" animate="visible">
+								<li>
+									<Link scroll={false} href="/admin/dashboard" className="flex px-3 font-medium hover:underline md:px-5">
+										Admin
+									</Link>
+								</li>
+							</motion.div>
+						)}
 						<li>
 							<Link scroll={false} href="/about" className="flex px-3 font-medium hover:underline md:px-5">
 								About

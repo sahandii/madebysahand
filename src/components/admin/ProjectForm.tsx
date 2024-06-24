@@ -175,9 +175,9 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 							</div>
 						</div>
 						<div className="grid grid-cols-3 gap-4">
-							<div className="grid grid-rows-[auto_1fr] content-start items-stretch gap-3">
+							<div className="grid grid-rows-[auto_1fr] content-start gap-3">
 								<Label>Thumbnail</Label>
-								<MediaUploader className="" thumbnail thumbnailImg={thumbnailImg} setThumbnailImg={setThumbnailImg} uploadedImages={uploadedImages} setUploadedImages={setUploadedImages} projectSlug={project?.slug} />
+								<MediaUploader className="h-50 grid place-items-center" thumbnail thumbnailImg={thumbnailImg} setThumbnailImg={setThumbnailImg} uploadedImages={uploadedImages} setUploadedImages={setUploadedImages} projectSlug={project?.slug} />
 							</div>
 							<div className="grid grid-rows-[auto_1fr] content-start gap-3">
 								<Label htmlFor="description">Description</Label>

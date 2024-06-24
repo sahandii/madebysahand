@@ -24,7 +24,7 @@ const UploaderContainer = styled.div`
 	background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='5' ry='5' stroke='%23d4d8d4' stroke-width='2' stroke-dasharray='10%2c 5' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
 	background-size: calc(100% - 1px);
 	background-repeat: no-repeat;
-	border-radius: 10px;
+	border-radius: 5px;
 
 	&.drag-over {
 		background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='5' ry='5' stroke='%2314b8a5' stroke-width='4' stroke-dasharray='10%2c 5' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
@@ -100,20 +100,79 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 	};
 
 	return (
-		<div className="relative">
-			<UploaderContainer onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop} className={clsx(className, { "drag-over": dragOver })}>
+		<div className="flex flex-col gap-5">
+			<div className="card-media-uploaded flex h-full flex-col justify-center rounded-md border bg-white p-4">
+				<div className="grid grid-cols-2 gap-5">
+					<ImagePreview>
+						{thumbnail ? ( //
+							<Image //
+								draggable={false}
+								width={1920}
+								height={1080}
+								src={
+									thumbnailImg //
+										? thumbnailImg
+										: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23b1b1b1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-image-up'%3E%3Cpath d='M10.3 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10l-3.1-3.1a2 2 0 0 0-2.814.014L6 21'/%3E%3Cpath d='m14 19.5 3-3 3 3'/%3E%3Cpath d='M17 22v-5.5'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3C/svg%3E"
+								}
+								className={`${thumbnailImg ? "object-contain" : "object-scale-down"} flex aspect-video rounded-md border bg-slate-50`}
+								alt="Thumbnail image"
+							/>
+						) : (
+							uploadedImages.map((image, index) => (
+								<Image //
+									className="rounded-lg object-contain"
+									width={150}
+									height={150}
+									key={index}
+									src={image}
+									alt={`Uploaded preview ${index + 1}`}
+								/>
+							))
+						)}
+					</ImagePreview>
+					<UploaderContainer onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop} className={clsx(className, { "drag-over": dragOver })}>
+						<div className="pointer-events-none relative z-[2] inline-grid place-items-center text-zinc-400">
+							<CloudUpload className="h-[3em] w-[3em]" />
+							<p>
+								{message}
+								{!dragOver && (
+									<a href="#" className="underline" onClick={handleBrowseClick}>
+										browse
+									</a>
+								)}
+							</p>
+						</div>
+						<input type="file" multiple ref={fileInputRef} className="hidden" onChange={handleFileChange} />
+					</UploaderContainer>
+				</div>
+			</div>
+			{/* <div className="card-media-uploaded rounded-md border bg-white">
 				{(thumbnailImg || uploadedImages.length > 0) && (
-					<div className="pointer-events-none absolute left-0 top-0 z-[0] grid h-full place-content-center">
+					<div className="m-3 grid max-w-[60px] grid-cols-[200px_1fr]">
 						<ImagePreview>
 							{thumbnailImg ? ( //
-								<Image width={1920} height={1080} src={thumbnailImg} className="aspect-[16/10] object-cover" alt="Thumbnail" />
+								<Image width={1920} height={1080} src={thumbnailImg} className="flex rounded-md" alt="Thumbnail" />
 							) : (
-								uploadedImages.map((image, index) => <Image className="rounded-lg object-cover" width={150} height={150} key={index} src={image} alt={`Uploaded preview ${index + 1}`} />)
+								uploadedImages.map((image, index) => <Image className="rounded-lg object-contain" width={150} height={150} key={index} src={image} alt={`Uploaded preview ${index + 1}`} />)
 							)}
 						</ImagePreview>
+						{thumbnailImg && (
+							<div className="ml-2 flex flex-col justify-center text-[14px]">
+								<p className="whitespace-nowrap">
+									{(thumbnailImg as unknown as string)
+										.split("/")
+										.pop()
+										?.replace(/\.[^/.]+$/, "")}
+									.jpg
+								</p>
+								<p className="cursor-pointer text-red-500 hover:underline">Remove</p>
+							</div>
+						)}
 					</div>
 				)}
-				<div className="relative z-[2] inline-grid place-items-center rounded-xl bg-[rgba(255,255,255,0.9)] p-3 text-zinc-400">
+			</div>
+			<UploaderContainer onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop} className={clsx(className, { "drag-over": dragOver })}>
+				<div className="relative z-[2] inline-grid place-items-center text-zinc-400">
 					<CloudUpload className="h-[3em] w-[3em]" />
 					<p>
 						{message}
@@ -125,7 +184,7 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 					</p>
 				</div>
 				<input type="file" multiple ref={fileInputRef} className="hidden" onChange={handleFileChange} />
-			</UploaderContainer>
+			</UploaderContainer> */}
 		</div>
 	);
 };
