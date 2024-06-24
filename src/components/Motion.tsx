@@ -22,18 +22,6 @@ const Motion: FC<Props> = ({ children }) => {
 
 	const { isAnimating, setIsAnimating } = context;
 
-	const scrollToTop = () => {
-		if (window.scrollY !== 0) {
-			const handleScroll = () => {
-				if (window.scrollY === 0) {
-					window.removeEventListener("scroll", handleScroll);
-				}
-			};
-			window.addEventListener("scroll", handleScroll);
-			window.scrollTo({ top: 0, behavior: "smooth" });
-		} else return;
-	};
-
 	return (
 		<>
 			<motion.div
@@ -50,7 +38,9 @@ const Motion: FC<Props> = ({ children }) => {
 						setIsAnimating(true);
 						resolve();
 					}).then(() => {
-						scrollToTop();
+						if (window.scrollY !== 0) {
+							document.body.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+						}
 					});
 				}}
 				onAnimationComplete={() => {
