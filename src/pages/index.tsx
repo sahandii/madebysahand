@@ -9,10 +9,6 @@ import { fetchProjectsOnce } from "@/firebase/firebaseOperations";
 // Smooth 'scroll to top' for Safari
 import * as smoothscroll from "smoothscroll-polyfill";
 
-useEffect(() => {
-	smoothscroll.polyfill();
-}, []);
-
 interface homeProps {
 	projects: Project[];
 	slug: string;
@@ -42,6 +38,9 @@ const item = {
 };
 
 export const Home: NextPage<homeProps> = ({ projects }) => {
+	useEffect(() => {
+		smoothscroll.polyfill();
+	}, []);
 	return (
 		<>
 			<Head>
