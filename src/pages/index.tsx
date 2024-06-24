@@ -6,6 +6,12 @@ import Motion from "../components/Motion";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { fetchProjectsOnce } from "@/firebase/firebaseOperations";
+// Smooth 'scroll to top' for Safari
+import * as smoothscroll from "smoothscroll-polyfill";
+
+useEffect(() => {
+	smoothscroll.polyfill();
+}, []);
 
 interface homeProps {
 	projects: Project[];
