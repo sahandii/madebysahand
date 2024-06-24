@@ -37,7 +37,7 @@ export const Nav: FC<Props> = ({}) => {
 						{user && (
 							<motion.div variants={dashboardVariants} initial="hidden" animate="visible">
 								<li>
-									<Link scroll={false} href="/admin/dashboard" className="flex px-3 font-medium hover:underline md:px-5">
+									<Link scroll={false} target="_blank" href="/admin/dashboard" className="flex px-3 font-medium hover:underline md:px-5">
 										Admin
 									</Link>
 								</li>
