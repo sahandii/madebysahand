@@ -1,12 +1,13 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import { easeInOutQuart } from "@/assets/easings";
 import { isAnimatingContext } from "@/context/isAnimatingContext";
 // Smooth 'scroll to top' for Safari
 import smoothscroll from "smoothscroll-polyfill";
-if (typeof window !== "undefined") {
+
+useEffect(() => {
 	smoothscroll.polyfill();
-}
+}, []);
 
 interface Props {
 	children: React.ReactNode;
