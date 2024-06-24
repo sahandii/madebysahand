@@ -30,7 +30,7 @@ const Motion: FC<Props> = ({ children }) => {
 				}
 			};
 			window.addEventListener("scroll", handleScroll);
-			window.scrollTo({ top: 0, behavior: "smooth" });
+			document.documentElement.scrollIntoView({ behavior: "smooth" });
 		} else return;
 	};
 
