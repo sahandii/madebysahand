@@ -2,6 +2,9 @@ import { FC, useContext } from "react";
 import { motion } from "framer-motion";
 import { easeInOutQuart } from "@/assets/easings";
 import { isAnimatingContext } from "@/context/isAnimatingContext";
+// Smooth 'scroll to top' for Safari
+import smoothscroll from "smoothscroll-polyfill";
+smoothscroll.polyfill();
 
 interface Props {
 	children: React.ReactNode;
@@ -30,7 +33,7 @@ const Motion: FC<Props> = ({ children }) => {
 				}
 			};
 			window.addEventListener("scroll", handleScroll);
-			document.documentElement.scrollIntoView({ behavior: "smooth" });
+			window.scrollTo({ top: 0, behavior: "smooth" });
 		} else return;
 	};
 

@@ -10,7 +10,15 @@ const FooterCSS = styled.div``;
 
 export const Footer: FC<Props> = ({ isAnimating, setIsAnimating }) => {
 	return (
-		<footer className={`${isAnimating ? "" : "show"} container px-6 py-10 pt-20`}>
+		<footer
+			style={{
+				//
+				opacity: isAnimating ? 0 : 1,
+				willChange: "opacity",
+				transition: "opacity 0.2s linear 0s",
+			}}
+			className={`container px-6 py-10 pt-20`}
+		>
 			<FooterCSS className="flex flex-col justify-between md:flex-row md:items-end">
 				<div className="footer-left">
 					<p className="text-sm font-medium">© 2024 madebysahand</p>

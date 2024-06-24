@@ -13,15 +13,6 @@ interface LayoutProps {
 }
 
 const DefaultLayoutCSS = styled.div`
-	footer.show {
-		opacity: 1;
-	}
-
-	footer {
-		will-change: opacity;
-		transition: opacity 0.25s linear 0s;
-		opacity: 0;
-	}
 	.wrapper {
 		min-height: 100vh;
 		display: grid;
