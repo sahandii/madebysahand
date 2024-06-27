@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Project } from "@/data/projects";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useScrollTo } from "react-use-window-scroll";
 
 interface ProjectTileProps {}
 
@@ -57,29 +58,17 @@ const ProjectTileCSS = styled.div`
 export const ProjectTile: FC<Props> = (props) => {
 	const { ...project } = props as Project;
 	const router = useRouter();
+	const scrollTo = useScrollTo();
+
 	return (
-		<ProjectTileCSS>
-			<li style={{ backgroundImage: `url(${project.thumbnail})` }} className={`project-tile grid-item flex aspect-video cursor-pointer flex-col justify-center bg-slate-200 bg-cover`}>
-				<Link //
-					scroll={false}
-					href="./case/[slug]"
-					as={`./case/${project.slug}`}
-					// onClick={(e) => {
-					// 	e.preventDefault();
-					// 	if (window.scrollY !== 0) {
-					// 		const handleScroll = () => {
-					// 			if (window.scrollY === 0) {
-					// 				router.push(`./case/${project.slug}`);
-					// 				window.removeEventListener("scroll", handleScroll);
-					// 			}
-					// 		};
-					// 		window.addEventListener("scroll", handleScroll);
-					// 		window.scrollTo({ top: 0, behavior: "smooth" });
-					// 	} else {
-					// 		router.push(`./case/${project.slug}`);
-					// 	}
-					// }}
-				>
+		<Link //
+			className="z-50 block"
+			href="./case/[slug]"
+			as={`./case/${project.slug}`}
+			scroll={false}
+		>
+			<ProjectTileCSS className="pointer-events-none">
+				<li style={{ backgroundImage: `url(${project.thumbnail})` }} className={`project-tile grid-item flex aspect-video cursor-pointer flex-col justify-center bg-slate-200 bg-cover`}>
 					<div className="project-description flex flex-col justify-center p-10">
 						<h4 className="text-2xl font-bold">{project.title}</h4>
 						<h5 className="text-2xl font-bold">
@@ -89,8 +78,8 @@ export const ProjectTile: FC<Props> = (props) => {
 							</small>
 						</h5>
 					</div>
-				</Link>
-			</li>
-		</ProjectTileCSS>
+				</li>
+			</ProjectTileCSS>
+		</Link>
 	);
 };

@@ -1,13 +1,11 @@
+import { useEffect } from "react";
 import { NextPage, GetStaticProps } from "next";
 import Head from "next/head";
 import { Project } from "@/data/projects";
 import { ProjectTile } from "./../components/ProjectTile";
 import Motion from "../components/Motion";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 import { fetchProjectsOnce } from "@/firebase/firebaseOperations";
-// Smooth 'scroll to top' for Safari
-import * as smoothscroll from "smoothscroll-polyfill";
 
 interface homeProps {
 	projects: Project[];
@@ -38,9 +36,6 @@ const item = {
 };
 
 export const Home: NextPage<homeProps> = ({ projects }) => {
-	useEffect(() => {
-		smoothscroll.polyfill();
-	}, []);
 	return (
 		<>
 			<Head>

@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect } from "react";
+import { FC, useContext } from "react";
 import { motion } from "framer-motion";
 import { easeInOutQuart } from "@/assets/easings";
 import { isAnimatingContext } from "@/context/isAnimatingContext";
@@ -12,7 +12,6 @@ const variants = {
 	enter: { opacity: 1, x: 0, y: 0 },
 	exit: { opacity: 0, x: "-3vw", y: 0 },
 };
-
 const Motion: FC<Props> = ({ children }) => {
 	const context = useContext(isAnimatingContext);
 
@@ -34,18 +33,10 @@ const Motion: FC<Props> = ({ children }) => {
 					duration: 0.75,
 				}}
 				onAnimationStart={() => {
-					new Promise<void>((resolve) => {
-						setIsAnimating(true);
-						resolve();
-					}).then(() => {
-						if (window.scrollY !== 0) {
-							document.body.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
-						}
-					});
+					setIsAnimating(true);
 				}}
 				onAnimationComplete={() => {
 					setIsAnimating(false);
-					console.log("onAnimationComplete");
 				}}
 			>
 				{children}

@@ -28,7 +28,7 @@ export const Nav: FC<Props> = ({}) => {
 		<nav className="navbar bg-zinc-50">
 			<div className="container flex min-h-[70px] flex-row items-center justify-between border-b border-zinc-400 px-6">
 				<div className="navbar-left flex flex-row">
-					<Link className="flex" scroll={false} href="/">
+					<Link scroll={false} className="flex" href="/">
 						<h5 className="navbar-logo text-2xl font-bold">Sahand Porkar</h5>
 					</Link>
 				</div>
@@ -49,7 +49,7 @@ export const Nav: FC<Props> = ({}) => {
 							</Link>
 						</li>
 						<li>
-							<Link href="mailto:hello@sporkar.com" target="_blank" className="-mr-3 flex px-3 font-medium hover:underline md:-mr-5 md:px-5">
+							<Link scroll={false} href="mailto:hello@sporkar.com" target="_blank" className="-mr-3 flex px-3 font-medium hover:underline md:-mr-5 md:px-5">
 								Contact
 							</Link>
 						</li>

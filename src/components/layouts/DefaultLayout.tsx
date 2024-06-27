@@ -3,17 +3,18 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 // Components
 import styled from "styled-components";
-import { Nav } from "../../components/global/Nav/Nav";
-import { Footer } from "../../components/global/Footer/Footer";
+import { Nav } from "@/components/global/Nav/Nav";
+import { Footer } from "@/components/global/Footer/Footer";
+import { isAnimatingContext } from "@/context/isAnimatingContext";
 
 interface LayoutProps {
 	children: React.ReactNode;
-	isAnimating: boolean;
-	setIsAnimating: (isAnimating: boolean) => void;
+	isAnimating?: boolean;
+	setIsAnimating?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DefaultLayoutCSS = styled.div`
-	.wrapper {
+	& {
 		min-height: 100vh;
 		display: grid;
 		grid-template-rows: auto 1fr auto;
@@ -24,21 +25,10 @@ const DefaultLayoutCSS = styled.div`
 const DefaultLayout: React.FC<LayoutProps> = ({ children, isAnimating, setIsAnimating }) => {
 	const router = useRouter();
 	return (
-		<DefaultLayoutCSS>
-			<div className="wrapper relative pt-10">
-				<Nav></Nav>
-				<AnimatePresence
-					mode="wait"
-					onExitComplete={() => {
-						if (typeof window !== "undefined") {
-							window.scrollTo({ top: 0 });
-						}
-					}}
-				>
-					{children}
-				</AnimatePresence>
-				<Footer isAnimating={isAnimating} setIsAnimating={setIsAnimating} />
-			</div>
+		<DefaultLayoutCSS className="wrapper relative pt-10">
+			<Nav></Nav>
+			<AnimatePresence mode="wait">{children}</AnimatePresence>
+			<Footer />
 		</DefaultLayoutCSS>
 	);
 };

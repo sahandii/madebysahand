@@ -76,8 +76,11 @@
 }
 
 html {
+	overflow-x: hidden;
+}
+
+* {
 	scroll-behavior: smooth !important;
-	overflow-y: scroll;
 }
 
 // Define a mixin for responsive typography
