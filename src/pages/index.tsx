@@ -66,12 +66,14 @@ export const Home: NextPage<homeProps> = ({ projects }) => {
 								Some of my work <small>&#8600;</small>
 							</h3>
 						</motion.div>
-						<motion.ul variants={item} className={`grid-cols-2 ${projects.length > 2 ? "grid-rows-2" : "grid-rows-1"} gap-[10px] px-6 md:grid`}>
-							{projects.map((project: Project) => {
-								if (project.status === "publish") {
-									return <ProjectTile key={project.id} {...project} slug={project.slug} />;
-								}
-							})}
+						<motion.ul variants={item} className={`md:grid-cols-2 ${projects.length > 2 ? "md:grid-rows-2" : "md:grid-rows-1"} grid gap-[10px] px-6`}>
+							{projects
+								.sort((a, b) => Number(b.year) - Number(a.year)) // Sort projects by year in descending order
+								.map((project: Project) => {
+									if (project.status === "publish") {
+										return <ProjectTile key={project.id} {...project} slug={project.slug} />;
+									}
+								})}
 						</motion.ul>
 					</main>
 				</motion.div>
@@ -81,7 +83,8 @@ export const Home: NextPage<homeProps> = ({ projects }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-	const projects: Project[] = await fetchProjectsOnce();
+	const allProjects: Project[] = await fetchProjectsOnce();
+	const projects = allProjects.filter((project) => project.status === "publish");
 
 	return {
 		props: {

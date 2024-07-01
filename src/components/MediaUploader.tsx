@@ -131,7 +131,7 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 						)}
 					</ImagePreview>
 					<UploaderContainer onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop} className={clsx(className, { "drag-over": dragOver })}>
-						<div className="pointer-events-none relative z-[2] inline-grid place-items-center text-zinc-400">
+						<div className="relative z-[2] inline-grid place-items-center text-zinc-400">
 							<CloudUpload className="h-[3em] w-[3em]" />
 							<p>
 								{message}

@@ -5,7 +5,6 @@ import { AnimatePresence } from "framer-motion";
 import styled from "styled-components";
 import { Nav } from "@/components/global/Nav/Nav";
 import { Footer } from "@/components/global/Footer/Footer";
-import { isAnimatingContext } from "@/context/isAnimatingContext";
 
 interface LayoutProps {
 	children: React.ReactNode;

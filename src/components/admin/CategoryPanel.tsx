@@ -8,7 +8,7 @@ import styled from "styled-components";
 
 const CategoryPanelCSS = styled.div`
 	[cmdk-list] {
-		max-height: 205px;
+		max-height: 120px;
 	}
 `;
 

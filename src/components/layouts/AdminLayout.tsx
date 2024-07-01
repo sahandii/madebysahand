@@ -2,6 +2,7 @@ import React from "react";
 import { AdminSidePanel } from "../admin/AdminSidePanel";
 import { useAuth } from "@/firebase/useAuth";
 import styled from "styled-components";
+import { Toaster } from "../ui/toaster";
 
 interface props {
 	children: React.ReactNode;
@@ -29,6 +30,7 @@ const AdminLayout: React.FC<props> = ({ children }) => {
 				<main className={`main-content bg-slate-300 ${!user ? "w-screen" : ""}`}>{children}</main>
 			</div>
 			<footer>{/* Admin-specific footer content */}</footer>
+			<Toaster />
 		</AdminLayoutCSS>
 	);
 };

@@ -92,6 +92,13 @@ export const addCategory = async (category: string) => {
 
 export const addProject = async (project: Project) => {
 	const newProjectRef = ref(db, `projects/${project.id}`);
+	// Check if the thumbnail and media properties are defined
+	if (!project.thumbnail) {
+		delete project.thumbnail;
+	}
+	if (!project.media) {
+		delete project.media;
+	}
 	await set(newProjectRef, project);
 };
 

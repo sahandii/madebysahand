@@ -54,7 +54,7 @@ const saveRowOrder = (rowOrder: string[]) => {
 export function ProjectsTable<TData, TValue>({ columns, data, className, handleAddProject, handleUpdateProject, handleDeleteProject, ...props }: ProjectsTableProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([
 		{
-			id: "updated", // Must be equal to the accessorKey of the coulmn you want sorted by default
+			id: "year", // Must be equal to the accessorKey of the coulmn you want sorted by default
 			desc: true,
 		},
 	]);

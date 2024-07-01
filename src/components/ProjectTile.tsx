@@ -67,7 +67,7 @@ export const ProjectTile: FC<Props> = (props) => {
 			as={`./case/${project.slug}`}
 			scroll={false}
 		>
-			<ProjectTileCSS className="pointer-events-none">
+			<ProjectTileCSS>
 				<li style={{ backgroundImage: `url(${project.thumbnail})` }} className={`project-tile grid-item flex aspect-video cursor-pointer flex-col justify-center bg-slate-200 bg-cover`}>
 					<div className="project-description flex flex-col justify-center p-10">
 						<h4 className="text-2xl font-bold">{project.title}</h4>

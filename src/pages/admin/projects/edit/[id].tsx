@@ -6,6 +6,7 @@ import { ref, get } from "firebase/database";
 import { db } from "@/firebase/firebaseConfig";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { ParsedUrlQuery } from "querystring";
+import withAuth from "@/components/withAuth";
 
 interface Props {
 	project: Project | null;
@@ -36,7 +37,7 @@ const EditProject: React.FC<Props> = ({ project }) => {
 	);
 };
 
-export default EditProject;
+export default withAuth(EditProject);
 
 export const getServerSideProps: GetServerSideProps<Props, Params> = async (context: GetServerSidePropsContext<Params>) => {
 	const { id } = context.params!;
