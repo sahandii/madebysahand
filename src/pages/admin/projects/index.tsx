@@ -77,9 +77,7 @@ const AdminProjectsPage: React.FC<AdminProjectsPageProps> = ({ initialProjects }
 				const json = JSON.parse(e.target?.result as string);
 				if (Array.isArray(json)) {
 					// Assuming json is an array of projects
-					for (const project of json) {
-						await addProject(project);
-					}
+					await Promise.all(json.map((project) => addProject(project)));
 					setProjects(json);
 					toast({
 						title: "Import completed",
@@ -99,7 +97,7 @@ const AdminProjectsPage: React.FC<AdminProjectsPageProps> = ({ initialProjects }
 		reader.readAsText(file);
 	};
 
-	const BackupRestoreDialog = () => {
+	const DialogContentWrapper = () => {
 		return (
 			<DialogContent className="sm:max-w-md">
 				<DialogHeader className="mb-3">
@@ -159,7 +157,11 @@ const AdminProjectsPage: React.FC<AdminProjectsPageProps> = ({ initialProjects }
 									</Button>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent align="end">
-									<Dialog>
+									<Dialog
+										onOpenChange={() => {
+											console.log("test");
+										}}
+									>
 										<DialogTrigger asChild>
 											<DropdownMenuItem
 												onSelect={(e) => {
@@ -169,7 +171,7 @@ const AdminProjectsPage: React.FC<AdminProjectsPageProps> = ({ initialProjects }
 												{dialogTitle}
 											</DropdownMenuItem>
 										</DialogTrigger>
-										<BackupRestoreDialog />
+										<DialogContentWrapper />
 									</Dialog>
 								</DropdownMenuContent>
 							</DropdownMenu>

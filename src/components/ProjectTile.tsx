@@ -26,8 +26,9 @@ const ProjectTileCSS = styled.div`
 		width: 100%;
 		height: 100%;
 		opacity: 0;
-		background-color: rgba(0, 0, 0, 0.8);
+		background-color: rgba(0, 0, 0, 0.5);
 		backdrop-filter: blur(60px);
+		-webkit-backdrop-filter: blur(60px);
 		filter: grayscale(0.5);
 		color: white;
 	}
