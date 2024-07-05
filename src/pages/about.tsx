@@ -15,7 +15,7 @@ const About: FC<Props> = ({}) => {
 			</Head>
 			<Motion>
 				<main>
-					<div className="container px-6">
+					<div className="container px-4">
 						<h3 className="mt-10">I'm a Copenhagen based Digital Designer, specializing in Motion and VFX. My work spans in culture and brands. I've led projects across a variety of sectors including advertisement, tech, music and art.</h3>
 					</div>
 				</main>

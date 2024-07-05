@@ -157,7 +157,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 				/>
 				<div className="bg-white px-5 pb-20">
 					<div className="grid gap-6 pt-10">
-						<div className="grid grid-cols-3 gap-4">
+						<div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-5">
 							<div className="grid gap-3">
 								<Label htmlFor="slug">URL ID</Label>
 								<div className="relative flex items-center">
@@ -166,15 +166,15 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 								</div>
 							</div>
 							<div className="grid gap-3">
-								<Label htmlFor="client">Client</Label>
-								<Input value={client} onChange={(e) => setClient(e.target.value)} id="client" type="text" />
-							</div>
-							<div className="grid gap-3">
 								<Label htmlFor="year">Year</Label>
 								<Input value={year} onChange={(e) => setYear(e.target.value)} id="year" type="text" />
 							</div>
+							<div className="grid gap-3 sm:col-span-2 lg:col-span-1">
+								<Label htmlFor="client">Client</Label>
+								<Input value={client} onChange={(e) => setClient(e.target.value)} id="client" type="text" />
+							</div>
 						</div>
-						<div className="grid grid-cols-3 gap-4">
+						<div className="grid grid-cols-1 gap-10 lg:grid-cols-3 xl:gap-5">
 							<div className="grid grid-rows-[auto_1fr] content-start gap-3">
 								<Label>Thumbnail</Label>
 								<MediaUploader className="h-50 grid place-items-center" thumbnail thumbnailImg={thumbnailImg} setThumbnailImg={setThumbnailImg} uploadedImages={uploadedImages} setUploadedImages={setUploadedImages} projectSlug={project?.slug} />

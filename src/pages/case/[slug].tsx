@@ -65,7 +65,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
 			<Motion>
 				<motion.div initial="hidden" animate="show" variants={container}>
 					<main className="mt-5">
-						<div className="container px-6">
+						<div className="container px-4">
 							<div className="sticky top-0 z-[90] col-span-12 bg-zinc-50 py-4">
 								<div className="text-container">
 									<h1 className="text-lg font-bold">{project.title}</h1>

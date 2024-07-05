@@ -142,7 +142,7 @@ const MediaUploader: React.FC<Props> = ({ projectSlug, uploadedImages, setUpload
 								)}
 							</p>
 						</div>
-						<input type="file" multiple ref={fileInputRef} className="hidden" onChange={handleFileChange} />
+						<input type="file" multiple={!thumbnail ? true : false} ref={fileInputRef} className="hidden" onChange={handleFileChange} />
 					</UploaderContainer>
 				</div>
 			</div>

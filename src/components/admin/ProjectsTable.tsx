@@ -13,11 +13,17 @@ interface ProjectsTableProps<TData, TValue> {
 	handleAddProject: (project: Project) => Promise<void>;
 	handleUpdateProject: (id: string, updatedProject: Project) => Promise<void>;
 	handleDeleteProject: (id: string) => Promise<void>;
+	saveRowOrder: (rowOrder: string[]) => void;
+	LOCAL_STORAGE_KEY: "rowOrder";
 }
 
 const { isMinWidth, isMaxWidth } = useResponsive();
 
 const ProjectsTableCSS = styled.div`
+	& {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
 	tr:hover .table-delete {
 		opacity: 1;
 	}
@@ -32,45 +38,31 @@ const ProjectsTableCSS = styled.div`
 		cursor: default;
 	}
 	@media screen and (max-width: 767px) {
-		table * {
-			font-size: 12px !important;
-		}
-		.th-year,
-		.td-year,
+		.th-categories,
+		.td-categories,
 		.th-created,
 		.td-created {
 			display: none;
 		}
+		td span {
+			-webkit-line-clamp: 1;
+			-webkit-box-orient: vertical;
+			display: -webkit-box;
+			overflow: hidden;
+			word-break: break-word;
+		}
 	}
 `;
 
-// Save row order to localStorage
-const LOCAL_STORAGE_KEY = "rowOrder";
-
-const saveRowOrder = (rowOrder: string[]) => {
-	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(rowOrder));
-};
-
-export function ProjectsTable<TData, TValue>({ columns, data, className, handleAddProject, handleUpdateProject, handleDeleteProject, ...props }: ProjectsTableProps<TData, TValue>) {
+export function ProjectsTable<TData, TValue>({ columns, data, className, handleAddProject, handleUpdateProject, handleDeleteProject, saveRowOrder, LOCAL_STORAGE_KEY, ...props }: ProjectsTableProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([
 		{
 			id: "year", // Must be equal to the accessorKey of the coulmn you want sorted by default
 			desc: true,
 		},
 	]);
-	const [sortedData, setSortedData] = useState<TData[]>(data);
 
-	// Restore row order from storage or use default
-	useEffect(() => {
-		const storedOrder = localStorage.getItem(LOCAL_STORAGE_KEY);
-		if (storedOrder) {
-			const order = JSON.parse(storedOrder);
-			const orderedData = order.map((id: string) => data.find((item) => (item as any).id === id)).filter(Boolean) as TData[];
-			setSortedData(orderedData);
-		} else {
-			setSortedData(data);
-		}
-	}, [data]);
+	const [sortedData, setSortedData] = useState<TData[]>(data);
 
 	const handleSortingChange = (updater: Updater<SortingState>) => {
 		setSorting((old) => {
@@ -92,6 +84,25 @@ export function ProjectsTable<TData, TValue>({ columns, data, className, handleA
 		sortingFns,
 	});
 
+	// This useEffect hook runs when the component mounts or when the 'data' dependency changes.
+	// It attempts to restore the row order from localStorage using the provided LOCAL_STORAGE_KEY.
+	// If a stored order is found, it maps the stored IDs to the corresponding data items and sets the sorted data state.
+	// If no stored order is found, it sets the sorted data state to the provided data.
+	useEffect(() => {
+		const storedOrder = localStorage.getItem(LOCAL_STORAGE_KEY);
+		if (storedOrder) {
+			const order = JSON.parse(storedOrder);
+			const orderedData = order.map((id: string) => data.find((item) => (item as any).id === id)).filter(Boolean) as TData[];
+			setSortedData(orderedData);
+		} else {
+			setSortedData(data);
+		}
+	}, [data]);
+
+	// This useEffect hook runs when the sorting state of the table changes.
+	// If there is any sorting applied, it gets the sorted rows from the table,
+	// extracts their IDs, and saves the new order to localStorage.
+	// It also updates the sorted data state with the sorted rows.
 	useEffect(() => {
 		if (table.getState().sorting.length > 0) {
 			const sortedRows = table.getSortedRowModel().rows;

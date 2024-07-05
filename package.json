@@ -51,6 +51,7 @@
     "react-responsive": "^10.0.0",
     "react-social-media-embed": "^2.3.3",
     "react-use-window-scroll": "^1.1.7",
+    "rfs": "^10.0.0",
     "smoothscroll-polyfill": "^0.4.4",
     "styled-components": "^6.1.11",
     "tailwind-merge": "^2.3.0",

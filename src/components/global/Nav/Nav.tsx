@@ -26,7 +26,7 @@ export const Nav: FC<Props> = ({}) => {
 	return (
 		// z-[99] sticky top-0
 		<nav className="navbar bg-zinc-50">
-			<div className="container flex min-h-[70px] flex-row items-center justify-between border-b border-zinc-400 px-6">
+			<div className="container flex min-h-[70px] flex-row items-center justify-between border-b border-zinc-400 px-4">
 				<div className="navbar-left flex flex-row">
 					<Link scroll={false} className="flex" href="/">
 						<h5 className="navbar-logo text-2xl font-bold">Sahand Porkar</h5>
@@ -45,7 +45,7 @@ export const Nav: FC<Props> = ({}) => {
 						)}
 						<li>
 							<Link scroll={false} href="/about" className="flex px-3 font-medium hover:underline md:px-5">
-								About
+								About me
 							</Link>
 						</li>
 						<li>

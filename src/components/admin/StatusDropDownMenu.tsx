@@ -58,7 +58,7 @@ export const StatusDropDownMenu: React.FC<StatusDropDownMenuProps> = ({ projectI
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant={"outline"} className="p-3">
+				<Button variant={"outline"} className="min-w-[fit-content] p-3">
 					{capitalizeFirstLetter(currentStatus)}
 				</Button>
 			</DropdownMenuTrigger>

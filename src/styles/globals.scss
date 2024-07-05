@@ -1,6 +1,24 @@
+$rfs-breakpoint: 1400px;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "../../node_modules/rfs/scss";
+
+html {
+	@media screen and (max-width: 640px) {
+		font-size: 0.857rem;
+	}
+	overflow-x: hidden;
+}
+body {
+	font-family: var(--font-helveticanow);
+}
+
+h1 {
+	@include font-size(3rem);
+	line-height: 1.1em;
+}
 
 @layer base {
 	:root {
@@ -75,39 +93,8 @@
 	}
 }
 
-html {
-	overflow-x: hidden;
-}
-
 * {
 	scroll-behavior: smooth !important;
-}
-
-// Define a mixin for responsive typography
-// This mixin adjusts the font size responsively between a minimum and maximum value
-// based on the viewport width. It takes four parameters:
-// $min-font-size: The minimum font size to be applied.
-// $max-font-size: The maximum font size to be applied.
-// $min-vw: The minimum viewport width at which the font size starts scaling (default is 320px).
-// $max-vw: The maximum viewport width at which the font size stops scaling and reaches the maximum font size (default is 1200px).
-@mixin responsive-font($min-font-size, $max-font-size, $min-vw: 320px, $max-vw: 768px) {
-	font-size: $min-font-size;
-
-	@media (min-width: $min-vw) {
-		font-size: calc(#{$min-font-size} + (#{$max-font-size} - #{$min-font-size}) * ((100vw - #{$min-vw}) / (#{$max-vw} - #{$min-vw})));
-	}
-
-	@media (min-width: $max-vw) {
-		font-size: $max-font-size;
-	}
-}
-
-html {
-	@include responsive-font(0.875rem, 1rem);
-}
-
-body {
-	font-family: var(--font-helveticanow);
 }
 
 ::selection {
