@@ -15,7 +15,7 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 interface ProjectColumnsProps {
 	handleAddProject: (project: Project) => void;
 	handleUpdateProject: (id: string, updatedProject: Project) => void;
-	handleDeleteProject: (id: string) => void;
+	handleDeleteProject: (id: string, title: string) => void;
 }
 const { isMinWidth, isMaxWidth } = useResponsive();
 
@@ -63,7 +63,7 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 			);
 		},
 		cell: ({ row }) => {
-			return !row.original.categories ? "N/A" : row.original.categories[0];
+			return !row.original.categories ? "N/A" : <span className="cursor-default">{row.original.categories[0]}</span>;
 		},
 	},
 	{
@@ -131,8 +131,8 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 					<StatusDropDownMenu projectId={row.original.id} currentStatus={row.original.status} handleUpdateProject={handleUpdateProject} setStatus={(status) => handleUpdateProject(row.original.id, { ...row.original, status })} project={row.original} />
 					<Dialog>
 						<DialogTrigger asChild>
-							<Button className="table-delete ml-3 px-3" variant={"outline"}>
-								<Trash className="hover:color-red h-5 w-5 text-red-600" />
+							<Button className="table-delete ml-3 px-2" variant={"outline"}>
+								<Trash className="hover:color-red h-4 w-4 text-red-600" />
 							</Button>
 						</DialogTrigger>
 						<DialogContent className="sm:max-w-md">
@@ -145,7 +145,7 @@ export const ProjectsColumns: (props: ProjectColumnsProps) => ColumnDef<Project>
 							<DialogFooter className="sm:justify-start">
 								<Button
 									onClick={() => {
-										handleDeleteProject(row.original.id);
+										handleDeleteProject(row.original.id, row.original.title);
 									}}
 									type="button"
 									variant="destructive"

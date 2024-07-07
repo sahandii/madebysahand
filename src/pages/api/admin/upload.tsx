@@ -6,7 +6,7 @@ import path from "path";
 import fs from "fs";
 
 // Define the base directory for image uploads
-const baseUploadDir = path.join(process.cwd(), "public/images");
+const baseUploadDir = path.join(process.cwd(), "public/media");
 // Check if the base upload directory exists, if not, create it
 if (!fs.existsSync(baseUploadDir)) {
 	fs.mkdirSync(baseUploadDir, { recursive: true });

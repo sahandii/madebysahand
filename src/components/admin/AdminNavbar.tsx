@@ -10,7 +10,7 @@ interface AdminNavbarProps {
 
 export const AdminNavbar: React.FC<AdminNavbarProps> = ({ titleSection, actionsSection, className, ...props }) => {
 	return (
-		<div className={`menu-bar flex items-center justify-between border-b bg-white px-3 ${className}`} {...props}>
+		<div className={`menu-bar flex items-center justify-between border-b bg-white px-5 ${className}`} {...props}>
 			<div className="menu-bar--right flex-1">{titleSection}</div>
 			<div className="menu-bar--left">{actionsSection}</div>
 		</div>

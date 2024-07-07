@@ -12,7 +12,8 @@ import { Project } from "@/data/projects";
 import { debounce, slugify } from "@/lib/utils";
 // UI components
 import { AdminNavbar } from "@/components/admin/AdminNavbar";
-import { StatusDropDownMenu } from "@/components/admin/StatusDropDownMenu"; // Import the shared component
+import { StatusDropDownMenu } from "@/components/admin/StatusDropDownMenu";
+import MediaLibrary from "./MediaLibrary";
 import { CategoryPanel } from "@/components/admin/CategoryPanel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import MediaUploader from "../MediaUploader";
 // Icons
 import { LoaderCircle } from "lucide-react";
+import { Separator } from "../ui/separator";
 
 const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 	const [title, setTitle] = useState("");
@@ -34,7 +36,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 	const [search, setSearch] = useState("");
 	const [project, setProject] = useState<Project | null>(null);
 	const [slugLoading, setSlugLoading] = useState(false);
-	const [thumbnailImg, setThumbnailImg] = useState<StaticImageData | undefined>(undefined);
+	const [thumbnailImg, setThumbnailImg] = useState<StaticImageData | string>("");
 	const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
 	const router = useRouter();
@@ -55,7 +57,7 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 					setClient(projectData.client);
 					setDescription(projectData.description);
 					setStatus(projectData.status);
-					setThumbnailImg(projectData.thumbnail);
+					setThumbnailImg(projectData.thumbnail || "");
 				}
 			};
 			fetchProjectData();
@@ -126,7 +128,6 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 			const rowOrder = JSON.parse(localStorage.getItem("rowOrder") || "[]");
 			rowOrder.unshift(id);
 			localStorage.setItem("rowOrder", JSON.stringify(rowOrder));
-			router.push("/admin/projects");
 		} catch (error) {
 			console.error("Error saving project: ", error);
 			alert("Error saving project. Please try again.");
@@ -139,8 +140,9 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 				<AdminNavbar
 					titleSection={<input className="w-full py-5 text-2xl outline-none" type="text" placeholder="Project title" value={title} onChange={handleTitleChange} required />}
 					actionsSection={
-						<div className="flex">
-							<div className="mr-2">
+						<div className="flex gap-2">
+							<div>{projectId && <MediaLibrary title={project?.title as string} projectId={projectId} />}</div>
+							<div>
 								<StatusDropDownMenu
 									projectId={projectId || ""}
 									currentStatus={status || "draft"}
@@ -157,35 +159,45 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 				/>
 				<div className="bg-white px-5 pb-20">
 					<div className="grid gap-6 pt-10">
-						<div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-5">
+						<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 							<div className="grid gap-3">
-								<Label htmlFor="slug">URL ID</Label>
+								<Label className="text-xs text-muted-foreground" htmlFor="slug">
+									URL ID
+								</Label>
 								<div className="relative flex items-center">
 									<Input value={slug} onChange={(e) => setSlug(slugify(e.target.value))} required id="slug" type="text" />
 									{slugLoading && <LoaderCircle className="absolute right-0 mr-2 w-5 animate-spin stroke-slate-500" />}
 								</div>
 							</div>
 							<div className="grid gap-3">
-								<Label htmlFor="year">Year</Label>
+								<Label className="text-xs text-muted-foreground" htmlFor="year">
+									Year
+								</Label>
 								<Input value={year} onChange={(e) => setYear(e.target.value)} id="year" type="text" />
 							</div>
 							<div className="grid gap-3 sm:col-span-2 lg:col-span-1">
-								<Label htmlFor="client">Client</Label>
+								<Label className="text-xs text-muted-foreground" htmlFor="client">
+									Client
+								</Label>
 								<Input value={client} onChange={(e) => setClient(e.target.value)} id="client" type="text" />
 							</div>
 						</div>
-						<div className="grid grid-cols-1 gap-10 lg:grid-cols-3 xl:gap-5">
-							<div className="grid grid-rows-[auto_1fr] content-start gap-3">
-								<Label>Thumbnail</Label>
+						<div className="grid grid-cols-1 gap-5 lg:grid-cols-12 xl:gap-5">
+							<div className="grid grid-rows-[auto_1fr] content-start gap-3 lg:col-span-3">
+								<Label className="text-xs text-muted-foreground">Thumbnail</Label>
 								<MediaUploader className="h-50 grid place-items-center" thumbnail thumbnailImg={thumbnailImg} setThumbnailImg={setThumbnailImg} uploadedImages={uploadedImages} setUploadedImages={setUploadedImages} projectSlug={project?.slug} />
 							</div>
-							<div className="grid grid-rows-[auto_1fr] content-start gap-3">
-								<Label htmlFor="description">Description</Label>
+							<div className="grid grid-rows-[auto_1fr] content-start gap-3 lg:col-span-5">
+								<Label className="text-xs text-muted-foreground" htmlFor="description">
+									Description
+								</Label>
 								<Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Write a short description of the project/work" className="min-h-32" />
 							</div>
-							<div className="grid content-start gap-3">
+							<div className="grid content-start gap-3 lg:col-span-4">
 								<div className="flex justify-between">
-									<Label htmlFor="categories">Categories</Label>
+									<Label className="text-xs text-muted-foreground" htmlFor="categories">
+										Categories
+									</Label>
 									<span onClick={handleClear} className="cursor-pointer text-[10px] font-medium uppercase tracking-wide text-red-500">
 										Clear
 									</span>
@@ -194,8 +206,11 @@ const ProjectForm: React.FC<{ projectId?: string }> = ({ projectId }) => {
 							</div>
 						</div>
 					</div>
-					<div className="my-10 grid gap-3">
-						<Label htmlFor="images">Images</Label>
+					<Separator className="my-10" />
+					<div className="grid gap-3">
+						<Label className="text-xs text-muted-foreground" htmlFor="images">
+							Images
+						</Label>
 						<MediaUploader thumbnail={false} uploadedImages={uploadedImages} setUploadedImages={setUploadedImages} projectSlug={project?.slug} />
 					</div>
 				</div>

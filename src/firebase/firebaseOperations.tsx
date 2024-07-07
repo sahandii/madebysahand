@@ -105,14 +105,6 @@ export const addProject = async (project: Project) => {
 export const updateProject = async (id: string, updatedProject: Project) => {
 	const projectRef = ref(db, `projects/${id}`);
 
-	// Check if the thumbnail and media properties are defined
-	if (!updatedProject.thumbnail) {
-		delete updatedProject.thumbnail;
-	}
-	if (!updatedProject.media) {
-		delete updatedProject.media;
-	}
-
 	await update(projectRef, updatedProject);
 };
 

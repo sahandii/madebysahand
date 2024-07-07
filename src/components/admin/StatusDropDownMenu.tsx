@@ -6,7 +6,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Button } from "@/components/ui/button";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { Project } from "@/data/projects"; // Adjust the import path as needed
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon } from "lucide-react";
+import clsx from "clsx";
 
 interface StatusDropDownMenuProps {
 	projectId: string;
@@ -58,8 +59,15 @@ export const StatusDropDownMenu: React.FC<StatusDropDownMenuProps> = ({ projectI
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant={"outline"} className="min-w-[fit-content] p-3">
-					{capitalizeFirstLetter(currentStatus)}
+				<Button
+					variant={"outline"}
+					className={clsx("min-w-[fit-content] p-3", {
+						"border-green-600 text-green-600": currentStatus === "publish",
+						"border-blue-600 text-blue-600": currentStatus === "draft",
+						"border-yellow-600 text-yellow-600": currentStatus === "private",
+					})}
+				>
+					{capitalizeFirstLetter(projectId && currentStatus === "publish" ? currentStatus + "ed" : currentStatus)}
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">

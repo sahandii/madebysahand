@@ -12,7 +12,7 @@ interface ProjectsTableProps<TData, TValue> {
 	className?: string;
 	handleAddProject: (project: Project) => Promise<void>;
 	handleUpdateProject: (id: string, updatedProject: Project) => Promise<void>;
-	handleDeleteProject: (id: string) => Promise<void>;
+	handleDeleteProject: (id: string, title: string) => Promise<void>;
 	saveRowOrder: (rowOrder: string[]) => void;
 	LOCAL_STORAGE_KEY: "rowOrder";
 }
@@ -37,15 +37,16 @@ const ProjectsTableCSS = styled.div`
 	.td-category {
 		cursor: default;
 	}
+	.td-title {
+		white-space: nowrap !important;
+	}
 	@media screen and (max-width: 767px) {
-		.th-categories,
-		.td-categories,
 		.th-created,
 		.td-created {
 			display: none;
 		}
 		td span {
-			-webkit-line-clamp: 1;
+			-webkit-line-clamp: 2;
 			-webkit-box-orient: vertical;
 			display: -webkit-box;
 			overflow: hidden;

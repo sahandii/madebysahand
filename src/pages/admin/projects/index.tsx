@@ -55,10 +55,16 @@ const AdminProjectsPage: React.FC<AdminProjectsPageProps> = ({ initialProjects }
 		await updateProject(id, updatedProject);
 	}, []);
 
-	const handleDeleteProject = useCallback(async (id: string) => {
+	const handleDeleteProject = useCallback(async (id: string, title: string) => {
 		try {
 			await deleteProject(id);
-			console.log(`${id} deleted`);
+			toast({
+				description: (
+					<span>
+						Project <b>'{title}'</b> deleted
+					</span>
+				),
+			});
 		} catch (error) {
 			console.error(`Failed to delete project with id ${id}:`, error);
 		}
@@ -119,20 +125,20 @@ const AdminProjectsPage: React.FC<AdminProjectsPageProps> = ({ initialProjects }
 					<DialogTitle>Manage Projects</DialogTitle>
 					<DialogDescription className="hidden">Projects management</DialogDescription>
 				</DialogHeader>
-				<div className="inline-flex flex-row items-start gap-3">
+				<div className="flex justify-between gap-3">
 					{projects.length > 0 && (
-						<div className="flex items-center">
-							<Button className="flex items-center" onClick={handleBackup} type="button" variant="outline">
-								<Upload className="mr-2 h-4 w-4" />
-								{`Backup ${projects.length} Projects`}
-							</Button>
-						</div>
+						<Button className="flex flex-1 items-center" onClick={handleBackup} type="button" variant="outline">
+							<Upload className="mr-2 h-4 w-4" />
+							<span>
+								Backup <b>{projects.length}</b> Projects
+							</span>
+						</Button>
 					)}
-					<Button className="p-0" type="button" variant="default">
-						<Label className="flex cursor-pointer items-center px-4 py-2" htmlFor="restore">
+					<Button className="flex-1" type="button" variant="default">
+						<Label className="flex w-full cursor-pointer items-center justify-center px-4 py-2" htmlFor="restore">
 							<Download className="mr-2 h-4 w-4" />
 							Restore
-							<input id="restore" type="file" accept="application/json" onChange={handleRestore} style={{ display: "none" }} />
+							<input id="restore" type="file" accept="application/json" onChange={handleRestore} className="hidden" />
 						</Label>
 					</Button>
 				</div>
